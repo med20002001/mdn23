@@ -1,0 +1,272 @@
+---
+// src/pages/news.astro
+import Layout from '../layouts/Layout.astro';
+
+const articles = [
+  {
+    id: 1,
+    title: "Rencontre de Nasrine Kheltent avec la fondation Hassan 2",
+    excerpt: "Une rencontre enrichissante qui marque un tournant dans les relations entre la diaspora et les institutions marocaines.",
+    image: "/images/nasrine-kheltent-fh2.jpg",
+    imageAlt: "Nasrine Kheltent",
+    link: "/nasrine-kheltent",
+    date: "2024-01-15",
+    category: "Événements",
+    author: "Équipe MDN23"
+  },
+  {
+    id: 2,
+    title: "Lancement du programme de mentorat 2024",
+    excerpt: "MDN23 lance son nouveau programme de mentorat pour accompagner les jeunes talents marocains dans leur développement professionnel.",
+    image: "/images/articles/mentorat-2024.jpg",
+    imageAlt: "Programme mentorat",
+    link: "/news/mentorat-2024",
+    date: "2024-01-10",
+    category: "Initiatives",
+    author: "Sarah Benjelloun"
+  },
+  {
+    id: 3,
+    title: "Forum international de la diaspora marocaine",
+    excerpt: "Plus de 500 participants venus de 25 pays se sont réunis pour échanger sur les opportunités de collaboration.",
+    image: "/images/articles/forum-diaspora.jpg",
+    imageAlt: "Forum diaspora",
+    link: "/news/forum-diaspora",
+    date: "2024-01-05",
+    category: "Événements",
+    author: "Karim Alaoui"
+  },
+  {
+    id: 4,
+    title: "Partenariat stratégique avec l'université Mohammed V",
+    excerpt: "Un nouveau partenariat pour renforcer les liens académiques et favoriser l'innovation entre diaspora et institutions marocaines.",
+    image: "/images/articles/partenariat-universite.jpg",
+    imageAlt: "Partenariat universitaire",
+    link: "/news/partenariat-universite",
+    date: "2023-12-28",
+    category: "Partenariats",
+    author: "Dr. Ahmed Benali"
+  },
+  {
+    id: 5,
+    title: "Success story : De Paris à Casablanca, le parcours inspirant d'un entrepreneur",
+    excerpt: "Découvrez comment un membre de la diaspora a réussi à implanter son entreprise tech au Maroc avec le soutien de MDN23.",
+    image: "/images/articles/success-story.jpg",
+    imageAlt: "Success story",
+    link: "/news/success-story-entrepreneur",
+    date: "2023-12-20",
+    category: "Témoignages",
+    author: "Fatima El Amrani"
+  },
+  {
+    id: 6,
+    title: "Célébration de la culture marocaine en Europe",
+    excerpt: "Retour sur les événements culturels organisés dans plusieurs villes européennes pour promouvoir le patrimoine marocain.",
+    image: "/images/articles/culture-europe.jpg",
+    imageAlt: "Culture marocaine",
+    link: "/news/culture-europe",
+    date: "2023-12-15",
+    category: "Culture",
+    author: "Youssef Mansouri"
+  },
+  {
+    id: 7,
+    title: "Webinaire : Opportunités d'investissement au Maroc",
+    excerpt: "Un webinaire enrichissant sur les opportunités d'investissement dans les secteurs porteurs de l'économie marocaine.",
+    image: "/images/articles/webinaire-investissement.jpg",
+    imageAlt: "Webinaire investissement",
+    link: "/news/webinaire-investissement",
+    date: "2023-12-10",
+    category: "Formations",
+    author: "Leila Benjelloun"
+  },
+  {
+    id: 8,
+    title: "Lancement du réseau des anciens alumni MDN23",
+    excerpt: "Création d'un réseau d'anciens membres pour maintenir les liens et continuer à collaborer sur le long terme.",
+    image: "/images/articles/reseau-alumni.jpg",
+    imageAlt: "Réseau alumni",
+    link: "/news/reseau-alumni",
+    date: "2023-12-05",
+    category: "Initiatives",
+    author: "Samira Idrissi"
+  }
+];
+
+const categories = ["Tous", "Événements", "Initiatives", "Partenariats", "Culture", "Témoignages", "Formations"];
+---
+
+<Layout title="Actualités - MDN23" description="Découvrez les dernières actualités de MDN23 et de la diaspora marocaine">
+  <!-- Hero Section -->
+  <section class="py-20 bg-gradient-to-r from-[#036133] to-[#036133]/90">
+    <div class="container mx-auto px-4">
+      <div class="max-w-4xl mx-auto text-center text-white">
+        <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
+          Actualités
+        </h1>
+        <p class="text-xl md:text-2xl opacity-90">
+          Restez informé des dernières nouvelles et événements de MDN23
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Main Content -->
+  <section class="py-16 bg-gray-50">
+    <div class="container mx-auto px-4">
+      <!-- Featured Article -->
+      <div class="mb-16 max-w-6xl mx-auto">
+        <div class="relative h-[400px] md:h-[500px] rounded-2xl overflow-hidden shadow-2xl group">
+          <div class="absolute inset-0 bg-gradient-to-br from-[#036133]/20 to-[#036133]/5 flex items-center justify-center">
+            <svg class="w-48 h-48 text-[#036133]/20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
+            </svg>
+          </div>
+          <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent"></div>
+          <div class="absolute bottom-0 left-0 right-0 p-8 md:p-12 text-white">
+            <span class="inline-block bg-[#c0262d] px-4 py-2 rounded-full text-sm font-semibold mb-4">
+              {articles[0].category}
+            </span>
+            <h2 class="text-3xl md:text-5xl font-bold mb-4 group-hover:text-[#c0262d] transition-colors">
+              {articles[0].title}
+            </h2>
+            <p class="text-lg md:text-xl mb-6 max-w-3xl opacity-90">
+              {articles[0].excerpt}
+            </p>
+            <div class="flex items-center gap-6 text-sm opacity-75 mb-6">
+              <span>{articles[0].author}</span>
+              <span>•</span>
+              <span>{new Date(articles[0].date).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' })}</span>
+            </div>
+            <a 
+              href={articles[0].link}
+              class="inline-flex items-center bg-white text-gray-900 hover:bg-gray-100 font-semibold px-6 py-3 rounded-lg transition-colors"
+            >
+              Lire l'article
+              <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+              </svg>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Filter Categories -->
+      <div class="flex flex-wrap justify-center gap-3 mb-12">
+        {categories.map((category, index) => (
+          <button 
+            class={`px-6 py-2 rounded-full font-semibold transition-colors ${
+              index === 0
+                ? "bg-[#036133] text-white" 
+                : "bg-white text-gray-700 hover:bg-gray-100"
+            }`}
+          >
+            {category}
+          </button>
+        ))}
+      </div>
+
+      <!-- Articles Grid -->
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12 max-w-7xl mx-auto">
+        {articles.slice(1).map((article) => (
+          <article class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 flex flex-col">
+            <!-- Image -->
+            <a href={article.link} class="block relative h-56 bg-gradient-to-br from-[#036133]/20 to-[#036133]/5 flex items-center justify-center overflow-hidden group">
+              <svg class="w-24 h-24 text-[#036133]/20 group-hover:scale-110 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
+              </svg>
+              <div class="absolute top-4 left-4">
+                <span class="bg-[#c0262d] text-white text-xs font-semibold px-3 py-1 rounded-full">
+                  {article.category}
+                </span>
+              </div>
+            </a>
+
+            <!-- Content -->
+            <div class="p-6 flex-grow flex flex-col">
+              <a href={article.link} class="hover:text-[#c0262d] transition-colors">
+                <h3 class="text-xl font-bold text-gray-900 mb-3 line-clamp-2">
+                  {article.title}
+                </h3>
+              </a>
+              <p class="text-gray-600 mb-4 flex-grow line-clamp-3">
+                {article.excerpt}
+              </p>
+
+              <!-- Meta Info -->
+              <div class="flex items-center justify-between text-sm text-gray-500 pt-4 border-t border-gray-100">
+                <span class="font-medium">{article.author}</span>
+                <span>{new Date(article.date).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' })}</span>
+              </div>
+            </div>
+          </article>
+        ))}
+      </div>
+
+      <!-- Load More Button -->
+      <div class="text-center mb-16">
+        <button class="bg-[#036133] hover:bg-[#036133]/90 text-white font-semibold px-8 py-3 rounded-lg transition-colors">
+          Charger plus d'articles
+        </button>
+      </div>
+
+      <!-- Newsletter Section -->
+      <div class="bg-gradient-to-r from-[#036133] to-[#036133]/90 rounded-2xl p-8 md:p-12 text-white text-center max-w-4xl mx-auto">
+        <h2 class="text-3xl md:text-4xl font-bold mb-4">
+          Ne manquez aucune actualité
+        </h2>
+        <p class="text-lg md:text-xl mb-8 opacity-90">
+          Inscrivez-vous à notre newsletter pour recevoir les dernières actualités directement dans votre boîte mail
+        </p>
+        <form class="max-w-md mx-auto flex flex-col sm:flex-row gap-4">
+          <input 
+            type="email" 
+            placeholder="Votre adresse email"
+            class="flex-1 px-4 py-3 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-white"
+            required
+          />
+          <button 
+            type="submit"
+            class="bg-white text-[#036133] hover:bg-gray-100 font-semibold px-8 py-3 rounded-lg transition-colors whitespace-nowrap"
+          >
+            S'inscrire
+          </button>
+        </form>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<script>
+  // Filter functionality
+  const filterButtons = document.querySelectorAll('button[class*="px-6 py-2"]');
+  
+  filterButtons.forEach(button => {
+    button.addEventListener('click', (e) => {
+      const target = e.currentTarget as HTMLButtonElement;
+      
+      // Remove active class from all buttons
+      filterButtons.forEach(btn => {
+        btn.classList.remove('bg-[#036133]', 'text-white');
+        btn.classList.add('bg-white', 'text-gray-700');
+      });
+      
+      // Add active class to clicked button
+      target.classList.remove('bg-white', 'text-gray-700');
+      target.classList.add('bg-[#036133]', 'text-white');
+      
+      // Filter logic would go here
+      console.log('Filter by:', target.textContent);
+    });
+  });
+
+  // Newsletter form submission
+  const newsletterForm = document.querySelector('form');
+  newsletterForm?.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const email = (e.target as HTMLFormElement).querySelector('input[type="email"]') as HTMLInputElement;
+    console.log('Newsletter subscription:', email.value);
+    alert('Merci pour votre inscription !');
+    email.value = '';
+  });
+</script>

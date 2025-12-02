@@ -1,0 +1,16 @@
+---
+// src/pages/agenda.astro
+import Layout from '../layouts/Layout.astro';
+import EventsList from '../components/EventsList';
+---
+
+<Layout title="Agenda - MDN23">
+  <section id="agenda" class="bg-slate-50 py-12">
+    <div class="mx-auto max-w-6xl px-4">
+      <h1 class="mb-8 text-3xl font-bold text-slate-900">
+        Agenda MDN23
+      </h1>
+      <EventsList client:load />
+    </div>
+  </section>
+</Layout>

@@ -1,0 +1,209 @@
+---
+// src/components/Header.astro
+const currentPath = Astro.url.pathname;
+---
+
+<header class="bg-white shadow-sm sticky top-0 z-50">
+  <nav class="container mx-auto px-4">
+    <div class="flex items-center justify-between h-24">
+      <!-- Logo -->
+      <div class="flex-shrink-0">
+        <a href="/" class="flex items-center">
+          <img 
+            src="/images/logo.png" 
+            alt="MDN23 - Morrocan Diaspora Networking 23" 
+            class="h-16 w-auto"
+          />
+        </a>
+      </div>
+
+      <!-- Desktop Navigation -->
+      <div class="hidden lg:flex items-center space-x-8">
+        <!-- Organisation Dropdown -->
+        <div class="relative group">
+          <button class="flex items-center space-x-1 py-2 text-gray-700 hover:text-[#c0262d] transition-colors font-medium">
+            <span>Organisation</span>
+            <svg class="w-4 h-4 transition-transform group-hover:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+          <div class="absolute left-0 mt-2 w-64 bg-white rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 border border-gray-100">
+            <a href="/missions" class="block px-6 py-3 hover:bg-gray-50 transition-colors text-gray-700 hover:text-[#c0262d] border-b border-gray-100">
+              Mission
+            </a>
+            <a href="/equipe" class="block px-6 py-3 hover:bg-gray-50 transition-colors text-gray-700 hover:text-[#c0262d] border-b border-gray-100">
+              Équipe
+            </a>
+            <a href="/partenariats" class="block px-6 py-3 hover:bg-gray-50 transition-colors text-gray-700 hover:text-[#c0262d]">
+              Partenariats
+            </a>
+          </div>
+        </div>
+
+        <!-- Actualités Dropdown -->
+        <div class="relative group">
+          <button class="flex items-center space-x-1 py-2 text-gray-700 hover:text-[#c0262d] transition-colors font-medium">
+            <span>Actualités</span>
+            <svg class="w-4 h-4 transition-transform group-hover:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+          <div class="absolute left-0 mt-2 w-64 bg-white rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 border border-gray-100">
+            <a href="/news" class="block px-6 py-3 hover:bg-gray-50 transition-colors text-gray-700 hover:text-[#c0262d] border-b border-gray-100">
+              News
+            </a>
+            <a href="/publications" class="block px-6 py-3 hover:bg-gray-50 transition-colors text-gray-700 hover:text-[#c0262d] border-b border-gray-100">
+              Publications
+            </a>
+            <a href="/projets" class="block px-6 py-3 hover:bg-gray-50 transition-colors text-gray-700 hover:text-[#c0262d] border-b border-gray-100">
+              Projets
+            </a>
+            <a href="/media" class="block px-6 py-3 hover:bg-gray-50 transition-colors text-gray-700 hover:text-[#c0262d]">
+              Média
+            </a>
+          </div>
+        </div>
+
+        <!-- Agenda -->
+        <a 
+          href="/agenda" 
+          class={`py-2 font-medium transition-colors ${
+            currentPath === '/agenda' 
+              ? 'text-[#c0262d]' 
+              : 'text-gray-700 hover:text-[#c0262d]'
+          }`}
+        >
+          Agenda
+        </a>
+
+        <!-- Initiatives -->
+        <a 
+          href="/initiatives" 
+          class={`py-2 font-medium transition-colors ${
+            currentPath === '/initiatives' 
+              ? 'text-[#c0262d]' 
+              : 'text-gray-700 hover:text-[#c0262d]'
+          }`}
+        >
+          Initiatives
+        </a>
+
+        <!-- Services -->
+        <a 
+          href="/services" 
+          class={`py-2 font-medium transition-colors ${
+            currentPath === '/services' 
+              ? 'text-[#c0262d]' 
+              : 'text-gray-700 hover:text-[#c0262d]'
+          }`}
+        >
+          Services
+        </a>
+
+        <!-- Contact -->
+        <a 
+          href="/contact" 
+          class={`py-2 font-medium transition-colors ${
+            currentPath === '/contact' 
+              ? 'text-[#c0262d]' 
+              : 'text-gray-700 hover:text-[#c0262d]'
+          }`}
+        >
+          Contact
+        </a>
+      </div>
+
+      <!-- Mobile Menu Button -->
+      <button 
+        id="mobile-menu-btn" 
+        class="lg:hidden text-gray-700 focus:outline-none hover:text-[#c0262d] transition-colors"
+        aria-label="Menu"
+      >
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+      </button>
+    </div>
+
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="hidden lg:hidden pb-4">
+      <div class="space-y-1">
+        <!-- Organisation Mobile -->
+        <details class="group">
+          <summary class="flex items-center justify-between px-4 py-3 cursor-pointer hover:bg-gray-50 rounded-lg transition-colors">
+            <span class="font-medium text-gray-700">Organisation</span>
+            <svg class="w-4 h-4 text-gray-700 transition-transform group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+            </svg>
+          </summary>
+          <div class="pl-8 mt-2 space-y-1">
+            <a href="/missions" class="block px-4 py-2 text-gray-600 hover:text-[#c0262d] hover:bg-gray-50 rounded-lg transition-colors">
+              Mission
+            </a>
+            <a href="/equipe" class="block px-4 py-2 text-gray-600 hover:text-[#c0262d] hover:bg-gray-50 rounded-lg transition-colors">
+              Équipe
+            </a>
+            <a href="/partenariats" class="block px-4 py-2 text-gray-600 hover:text-[#c0262d] hover:bg-gray-50 rounded-lg transition-colors">
+              Partenariats
+            </a>
+          </div>
+        </details>
+
+        <!-- Actualités Mobile -->
+        <details class="group">
+          <summary class="flex items-center justify-between px-4 py-3 cursor-pointer hover:bg-gray-50 rounded-lg transition-colors">
+            <span class="font-medium text-gray-700">Actualités</span>
+            <svg class="w-4 h-4 text-gray-700 transition-transform group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+            </svg>
+          </summary>
+          <div class="pl-8 mt-2 space-y-1">
+            <a href="/news" class="block px-4 py-2 text-gray-600 hover:text-[#c0262d] hover:bg-gray-50 rounded-lg transition-colors">
+              News
+            </a>
+            <a href="/publications" class="block px-4 py-2 text-gray-600 hover:text-[#c0262d] hover:bg-gray-50 rounded-lg transition-colors">
+              Publications
+            </a>
+            <a href="/projets" class="block px-4 py-2 text-gray-600 hover:text-[#c0262d] hover:bg-gray-50 rounded-lg transition-colors">
+              Projets
+            </a>
+            <a href="/media" class="block px-4 py-2 text-gray-600 hover:text-[#c0262d] hover:bg-gray-50 rounded-lg transition-colors">
+              Média
+            </a>
+          </div>
+        </details>
+
+        <!-- Other Menu Items Mobile -->
+        <a href="/agenda" class="block px-4 py-3 font-medium text-gray-700 hover:text-[#c0262d] hover:bg-gray-50 rounded-lg transition-colors">
+          Agenda
+        </a>
+        <a href="/initiatives" class="block px-4 py-3 font-medium text-gray-700 hover:text-[#c0262d] hover:bg-gray-50 rounded-lg transition-colors">
+          Initiatives
+        </a>
+        <a href="/services" class="block px-4 py-3 font-medium text-gray-700 hover:text-[#c0262d] hover:bg-gray-50 rounded-lg transition-colors">
+          Services
+        </a>
+        <a href="/contact" class="block px-4 py-3 font-medium text-gray-700 hover:text-[#c0262d] hover:bg-gray-50 rounded-lg transition-colors">
+          Contact
+        </a>
+      </div>
+    </div>
+  </nav>
+</header>
+
+<script>
+  const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+  const mobileMenu = document.getElementById('mobile-menu');
+
+  mobileMenuBtn?.addEventListener('click', () => {
+    mobileMenu?.classList.toggle('hidden');
+  });
+
+  // Close mobile menu when clicking outside
+  document.addEventListener('click', (e) => {
+    const target = e.target as HTMLElement;
+    if (!mobileMenuBtn?.contains(target) && !mobileMenu?.contains(target)) {
+      mobileMenu?.classList.add('hidden');
+    }
+  });
+</script>
