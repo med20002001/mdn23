@@ -1,0 +1,76 @@
+---
+import Layout from "../layouts/Layout.astro";
+
+const members = [
+  {
+    name: "Nasrine KHELTENT",
+    role: "Vidéographe / Visual Art Producer – Chambre de l'Art et de la Culture",
+    location: "Bruxelles – Belgique",
+    image: "/images/team/nasrine.jpg",
+  },
+  {
+    name: "Mounir DAOUDI",
+    role: "Head Of Software Engineering – Mobivia Groupe",
+    location: "Lille – France",
+    image: "/images/team/mounir.jpg",
+  },
+  {
+    name: "Nabila CHAJAÏ",
+    role: "Harpiste – 2nd prix ARD de Munich – Freelance dans les grands orchestres européens",
+    location: "Strasbourg – France",
+    image: "/images/team/nabila.jpg",
+  },
+  // ➜ ajoute ici tous les autres membres avec le même format
+];
+---
+
+<Layout title="MDN23 – Équipe">
+  <section class="bg-[#f0f4f8] py-16">
+    <div class="max-w-6xl mx-auto px-4 lg:px-8">
+      <div class="bg-white rounded-lg shadow-sm p-10">
+        <!-- Titre + intro -->
+        <header class="mb-10">
+          <h1 class="text-3xl md:text-4xl font-bold text-gray-900 mb-3">
+            Équipe
+          </h1>
+          <p class="text-gray-700 text-sm md:text-base leading-relaxed">
+            Découvrez les visages de notre Équipe, un ensemble dynamique de talents issus
+            des divers horizons de la diaspora, unis par la passion commune de servir
+            notre communauté.
+          </p>
+          <div class="mt-4 h-px w-full bg-gray-300"></div>
+        </header>
+
+        <!-- Grille des membres -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-16 gap-y-16">
+          {members.map((member) => (
+            <article class="flex flex-col items-center text-center">
+              <div class="w-32 h-32 rounded-full overflow-hidden border border-gray-300 mb-4">
+                <img
+                  src={member.image}
+                  alt={member.name}
+                  class="w-full h-full object-cover"
+                  loading="lazy"
+                />
+              </div>
+
+              <h2 class="text-sm font-semibold tracking-wide text-gray-900 mb-1">
+                {member.name}
+              </h2>
+
+              <p class="text-xs text-gray-600 leading-relaxed max-w-xs">
+                {member.role}
+              </p>
+
+              <p class="mt-2 text-xs text-gray-500">
+                {member.location}
+              </p>
+
+              <div class="mt-4 w-40 border-t border-gray-300"></div>
+            </article>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>

@@ -1,25 +1,54 @@
-// src/components/ui/input.tsx
 import * as React from "react"
 import { cn } from "@/lib/utils"
 
-export interface InputProps
-  extends React.InputHTMLAttributes<HTMLInputElement> {}
+const Form = React.forwardRef<
+  HTMLFormElement,
+  React.FormHTMLAttributes<HTMLFormElement>
+>(({ className, ...props }, ref) => {
+  return <form ref={ref} className={cn("space-y-5", className)} {...props} />
+})
+Form.displayName = "Form"
 
-const Input = React.forwardRef<HTMLInputElement, InputProps>(
-  ({ className, type, ...props }, ref) => {
-    return (
-      <input
-        type={type}
-        className={cn(
-          "flex h-10 w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent disabled:cursor-not-allowed disabled:opacity-50",
-          className
-        )}
-        ref={ref}
-        {...props}
-      />
-    )
+const FormItem = React.forwardRef<
+  HTMLDivElement,
+  React.HTMLAttributes<HTMLDivElement>
+>(({ className, ...props }, ref) => {
+  return <div ref={ref} className={cn("space-y-2", className)} {...props} />
+})
+FormItem.displayName = "FormItem"
+
+const FormLabel = React.forwardRef<
+  HTMLLabelElement,
+  React.LabelHTMLAttributes<HTMLLabelElement>
+>(({ className, ...props }, ref) => {
+  return (
+    <label
+      ref={ref}
+      className={cn("text-sm font-semibold text-gray-900", className)}
+      {...props}
+    />
+  )
+})
+FormLabel.displayName = "FormLabel"
+
+const FormMessage = React.forwardRef<
+  HTMLParagraphElement,
+  React.HTMLAttributes<HTMLParagraphElement>
+>(({ className, children, ...props }, ref) => {
+  if (!children) {
+    return null
   }
-)
-Input.displayName = "Input"
 
-export { Input }
+  return (
+    <p
+      ref={ref}
+      className={cn("text-xs text-red-500 mt-1", className)}
+      {...props}
+    >
+      {children}
+    </p>
+  )
+})
+FormMessage.displayName = "FormMessage"
+
+export { Form, FormItem, FormLabel, FormMessage }

@@ -1,0 +1,34 @@
+---
+import Layout from "../layouts/Layout.astro";
+---
+
+<Layout title="MDN23 – Partenariats">
+  <section class="bg-[#f0f4f8] py-20">
+    <div class="max-w-6xl mx-auto px-4 lg:px-8">
+      <div class="bg-white rounded-lg shadow-sm p-12">
+        <div class="grid grid-cols-1 lg:grid-cols-[1fr_350px] gap-10 items-start">
+          <!-- Colonne gauche : Titre + Texte -->
+          <div>
+            <h1 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+              Partenariats (en construction)
+            </h1>
+
+            <p class="text-gray-800 leading-relaxed text-base">
+              Plongez également dans nos Partenariats, tissés avec d'autres organisations et initiatives partageant nos valeurs, afin d'amplifier notre impact collectif.
+            </p>
+          </div>
+
+          <!-- Colonne droite : Image -->
+          <div class="hidden lg:block">
+            <img
+              src="/images/partenariats.jpg"
+              alt="Partenariats MDN23"
+              class="w-full h-auto object-contain"
+              loading="lazy"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>
