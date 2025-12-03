@@ -4,7 +4,7 @@ import Layout from "../layouts/Layout.astro";
 const members = [
   {
     name: "Nasrine KHELTENT",
-    role: "Vidéographe / Visual Art Producer – Chambre de l'Art et de la Culture",
+    role: "Vidéographe/Visual Art Producer – Chambre de l'Art et de la Culture",
     location: "Bruxelles – Belgique",
     image: "/images/team/nasrine.jpg",
   },
@@ -15,12 +15,65 @@ const members = [
     image: "/images/team/mounir.jpg",
   },
   {
-    name: "Nabila CHAJAÏ",
-    role: "Harpiste – 2nd prix ARD de Munich – Freelance dans les grands orchestres européens",
+    name: "najata CHAJAÏ",
+    role: "Harpiste 2nd prix ARD de Munich – Freelance dans les grands orchestres européens",
     location: "Strasbourg – France",
     image: "/images/team/nabila.jpg",
   },
-  // ➜ ajoute ici tous les autres membres avec le même format
+  {
+    name: "Hassan ELAMMOURI",
+    role: "Urbaniste et Artiste, Président de la Fondation ArteGanza",
+    location: "Amersfoort – Pays-Bas",
+    image: "/images/team/hassan.jpg",
+  },
+  {
+    name: "Salah Eddine EL MANKOUZI",
+    role: "Président de l'association Les deux Rives",
+    location: "Amiens – France",
+    image: "/images/team/salah.jpg",
+  },
+  {
+    name: "Zineb HATIM",
+    role: "Business Unit Manager – Spie Batignolles / Présidente de Maroc Entrepreneurs",
+    location: "Paris – France",
+    image: "/images/team/zineb.jpg",
+  },
+  {
+    name: "Hasna SABBOUKI",
+    role: "PMO Project Manager – SAS Group / Docteure en Science Politique",
+    location: "Berlin – Allemagne",
+    image: "/images/team/hasna.jpg",
+  },
+  {
+    name: "Najat BENSAR",
+    role: "Producteur / Association Ibn Rochd",
+    location: "Barcelona – Espagne",
+    image: "/images/team/najat.jpg",
+  },
+  {
+    name: "Tahar LAZRAK (OUALLAS)",
+    role: "Humoriste",
+    location: "Abidjan – Côte d'Ivoire",
+    image: "/images/team/tahar.jpg",
+  },
+  {
+    name: "Mouna KARIMI",
+    role: "Réalisatrice de documentaires / Docteure en Création et Architecture Cinématographique",
+    location: "Marseille – France",
+    image: "/images/team/mouna.jpg",
+  },
+  {
+    name: "Abdelmadjid KHAIROUNI",
+    role: "Président du Centre Culturel Identique / Coach associatif",
+    location: "Utrecht – Pays-Bas",
+    image: "/images/team/abdelmadjid.jpg",
+  },
+  {
+    name: "Sakina OUIRI IBRAHABA",
+    role: "Académie sociale et médiatrice",
+    location: "Gênes – Espagne",
+    image: "/images/team/sakina.jpg",
+  },
 ];
 ---
 
@@ -30,22 +83,23 @@ const members = [
       <div class="bg-white rounded-lg shadow-sm p-10">
         <!-- Titre + intro -->
         <header class="mb-10">
-          <h1 class="text-3xl md:text-4xl font-bold text-gray-900 mb-3">
+          <h1 class="text-3xl font-bold text-gray-900 mb-4">
             Équipe
           </h1>
-          <p class="text-gray-700 text-sm md:text-base leading-relaxed">
-            Découvrez les visages de notre Équipe, un ensemble dynamique de talents issus
-            des divers horizons de la diaspora, unis par la passion commune de servir
-            notre communauté.
+          <p class="text-gray-900 text-sm leading-relaxed">
+            Découvrez les visages de notre Équipe, un ensemble dynamique de talents issus des divers horizons de la diaspora, unis par la passion commune de servir notre communauté.
           </p>
-          <div class="mt-4 h-px w-full bg-gray-300"></div>
         </header>
 
         <!-- Grille des membres -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-16 gap-y-16">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-x-8 gap-y-12">
           {members.map((member) => (
             <article class="flex flex-col items-center text-center">
-              <div class="w-32 h-32 rounded-full overflow-hidden border border-gray-300 mb-4">
+              <!-- Ligne horizontale au-dessus -->
+              <div class="w-full border-t-2 border-gray-400 mb-6"></div>
+
+              <!-- Photo ronde -->
+              <div class="w-32 h-32 rounded-full overflow-hidden mb-4">
                 <img
                   src={member.image}
                   alt={member.name}
@@ -54,19 +108,23 @@ const members = [
                 />
               </div>
 
-              <h2 class="text-sm font-semibold tracking-wide text-gray-900 mb-1">
+              <!-- Nom -->
+              <h2 class="text-sm font-bold text-gray-900 mb-3">
                 {member.name}
               </h2>
 
-              <p class="text-xs text-gray-600 leading-relaxed max-w-xs">
+              <!-- Rôle -->
+              <p class="text-xs text-gray-900 leading-relaxed mb-3 px-2">
                 {member.role}
               </p>
 
-              <p class="mt-2 text-xs text-gray-500">
+              <!-- Localisation -->
+              <p class="text-xs text-gray-900 mb-6">
                 {member.location}
               </p>
 
-              <div class="mt-4 w-40 border-t border-gray-300"></div>
+              <!-- Ligne horizontale en dessous -->
+              <div class="w-full border-t-2 border-gray-400"></div>
             </article>
           ))}
         </div>
