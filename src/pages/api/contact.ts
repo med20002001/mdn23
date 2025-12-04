@@ -1,60 +1,108 @@
 import type { APIRoute } from 'astro';
-import { Resend } from 'resend';
+import { contactFormSchema } from '../../lib/schemas/contact.schema';
+import { sendContactEmails } from '../../lib/email';
 
-const resend = new Resend(import.meta.env.RESEND_API_KEY);
+export const prerender = false;
 
 export const POST: APIRoute = async ({ request }) => {
   try {
-    const data = await request.json();
-    const { nom, email, sujet, message } = data;
-
-    if (!nom || !email || !sujet || !message) {
+    // Vérifier le Content-Type
+    const contentType = request.headers.get('content-type');
+    if (!contentType || !contentType.includes('application/json')) {
       return new Response(
-        JSON.stringify({ success: false, message: 'Tous les champs sont requis.' }),
-        { status: 400, headers: { 'Content-Type': 'application/json' } }
+        JSON.stringify({ 
+          success: false, 
+          message: 'Content-Type doit être application/json' 
+        }),
+        { 
+          status: 400, 
+          headers: { 'Content-Type': 'application/json' } 
+        }
       );
     }
 
-    // Email 1: Notification admin
-    await resend.emails.send({
-      from: 'MDN23 Contact <onboarding@resend.dev>', // Utilise ton domaine vérifié
-      to: 'mohamed1berkaoui@gmail.com',
-      subject: `[MDN23] Nouveau message: ${sujet}`,
-      html: `
-        <h2>Nouveau message de contact MDN23</h2>
-        <p><strong>Nom:</strong> ${nom}</p>
-        <p><strong>Email:</strong> ${email}</p>
-        <p><strong>Sujet:</strong> ${sujet}</p>
-        <p><strong>Message:</strong></p>
-        <p>${message.replace(/\n/g, '<br>')}</p>
-      `,
-    });
+    // Parser les données
+    const data = await request.json();
 
-    // Email 2: Confirmation utilisateur
-    await resend.emails.send({
-      from: 'MDN23 <onboarding@resend.dev>',
-      to: email,
-      subject: 'Confirmation de réception - MDN23',
-      html: `
-        <h2>Bonjour ${nom},</h2>
-        <p>Nous avons bien reçu votre message concernant "<strong>${sujet}</strong>".</p>
-        <p>Notre équipe vous répondra dans les plus brefs délais.</p>
-        <br>
-        <p>Cordialement,</p>
-        <p><strong>L'équipe MDN23</strong></p>
-        <p>Moroccan Diaspora Networking 23</p>
-      `,
-    });
+    // Validation avec Zod
+    const validation = contactFormSchema.safeParse(data);
 
-    return new Response(
-      JSON.stringify({ success: true, message: 'Message envoyé!' }),
-      { status: 200, headers: { 'Content-Type': 'application/json' } }
-    );
+    if (!validation.success) {
+      const errors = validation.error.flatten().fieldErrors;
+      const firstError = Object.values(errors)[0]?.[0] || 'Données invalides';
+      
+      return new Response(
+        JSON.stringify({ 
+          success: false, 
+          message: firstError 
+        }),
+        { 
+          status: 400, 
+          headers: { 'Content-Type': 'application/json' } 
+        }
+      );
+    }
+
+    const { nom, email, sujet, message } = validation.data;
+
+    // Log pour debug (optionnel)
+    console.log('📧 Tentative d\'envoi d\'email...');
+    console.log('De:', nom, '(' + email + ')');
+    console.log('Sujet:', sujet);
+
+    // Envoyer les emails avec Nodemailer
+    try {
+      await sendContactEmails({ nom, email, sujet, message });
+
+      console.log('✅ Emails envoyés avec succès');
+
+      return new Response(
+        JSON.stringify({ 
+          success: true, 
+          message: '✓ Message envoyé avec succès! Un email de confirmation vous a été envoyé.'
+        }),
+        { 
+          status: 200, 
+          headers: { 'Content-Type': 'application/json' } 
+        }
+      );
+
+    } catch (emailError) {
+      console.error('❌ Erreur envoi emails:', emailError);
+      
+      // Message d'erreur plus détaillé
+      const errorMessage = emailError instanceof Error 
+        ? emailError.message 
+        : 'Erreur inconnue';
+
+      return new Response(
+        JSON.stringify({ 
+          success: false, 
+          message: `Erreur lors de l'envoi: ${errorMessage}. Veuillez réessayer.` 
+        }),
+        { 
+          status: 500, 
+          headers: { 'Content-Type': 'application/json' } 
+        }
+      );
+    }
+
   } catch (error) {
-    console.error('Erreur:', error);
+    console.error('❌ Erreur API:', error);
+    
+    const errorMessage = error instanceof Error 
+      ? error.message 
+      : 'Erreur serveur inconnue';
+
     return new Response(
-      JSON.stringify({ success: false, message: 'Erreur lors de l\'envoi.' }),
-      { status: 500, headers: { 'Content-Type': 'application/json' } }
+      JSON.stringify({ 
+        success: false, 
+        message: `Erreur serveur: ${errorMessage}. Veuillez réessayer plus tard.` 
+      }),
+      { 
+        status: 500, 
+        headers: { 'Content-Type': 'application/json' } 
+      }
     );
   }
 };

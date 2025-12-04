@@ -1,32 +1,41 @@
-import { useState } from 'react'
-import { useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { z } from 'zod'
-
-const contactSchema = z.object({
-  nom: z.string().min(2, 'Le nom doit contenir au moins 2 caractères'),
-  email: z.string().email('Email invalide'),
-  sujet: z.string().min(3, 'Le sujet doit contenir au moins 3 caractères'),
-  message: z.string().min(10, 'Le message doit contenir au moins 10 caractères'),
-})
-
-type ContactFormData = z.infer<typeof contactSchema>
+import { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { contactFormSchema, type ContactFormData } from '../lib/schemas/contact.schema';
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from './ui/form';
+import { Input } from './ui/input';
+import { Textarea } from './ui/textarea';
+import { Button } from './ui/button';
+import { Loader2, CheckCircle2, XCircle } from 'lucide-react';
 
 export default function ContactForm() {
-  const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
-  const [statusMessage, setStatusMessage] = useState('')
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<{
+    type: 'success' | 'error' | null;
+    message: string;
+  }>({ type: null, message: '' });
 
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors },
-  } = useForm<ContactFormData>({
-    resolver: zodResolver(contactSchema),
-  })
+  const form = useForm<ContactFormData>({
+    resolver: zodResolver(contactFormSchema),
+    defaultValues: {
+      nom: '',
+      email: '',
+      sujet: '',
+      message: '',
+    },
+    mode: 'onBlur',
+  });
 
   const onSubmit = async (data: ContactFormData) => {
-    setStatus('loading')
+    setIsSubmitting(true);
+    setSubmitStatus({ type: null, message: '' });
 
     try {
       const response = await fetch('/api/contact', {
@@ -35,117 +44,166 @@ export default function ContactForm() {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(data),
-      })
+      });
 
-      const result = await response.json()
+      const result = await response.json();
 
       if (result.success) {
-        setStatus('success')
-        setStatusMessage('✓ Message envoyé avec succès! Un email de confirmation vous a été envoyé.')
-        reset()
+        setSubmitStatus({
+          type: 'success',
+          message: result.message || 'Message envoyé avec succès! Un email de confirmation vous a été envoyé.',
+        });
+        form.reset();
       } else {
-        setStatus('error')
-        setStatusMessage(result.message || '✗ Une erreur est survenue.')
+        setSubmitStatus({
+          type: 'error',
+          message: result.message || 'Une erreur est survenue.',
+        });
       }
     } catch (error) {
-      setStatus('error')
-      setStatusMessage('✗ Une erreur est survenue. Veuillez réessayer.')
+      setSubmitStatus({
+        type: 'error',
+        message: 'Impossible de contacter le serveur. Veuillez réessayer.',
+      });
+    } finally {
+      setIsSubmitting(false);
     }
-  }
+  };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
-      {/* Nom */}
-      <div>
-        <label htmlFor="nom" className="block text-sm font-bold text-gray-900 mb-2">
-          Nom
-        </label>
-        <input
-          type="text"
-          id="nom"
-          placeholder="Entrez votre nom ou le nom de votre organisation"
-          {...register('nom')}
-          className="w-full border border-gray-300 rounded-md px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:border-transparent bg-white"
-        />
-        {errors.nom && (
-          <p className="mt-1 text-xs text-red-500">{errors.nom.message}</p>
-        )}
-      </div>
+    <div className="w-full">
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6" noValidate>
+          {/* Nom */}
+          <FormField
+            control={form.control}
+            name="nom"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="text-sm font-semibold text-gray-900">
+                  Nom complet <span className="text-red-500">*</span>
+                </FormLabel>
+                <FormControl>
+                  <Input
+                    placeholder="Votre nom"
+                    {...field}
+                    required
+                    className="border-gray-300 focus:border-green-500 focus:ring-green-500"
+                  />
+                </FormControl>
+                <FormMessage className="text-red-600 text-xs mt-1" />
+              </FormItem>
+            )}
+          />
 
-      {/* Email */}
-      <div>
-        <label htmlFor="email" className="block text-sm font-bold text-gray-900 mb-2">
-          Email
-        </label>
-        <input
-          type="email"
-          id="email"
-          placeholder="example@gmail.com"
-          {...register('email')}
-          className="w-full border border-gray-300 rounded-md px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:border-transparent bg-white"
-        />
-        {errors.email && (
-          <p className="mt-1 text-xs text-red-500">{errors.email.message}</p>
-        )}
-      </div>
+          {/* Email */}
+          <FormField
+            control={form.control}
+            name="email"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="text-sm font-semibold text-gray-900">
+                  Email <span className="text-red-500">*</span>
+                </FormLabel>
+                <FormControl>
+                  <Input
+                    type="email"
+                    placeholder="example@gmail.com"
+                    {...field}
+                    required
+                    className="border-gray-300 focus:border-green-500 focus:ring-green-500"
+                  />
+                </FormControl>
+                <FormMessage className="text-red-600 text-xs mt-1" />
+              </FormItem>
+            )}
+          />
 
-      {/* Sujet */}
-      <div>
-        <label htmlFor="sujet" className="block text-sm font-bold text-gray-900 mb-2">
-          Sujet
-        </label>
-        <input
-          type="text"
-          id="sujet"
-          placeholder="Sujet"
-          {...register('sujet')}
-          className="w-full border border-gray-300 rounded-md px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:border-transparent bg-white"
-        />
-        {errors.sujet && (
-          <p className="mt-1 text-xs text-red-500">{errors.sujet.message}</p>
-        )}
-      </div>
+          {/* Sujet */}
+          <FormField
+            control={form.control}
+            name="sujet"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="text-sm font-semibold text-gray-900">
+                  Sujet <span className="text-red-500">*</span>
+                </FormLabel>
+                <FormControl>
+                  <Input
+                    placeholder="Sujet"
+                    {...field}
+                    required
+                    className="border-gray-300 focus:border-green-500 focus:ring-green-500"
+                  />
+                </FormControl>
+                <FormMessage className="text-red-600 text-xs mt-1" />
+              </FormItem>
+            )}
+          />
 
-      {/* Message */}
-      <div>
-        <label htmlFor="message" className="block text-sm font-bold text-gray-900 mb-2">
-          Message
-        </label>
-        <textarea
-          id="message"
-          rows={5}
-          placeholder="Tapez l'objet de votre message"
-          {...register('message')}
-          className="w-full border border-gray-300 rounded-md px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:border-transparent resize-y bg-white"
-        />
-        {errors.message && (
-          <p className="mt-1 text-xs text-red-500">{errors.message.message}</p>
-        )}
-      </div>
+          {/* Message */}
+          <FormField
+            control={form.control}
+            name="message"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="text-sm font-semibold text-gray-900">
+                  Message <span className="text-red-500">*</span>
+                </FormLabel>
+                <FormControl>
+                  <Textarea
+                    placeholder="Tapez le texte de votre message"
+                    rows={5}
+                    {...field}
+                    required
+                    className="border-gray-300 focus:border-green-500 focus:ring-green-500 resize-none"
+                  />
+                </FormControl>
+                <FormMessage className="text-red-600 text-xs mt-1" />
+              </FormItem>
+            )}
+          />
 
-      {/* Message de statut */}
-      {status !== 'idle' && (
-        <div
-          className={`text-sm py-3 px-4 rounded-md ${
-            status === 'success'
-              ? 'bg-green-100 text-green-800'
-              : status === 'error'
-              ? 'bg-red-100 text-red-800'
-              : 'bg-gray-100 text-gray-600'
-          }`}
-        >
-          {status === 'loading' ? 'Envoi en cours...' : statusMessage}
-        </div>
-      )}
+          {/* Bouton Envoyer */}
+          <div className="flex justify-start">
+            <Button
+              type="submit"
+              disabled={isSubmitting}
+              className="bg-green-500 hover:bg-green-600 text-white font-semibold py-2.5 px-8 rounded-full shadow-md hover:shadow-lg transition-all"
+            >
+              {isSubmitting ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Envoi en cours...
+                </>
+              ) : (
+                'Envoyer'
+              )}
+            </Button>
+          </div>
 
-      {/* Bouton Envoyer */}
-      <button
-        type="submit"
-        disabled={status === 'loading'}
-        className="inline-flex items-center justify-center rounded-md bg-emerald-500 hover:bg-emerald-600 text-white text-sm font-medium px-8 py-3 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-      >
-        {status === 'loading' ? 'Envoi en cours...' : 'Envoyer'}
-      </button>
-    </form>
-  )
+          {/* Message de statut - Design simple sans couleur */}
+          {submitStatus.type && (
+            <div className="border border-gray-300 rounded-lg p-4 bg-white shadow-sm animate-in fade-in slide-in-from-top-2 duration-300">
+              <div className="flex items-start gap-3">
+                {submitStatus.type === 'success' ? (
+                  <CheckCircle2 className="h-5 w-5 text-gray-700 mt-0.5 flex-shrink-0" />
+                ) : (
+                  <XCircle className="h-5 w-5 text-gray-700 mt-0.5 flex-shrink-0" />
+                )}
+                <div className="flex-1">
+                  <h3 className="text-sm font-semibold text-gray-900 mb-1">
+                    {submitStatus.type === 'success' ? 'Message envoyé' : 'Erreur'}
+                  </h3>
+                  <p className="text-sm text-gray-700 leading-relaxed">
+                    {submitStatus.message}
+                  </p>
+                </div>
+              </div>
+            </div>
+          )}
+        </form>
+      </Form>
+    </div>
+  );
 }
