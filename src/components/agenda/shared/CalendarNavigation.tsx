@@ -1,4 +1,4 @@
-import CalendarDropdown from '../CalendarDropdown';
+import CalendarDropdown from '../../CalendarDropdown';
 
 interface Props {
   currentDate?: Date;
@@ -54,16 +54,7 @@ export default function CalendarNavigation({
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
         </svg>
       </button>
-      
-      {/* Bouton Aujourd'hui */}
-      <button 
-        onClick={handleToday}
-        className="border border-gray-300 rounded px-3 py-1.5 text-gray-700 hover:bg-gray-50 font-medium transition-colors"
-      >
-        Aujourd'hui
-      </button>
-      
-      {/* Dropdown Calendrier - SANS client:load */}
+     {/* Dropdown Calendrier - SANS client:load */}
       <div className="inline-block">
         <CalendarDropdown />
       </div>

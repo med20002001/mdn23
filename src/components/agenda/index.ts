@@ -1,19 +1,16 @@
-// ⭐ Imports individuels
-import AgendaHeader from './AgendaHeader';
-import EventSearchBar from './EventSearchBar';
-import EventTabs from './EventTabs';
-import CalendarNavigation from './CalendarNavigation';
-import EventCard from './EventCard';
-import EventNavigation from './EventNavigation';
-import EventList from './EventList';
+// Header
+export * from './header';
 
-// ⭐ Re-exports
-export {
-  AgendaHeader,
-  EventSearchBar,
-  EventTabs,
-  CalendarNavigation,
-  EventCard,
-  EventNavigation,
-  EventList,
-};
+// List
+export * from './list';
+
+// Month
+export * from './month';
+
+// Day
+export * from './day';
+// Shared
+export * from './shared';
+
+// Container
+export { default as AgendaContainer } from './AgendaContainer';

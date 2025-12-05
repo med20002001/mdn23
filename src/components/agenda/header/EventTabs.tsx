@@ -4,42 +4,38 @@ interface Props {
 }
 
 export default function EventTabs({ activeTab = 'liste', onTabChange }: Props) {
-  const handleClick = (tab: 'liste' | 'mois' | 'jour', e: React.MouseEvent) => {
+  const handleClick = (tab: 'liste' | 'mois' | 'jour') => {
     if (onTabChange) {
-      e.preventDefault();
       onTabChange(tab);
     }
   };
 
   return (
     <div className="flex items-center gap-4 text-sm text-gray-600">
-      <a 
-        href="/agenda?view=liste" 
-        onClick={(e) => handleClick('liste', e)}
-        className={`hover:text-gray-900 pb-1 transition-colors ${
+      <button
+        onClick={() => handleClick('liste')}
+        className={`hover:text-gray-900 pb-1 transition-colors cursor-pointer ${
           activeTab === 'liste' ? 'border-b-2 border-blue-600 text-gray-900 font-medium' : ''
         }`}
       >
         Liste
-      </a>
-      <a 
-        href="/agenda?view=mois" 
-        onClick={(e) => handleClick('mois', e)}
-        className={`hover:text-gray-900 pb-1 transition-colors ${
+      </button>
+      <button
+        onClick={() => handleClick('mois')}
+        className={`hover:text-gray-900 pb-1 transition-colors cursor-pointer ${
           activeTab === 'mois' ? 'border-b-2 border-blue-600 text-gray-900 font-medium' : ''
         }`}
       >
         Mois
-      </a>
-      <a 
-        href="/agenda?view=jour" 
-        onClick={(e) => handleClick('jour', e)}
-        className={`hover:text-gray-900 pb-1 transition-colors ${
+      </button>
+      <button
+        onClick={() => handleClick('jour')}
+        className={`hover:text-gray-900 pb-1 transition-colors cursor-pointer ${
           activeTab === 'jour' ? 'border-b-2 border-blue-600 text-gray-900 font-medium' : ''
         }`}
       >
         Jour
-      </a>
+      </button>
     </div>
   );
 }

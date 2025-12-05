@@ -3,6 +3,7 @@ import Layout from "../../layouts/Layout.astro";
 import { getCollection } from 'astro:content';
 import type { CollectionEntry } from 'astro:content';
 import EventNavigation from "../../components/EventNavigation";
+import AddToCalendarButton from "../../components/agenda/shared/AddToCalendarButton";
 
 export const prerender = true;
 
@@ -83,27 +84,15 @@ const eventsData = allEvents.map(e => ({
         <Content />
       </article>
 
-      <!-- Section "DES MOMENTS MUSICAUX INCOMPARABLES" -->
-      <div class="bg-gray-50 border-l-4 border-blue-600 p-6 mb-12">
-        <h2 class="text-xl font-bold text-gray-900 mb-3">DES MOMENTS MUSICAUX INCOMPARABLES</h2>
-        <p class="text-gray-700 leading-relaxed">
-          La Fondation ArteGanza (www.arteganza.nl) croit au pouvoir des arts de la scène dans le monde en tant que moyen de 
-          relier des personnes de cultures différentes. Les concerts de la série Musica Mundo et du festival Musica Mundo vous 
-          feront découvrir la puissance et la beauté de la diversité culturelle. Un cadeau réconfortant pour la ville !
-        </p>
-      </div>
-
-      <!-- Bouton Ajouter au calendrier -->
+      <!-- Bouton Ajouter au calendrier avec dropdown -->
       <div class="mb-12">
-        <button class="inline-flex items-center gap-2 px-6 py-3 border-2 border-blue-600 text-blue-600 rounded hover:bg-blue-50 transition-colors font-medium">
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-          </svg>
-          Ajouter au calendrier
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-          </svg>
-        </button>
+        <AddToCalendarButton 
+          client:load
+          title={event.data.title}
+          description={event.data.description}
+          location={event.data.location}
+          startDate={event.data.date}
+        />
       </div>
 
       <!-- Grille 3 colonnes : DÉTAILS + ORGANISATEUR + LIEU -->
@@ -117,8 +106,7 @@ const eventsData = allEvents.map(e => ({
             <div>
               <p class="text-sm font-semibold text-gray-800 mb-1">Date :</p>
               <p class="text-sm text-gray-600">{event.data.datetime.split('@')[0].trim()}</p>
-            </div>
-            
+            </div>          
             {event.data.datetime.includes('@') && (
               <div>
                 <p class="text-sm font-semibold text-gray-800 mb-1">Heure :</p>

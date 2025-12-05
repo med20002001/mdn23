@@ -1,20 +1,17 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import { AgendaHeader, EventList } from "../components/agenda";
+import AgendaContainer from "../components/agenda/AgendaContainer";
 import { getCollection } from 'astro:content';
 import type { CollectionEntry } from 'astro:content';
 
-// ⭐ Définir le type Event étendu
 type Event = CollectionEntry<'events'> & {
   slug: string;
   href: string;
 };
 
-// Récupérer tous les événements
 const allEvents = await getCollection('events');
 
-// ⭐ Typer le paramètre event dans map
-const events: Event[] = allEvents.map((event: CollectionEntry<'events'>) => ({
+const events: Event[] = allEvents.map((event: CollectionEntry<'events'>): Event => ({
   ...event,
   slug: event.slug,
   href: `/agenda/${event.slug}`,
@@ -22,16 +19,15 @@ const events: Event[] = allEvents.map((event: CollectionEntry<'events'>) => ({
 
 const now = new Date();
 
-// ⭐ Typer les événements filtrés
-const upcomingEvents = events
-  .filter((event: Event) => event.data.date >= now)
-  .sort((a: Event, b: Event) => a.data.date.getTime() - b.data.date.getTime());
+const upcomingEvents: Event[] = events
+  .filter((event: Event): boolean => event.data.date >= now)
+  .sort((a: Event, b: Event): number => a.data.date.getTime() - b.data.date.getTime());
 
-const pastEvents = events
-  .filter((event: Event) => event.data.date < now)
-  .sort((a: Event, b: Event) => b.data.date.getTime() - a.data.date.getTime());
+const pastEvents: Event[] = events
+  .filter((event: Event): boolean => event.data.date < now)
+  .sort((a: Event, b: Event): number => b.data.date.getTime() - a.data.date.getTime());
 
-// ⭐ Préparer les données pour EventList avec typage
+// Données pour la vue liste
 const upcomingEventsData = upcomingEvents.map((e: Event) => ({
   month: e.data.month,
   day: e.data.day,
@@ -57,35 +53,28 @@ const pastEventsData = pastEvents.map((e: Event) => ({
   href: e.href,
   date: e.data.date,
 }));
+
+// Données pour les calendriers
+const calendarEvents = upcomingEvents.map((e: Event) => ({
+  date: e.data.date,
+  title: e.data.title,
+  datetime: e.data.datetime,
+  location: e.data.location,
+  description: e.data.description,
+  href: e.href,
+}));
 ---
 
-<Layout title="Agenda">
+<Layout title="Agenda - Tous les événements">
   <main class="bg-white min-h-screen">
     
-    <!-- Header avec recherche, onglets et navigation -->
-    <AgendaHeader client:load activeTab="liste" />
+    <!-- Container React qui gère tout -->
+    <AgendaContainer 
+      client:load
+      upcomingEvents={upcomingEventsData}
+      pastEvents={pastEventsData}
+      calendarEvents={calendarEvents}
+    />
 
-    <div class="max-w-6xl mx-auto px-4 py-10">
-      
-      <!-- Liste des événements à venir -->
-      <EventList 
-        client:load
-        events={upcomingEventsData}
-        title="Événements à venir"
-        emptyMessage="Il n'y a pas d'évènements à venir."
-      />
-
-      <!-- Liste des événements passés -->
-      {pastEventsData.length > 0 && (
-        <div class="mt-16">
-          <EventList 
-            client:load
-            events={pastEventsData}
-            title="Derniers Événements passés"
-            showPastIndicator={true}
-          />
-        </div>
-      )}
-    </div>
   </main>
 </Layout>

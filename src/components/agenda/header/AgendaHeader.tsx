@@ -1,6 +1,6 @@
 import EventSearchBar from './EventSearchBar';
 import EventTabs from './EventTabs';
-import CalendarNavigation from './CalendarNavigation';
+import CalendarNavigation from '../shared/CalendarNavigation';
 
 interface Props {
   activeTab?: 'liste' | 'mois' | 'jour';
@@ -13,7 +13,7 @@ export default function AgendaHeader({
   activeTab = 'liste', 
   onSearch,
   onTabChange,
-  showCalendarNav = true 
+  showCalendarNav = false
 }: Props) {
   return (
     <>
@@ -25,7 +25,7 @@ export default function AgendaHeader({
         </div>
       </div>
 
-      {/* Navigation calendrier */}
+      {/* Navigation calendrier (uniquement pour mois et jour) */}
       {showCalendarNav && (
         <div className="bg-white border-b border-gray-200">
           <div className="max-w-6xl mx-auto px-4 py-4">
