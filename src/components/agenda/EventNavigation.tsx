@@ -1,0 +1,93 @@
+import { useEffect, useState } from 'react';
+
+interface Event {
+  slug: string;
+  title: string;
+  date: Date;
+}
+
+interface Props {
+  currentSlug: string;
+  allEvents: Event[];
+}
+
+export default function EventNavigation({ currentSlug, allEvents }: Props) {
+  const [prevEvent, setPrevEvent] = useState<Event | null>(null);
+  const [nextEvent, setNextEvent] = useState<Event | null>(null);
+
+  useEffect(() => {
+    // Trier les événements par date
+    const sortedEvents = [...allEvents].sort((a, b) => 
+      a.date.getTime() - b.date.getTime()
+    );
+
+    // Trouver l'index de l'événement actuel
+    const currentIndex = sortedEvents.findIndex(e => e.slug === currentSlug);
+
+    if (currentIndex === -1) return;
+
+    // Événement précédent
+    if (currentIndex > 0) {
+      setPrevEvent(sortedEvents[currentIndex - 1]);
+    }
+
+    // Événement suivant
+    if (currentIndex < sortedEvents.length - 1) {
+      setNextEvent(sortedEvents[currentIndex + 1]);
+    }
+  }, [currentSlug, allEvents]);
+
+  if (!prevEvent && !nextEvent) {
+    return null;
+  }
+
+  return (
+    <div className="border-t border-gray-200 pt-6 mt-12">
+      <h3 className="text-sm font-semibold text-gray-700 mb-4 uppercase">
+        Navigation de l'événement
+      </h3>
+      
+      <div className="flex justify-between items-center gap-4 flex-wrap">
+        {/* Événement précédent */}
+        {prevEvent ? (
+          <a 
+            href={`/agenda/${prevEvent.slug}`}
+            className="text-sm text-blue-700 hover:underline flex items-center gap-2 group max-w-md"
+          >
+            <svg 
+              className="w-4 h-4 flex-shrink-0 transition-transform group-hover:-translate-x-1" 
+              fill="none" 
+              stroke="currentColor" 
+              viewBox="0 0 24 24"
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+            </svg>
+            <span className="truncate">{prevEvent.title}</span>
+          </a>
+        ) : (
+          <div></div>
+        )}
+
+        {/* Événement suivant */}
+        {nextEvent ? (
+          <a 
+            href={`/agenda/${nextEvent.slug}`}
+            className="text-sm text-blue-700 hover:underline flex items-center gap-2 group text-right max-w-md ml-auto"
+          >
+            <span className="truncate">{nextEvent.title}</span>
+            <svg 
+              className="w-4 h-4 flex-shrink-0 transition-transform group-hover:translate-x-1" 
+              fill="none" 
+              stroke="currentColor" 
+              viewBox="0 0 24 24"
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+            </svg>
+          </a>
+        ) : (
+          <div></div>
+        )}
+      </div>
+    </div>
+  );
+}

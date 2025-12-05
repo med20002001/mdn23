@@ -7,6 +7,7 @@ export default defineConfig({
   output: 'server',
   adapter: netlify(),
   integrations: [react(), tailwind()],
+    site: "https://mdn-association1.netlify.app",
   vite: {
     define: {
       'process.env': {}

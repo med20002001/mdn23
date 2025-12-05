@@ -16,3 +16,8 @@
     font-family: 'Poppins', sans-serif;
   }
 }
+@layer base {
+  p {
+    @apply text-gray-700 leading-relaxed text-[15px] md:text-[16px] mb-4 tracking-wide;
+  }
+}

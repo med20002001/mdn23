@@ -1,0 +1,145 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import PageShell from "../../components/ui/PageShell.astro";
+import Card from "../../components/ui/Card.astro";
+import { getCollection, getEntryBySlug, type CollectionEntry } from "astro:content";
+import { Image } from "astro:assets";
+
+export const prerender = true;
+type Pub = CollectionEntry<"publications">;
+
+export async function getStaticPaths() {
+  const all = (await getCollection("publications")) as Pub[];
+  const posts = all.filter((x) => x.data.kind === "post");
+  return posts.map((p) => ({ params: { slug: p.slug } }));
+}
+const slug = Astro.params.slug;
+if (!slug) throw new Error("Slug manquant dans l'URL.");
+
+const post = await getEntryBySlug("publications", slug);
+if (!post || post.data.kind !== "post") {
+  return new Response("Not found", { status: 404 });
+}
+
+const { Content } = await post.render();
+
+const all = (await getCollection("publications")) as Pub[];
+const parts = all
+  .filter((x) => x.data.kind === "part" && x.data.parentSlug === post.slug)
+  .sort((a, b) => (a.data.order ?? 999) - (b.data.order ?? 999));
+
+const renderedParts = await Promise.all(
+  parts.map(async (part) => {
+    const { Content: PartContent } = await part.render();
+    return { part, PartContent };
+  })
+);
+
+const dateFR = post.data.publishedAt
+  ? new Intl.DateTimeFormat("fr-FR").format(post.data.publishedAt)
+  : "";
+
+const nl2br = (s: string) => s.replace(/\n/g, "<br/>");
+---
+
+<Layout title={post.data.title}>
+  <PageShell>
+    <Card class="p-8 md:p-10">
+      <h1 class="text-2xl md:text-3xl font-bold text-gray-900 mb-4">
+        {post.data.title}
+      </h1>
+
+      <div class="bg-gray-100 border border-gray-200 p-4 mb-6 text-sm text-gray-700 rounded-md">
+        {post.data.author && <p class="font-semibold">{post.data.author}</p>}
+        {dateFR && <p>Publié le {dateFR}</p>}
+      </div>
+
+      {(post.data.leadTitle || post.data.leadText) && (
+        <div class="prose max-w-none prose-gray mb-6">
+          {post.data.leadTitle && (
+            <p>
+              <strong>{post.data.leadTitle}</strong>
+            </p>
+          )}
+          {post.data.leadText && <p set:html={nl2br(post.data.leadText)} />}
+        </div>
+      )}
+
+      {post.data.cover && (
+        <figure class="my-6">
+          <Image
+            src={post.data.cover}
+            alt={post.data.coverAlt ?? post.data.title}
+            class="w-full max-h-[500px] object-cover rounded-lg ring-1 ring-black/5 shadow-sm"
+            loading="lazy"
+          />
+        </figure>
+      )}
+
+      <div class="prose max-w-none prose-gray">
+        <Content />
+      </div>
+
+      {renderedParts.map(({ part, PartContent }, i) => (
+        <section class={`mt-12 ${i === 0 ? "" : "pt-10 border-t border-gray-200"}`}>
+          {part.data.title && (
+            <h2 class="text-lg md:text-xl font-semibold text-gray-900 mb-3">
+              {part.data.title}
+            </h2>
+          )}
+
+          {/* ✅ PART 2: texte haut + image + texte bas */}
+          {part.data.order === 2 ? (
+            <>
+              {part.data.topText && (
+                <div class="prose max-w-none prose-gray">
+                  <p set:html={nl2br(part.data.topText)} />
+                </div>
+              )}
+
+              {part.data.inlineImage && (
+                <figure class="my-6">
+                  <Image
+                    src={part.data.inlineImage}
+                    alt={part.data.inlineImageAlt ?? "Illustration"}
+                    class="mx-auto w-full max-w-3xl max-h-[900px] object-contain rounded-xl ring-1 ring-black/5 shadow-sm"
+                    loading="lazy"
+                  />
+                </figure>
+              )}
+
+              {part.data.bottomText && (
+                <div class="prose max-w-none prose-gray">
+                  <p set:html={nl2br(part.data.bottomText)} />
+                </div>
+              )}
+
+              {/* Si jamais tu as aussi du markdown dans content, il s'affiche quand même */}
+              <div class="prose max-w-none prose-gray">
+                <PartContent />
+              </div>
+            </>
+          ) : (
+            /* ✅ AUTRES PARTS: image (si existe) puis markdown */
+            <>
+              {part.data.inlineImage && (
+                <figure class="my-6">
+                  <Image
+                    src={part.data.inlineImage}
+                    alt={part.data.inlineImageAlt ?? "Illustration"}
+                    class="mx-auto w-full max-w-3xl max-h-[900px] object-contain rounded-xl ring-1 ring-black/5 shadow-sm"
+                    loading="lazy"
+                  />
+                </figure>
+              )}
+
+              <div class="prose max-w-none prose-gray">
+                <PartContent />
+              </div>
+            </>
+          )}
+        </section>
+      ))}
+    </Card>
+  </PageShell>
+</Layout>

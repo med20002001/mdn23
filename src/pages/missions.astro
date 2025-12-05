@@ -1,84 +1,39 @@
 ---
 import Layout from "../layouts/Layout.astro";
+import MissionSection from "../components/MissionSection.astro";
+import { getEntryBySlug, type CollectionEntry } from "astro:content";
+
+const entry = await getEntryBySlug("pages", "mission");
+if (!entry) throw new Error("Contenu introuvable: src/content/pages/mission.md");
+
+type PageEntry = CollectionEntry<"pages">;
+type Section = PageEntry["data"]["sections"][number];
+
+const { title, intro, sections, conclusion } = entry.data;
 ---
 
-<Layout title="Mission">
+<Layout title={title}>
   <section class="bg-[#f0f4f8] py-16">
     <div class="max-w-6xl mx-auto px-4 lg:px-8">
       <div class="bg-white rounded-lg shadow-sm p-10">
-        <!-- Titre + intro -->
         <header class="mb-10">
-          <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-            Mission
-          </h1>
-          <p class="text-gray-700 leading-relaxed max-w-none text-justify">
-            Notre groupe de diaspora marocaine, installé à travers le monde et riche de compétences variées,
-            s'engage passionnément dans des missions visant à célébrer et à promouvoir la singularité marocaine, tant auprès de nos compatriotes vivant à
-            l'étranger que de nos concitoyens au Maroc.
-          </p>
+          <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4">{title}</h1>
+          <p class="text-gray-700 leading-relaxed max-w-none text-justify">{intro}</p>
         </header>
 
-        <!-- Bloc principal : texte + grande image -->
-        <div class="grid gap-10 lg:grid-cols-[1.4fr,1.6fr] items-center mb-12">
-          <div class="space-y-6 text-gray-700 leading-relaxed"> 
-            <p>
-              Dans le domaine artistique, nos membres talentueux contribuent à exposer la diversité culturelle marocaine par le biais d'œuvres, de performances et d'initiatives créatives.
-            </p>
-          </div>
+        {sections.map((s: Section, idx: number) => (
+          <MissionSection
+            text={s.text}
+            image={s.image}
+            alt={s.alt}
+            layout={s.layout}
+            imageHeightClass={s.imageHeightClass}
+            isFirst={idx === 0}
+          />
+        ))}
 
-          <div class="relative w-full h-64 md:h-80 rounded-lg overflow-hidden shadow">
-            <img
-              src="/images/mission/microphone.jpg"
-              alt="Scène avec micro et projecteurs"
-              class="w-full h-full object-cover"
-              loading="lazy"
-            />
-          </div>
-        </div>
-
-        <!-- Bloc image microscope + texte -->
-        <div class="grid gap-8 lg:grid-cols-2 items-center mb-12">
-          <div class="relative w-full h-56 md:h-64 rounded-lg overflow-hidden shadow">
-            <img
-              src="/images/mission/microscope.jpg"
-              alt="Microscope scientifique"
-              class="w-full h-full object-cover"
-              loading="lazy"
-            />
-          </div>
-          <div class="text-gray-700 leading-relaxed">  
-            <p>
-              Sur le front scientifique, nos experts collaborent pour mettre en lumière l'innovation et l'excellence dans des domaines tels que la recherche, la technologie et le numérique.
-            </p>
-          </div>
-        </div>
-
-        <!-- Bloc texte + image 4x4 -->
-        <div class="grid gap-8 lg:grid-cols-2 items-center mb-12">
-          <div class="text-gray-700 leading-relaxed order-2 lg:order-1">
-            <p>
-              Par le biais d'organisations associatives, nous nous mobilisons pour des causes sociales et humanitaires, renforçant ainsi les liens entre la diaspora et les communautés locales au Maroc.
-            </p>
-          </div>
-
-          <div class="relative w-full h-56 md:h-64 rounded-lg overflow-hidden shadow order-1 lg:order-2">
-            <img
-              src="/images/mission/field-team.jpg"
-              alt="Équipe sur le terrain dans un village"
-              class="w-full h-full object-cover"
-              loading="lazy"
-            />
-          </div>
-        </div>
-
-        <!-- Paragraphe de conclusion -->
         <div class="text-gray-700 leading-relaxed">
-          <p>
-            En favorisant le dialogue, la coopération et le partage
-            d'expériences, notre mission est de porter une image authentique
-            et ouverte du Maroc, à travers l'engagement de celles et ceux qui
-            construisent des ponts entre les deux rives.
-          </p>
+          <p>{conclusion}</p>
         </div>
       </div>
     </div>

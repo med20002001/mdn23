@@ -1,0 +1,236 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import { getCollection } from 'astro:content';
+import type { CollectionEntry } from 'astro:content';
+import EventNavigation from "../../components/EventNavigation";
+
+export const prerender = true;
+
+export async function getStaticPaths() {
+  const events = await getCollection('events');
+  
+  return events.map((event: CollectionEntry<'events'>) => ({
+    params: { slug: event.slug },
+    props: { event, allEvents: events },
+  }));
+}
+
+interface Props {
+  event: CollectionEntry<'events'>;
+  allEvents: CollectionEntry<'events'>[];
+}
+
+const { event, allEvents } = Astro.props as Props;
+
+if (!event) {
+  return Astro.redirect('/agenda');
+}
+
+const { Content } = await event.render();
+
+const now = new Date();
+const isPast = event.data.date < now;
+
+// Préparer les données pour le composant React
+const eventsData = allEvents.map(e => ({
+  slug: e.slug,
+  title: e.data.title,
+  date: e.data.date,
+}));
+---
+
+<Layout title={event.data.title}>
+  <main class="bg-white">
+    
+    <!-- Lien retour "Tous les Événements" -->
+    <div class="bg-gray-100 py-4">
+      <div class="max-w-6xl mx-auto px-4">
+        <a href="/agenda" class="text-sm text-gray-700 hover:text-gray-900">
+          « Tous les Événements
+        </a>
+      </div>
+    </div>
+
+    <!-- Badge "Cet événement est passé" -->
+    {isPast && (
+      <div class="bg-white py-4 border-b">
+        <div class="max-w-6xl mx-auto px-4">
+          <p class="text-sm text-gray-600">Cet événement est passé</p>
+        </div>
+      </div>
+    )}
+
+    <div class="max-w-6xl mx-auto px-4 py-8">
+
+      <!-- Titre -->
+      <h1 class="text-4xl font-bold text-gray-900 mb-3">{event.data.title}</h1>
+      
+      <!-- Date complète -->
+      <p class="text-base text-gray-700 mb-6">{event.data.datetime}</p>
+
+      <!-- Image pleine largeur -->
+      <div class="mb-8">
+        <img 
+          src={event.data.image} 
+          alt={event.data.title} 
+          class="w-full h-auto max-h-[500px] object-cover"
+          loading="lazy"
+        />
+      </div>
+
+      <!-- Contenu Markdown -->
+      <article class="prose prose-lg max-w-none text-gray-800 mb-12">
+        <Content />
+      </article>
+
+      <!-- Section "DES MOMENTS MUSICAUX INCOMPARABLES" -->
+      <div class="bg-gray-50 border-l-4 border-blue-600 p-6 mb-12">
+        <h2 class="text-xl font-bold text-gray-900 mb-3">DES MOMENTS MUSICAUX INCOMPARABLES</h2>
+        <p class="text-gray-700 leading-relaxed">
+          La Fondation ArteGanza (www.arteganza.nl) croit au pouvoir des arts de la scène dans le monde en tant que moyen de 
+          relier des personnes de cultures différentes. Les concerts de la série Musica Mundo et du festival Musica Mundo vous 
+          feront découvrir la puissance et la beauté de la diversité culturelle. Un cadeau réconfortant pour la ville !
+        </p>
+      </div>
+
+      <!-- Bouton Ajouter au calendrier -->
+      <div class="mb-12">
+        <button class="inline-flex items-center gap-2 px-6 py-3 border-2 border-blue-600 text-blue-600 rounded hover:bg-blue-50 transition-colors font-medium">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+          </svg>
+          Ajouter au calendrier
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+          </svg>
+        </button>
+      </div>
+
+      <!-- Grille 3 colonnes : DÉTAILS + ORGANISATEUR + LIEU -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+        
+        <!-- DÉTAILS -->
+        <div>
+          <h3 class="text-lg font-bold text-gray-900 mb-4 uppercase">Détails</h3>
+          
+          <div class="space-y-4">
+            <div>
+              <p class="text-sm font-semibold text-gray-800 mb-1">Date :</p>
+              <p class="text-sm text-gray-600">{event.data.datetime.split('@')[0].trim()}</p>
+            </div>
+            
+            {event.data.datetime.includes('@') && (
+              <div>
+                <p class="text-sm font-semibold text-gray-800 mb-1">Heure :</p>
+                <p class="text-sm text-gray-600">{event.data.datetime.split('@')[1].trim()}</p>
+              </div>
+            )}
+            
+            {event.data.venueWebsite && (
+              <div>
+                <p class="text-sm font-semibold text-gray-800 mb-1">Site :</p>
+                <a href={event.data.venueWebsite} target="_blank" rel="noopener noreferrer" class="text-sm text-blue-700 hover:underline break-all">
+                  {event.data.venueWebsite}
+                </a>
+              </div>
+            )}
+          </div>
+        </div>
+
+        <!-- ORGANISATEUR -->
+        <div>
+          <h3 class="text-lg font-bold text-gray-900 mb-4 uppercase">Organisateur</h3>
+          
+          {event.data.organizer && (
+            <>
+              <p class="text-sm font-semibold text-gray-800 mb-3">{event.data.organizer}</p>
+              
+              {event.data.organizerEmail && (
+                <div class="mb-3">
+                  <p class="text-xs font-semibold text-gray-700 mb-1">E-mail</p>
+                  <p class="text-sm text-gray-600 break-all">{event.data.organizerEmail}</p>
+                </div>
+              )}
+              
+              {event.data.organizerWebsite && (
+                <a 
+                  href={event.data.organizerWebsite} 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  class="text-sm text-blue-700 hover:underline"
+                >
+                  Voir le site Organisateur
+                </a>
+              )}
+            </>
+          )}
+        </div>
+
+        <!-- LIEU -->
+        <div>
+          <h3 class="text-lg font-bold text-gray-900 mb-4 uppercase">Lieu</h3>
+          
+          <p class="text-sm font-semibold text-gray-800 mb-2">{event.data.location}</p>
+          
+          {event.data.address && (
+            <div class="text-sm text-gray-600 mb-3 space-y-1">
+              <p>{event.data.address}</p>
+              <p>{event.data.city && `${event.data.city}, `}{event.data.postalCode} {event.data.country}</p>
+            </div>
+          )}
+          
+          {event.data.phone && (
+            <div class="mb-3">
+              <p class="text-xs font-semibold text-gray-700 mb-1">Phone</p>
+              <p class="text-sm text-gray-600">{event.data.phone}</p>
+            </div>
+          )}
+          
+          {event.data.venueWebsite && (
+            <a 
+              href={event.data.venueWebsite} 
+              target="_blank" 
+              rel="noopener noreferrer"
+              class="text-sm text-blue-700 hover:underline block mb-4"
+            >
+              Voir Lieu site web
+            </a>
+          )}
+          
+          {/* Carte Google Maps */}
+          {event.data.googleMapsUrl && (
+            <div class="mt-4">
+              <iframe
+                src={`https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2436.2!2d5.3897!3d52.1561!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNTLCsDA5JzIyLjAiTiA1wrAyMyczMi45IkU!5e0!3m2!1sfr!2snl!4v1234567890123!5m2!1sfr!2snl`}
+                width="100%"
+                height="180"
+                style="border:0; border-radius: 4px;"
+                allowfullscreen=""
+                loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade"
+                title="Carte de localisation"
+              ></iframe>
+              <a 
+                href={event.data.googleMapsUrl} 
+                target="_blank" 
+                rel="noopener noreferrer"
+                class="text-sm text-blue-700 hover:underline mt-2 inline-flex items-center gap-1"
+              >
+                + Google Map
+              </a>
+              <p class="text-xs text-gray-500 mt-1">Agrandir le plan</p>
+            </div>
+          )}
+        </div>
+      </div>
+
+      <!-- Navigation événement (composant React) -->
+      <EventNavigation 
+        client:load 
+        currentSlug={event.slug} 
+        allEvents={eventsData} 
+      />
+
+    </div>
+  </main>
+</Layout>
