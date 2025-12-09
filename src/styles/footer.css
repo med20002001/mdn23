@@ -1,0 +1,216 @@
+/* Footer 3D gradient background */
+.footer-gradient {
+  background: linear-gradient(135deg, #1e293b 0%, #0f172a 50%, #1e293b 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Effet 3D avec ombres */
+.footer-gradient::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(59, 130, 246, 0.1) 0%, transparent 70%);
+  animation: rotate3d 20s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes rotate3d {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Container 3D */
+.footer-3d-container {
+  position: relative;
+  z-index: 1;
+  transform-style: preserve-3d;
+}
+
+/* Colonnes avec effet 3D */
+.footer-column {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 1rem;
+  padding: 2rem;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  transform-style: preserve-3d;
+  backdrop-filter: blur(10px);
+}
+
+.footer-column:hover {
+  transform: translateY(-10px) rotateX(5deg);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4),
+              0 0 30px rgba(59, 130, 246, 0.2);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+/* Social media icons 3D */
+.social-icon {
+  background: rgba(255, 255, 255, 0.1);
+  width: 3rem;
+  height: 3rem;
+  border-radius: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  position: relative;
+  transform-style: preserve-3d;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.social-icon::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 1rem;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), transparent);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.social-icon:hover::before {
+  opacity: 1;
+}
+
+.social-icon:hover {
+  transform: translateY(-8px) scale(1.1) rotateZ(5deg);
+}
+
+.social-icon svg {
+  width: 1.5rem;
+  height: 1.5rem;
+  color: white;
+  position: relative;
+  z-index: 1;
+}
+
+/* Twitter 3D */
+.social-icon.twitter:hover {
+  background: linear-gradient(135deg, #1da1f2 0%, #0d8bd9 100%);
+  box-shadow: 0 15px 35px rgba(29, 161, 242, 0.4),
+              0 5px 15px rgba(29, 161, 242, 0.3),
+              inset 0 -2px 5px rgba(0, 0, 0, 0.2);
+}
+
+/* Facebook 3D */
+.social-icon.facebook:hover {
+  background: linear-gradient(135deg, #1877f2 0%, #0d5dbf 100%);
+  box-shadow: 0 15px 35px rgba(24, 119, 242, 0.4),
+              0 5px 15px rgba(24, 119, 242, 0.3),
+              inset 0 -2px 5px rgba(0, 0, 0, 0.2);
+}
+
+/* YouTube 3D */
+.social-icon.youtube:hover {
+  background: linear-gradient(135deg, #ff0000 0%, #cc0000 100%);
+  box-shadow: 0 15px 35px rgba(255, 0, 0, 0.4),
+              0 5px 15px rgba(255, 0, 0, 0.3),
+              inset 0 -2px 5px rgba(0, 0, 0, 0.2);
+}
+
+/* Instagram 3D */
+.social-icon.instagram:hover {
+  background: linear-gradient(135deg, #9333ea 0%, #db2777 100%);
+  box-shadow: 0 15px 35px rgba(219, 39, 119, 0.4),
+              0 5px 15px rgba(147, 51, 234, 0.3),
+              inset 0 -2px 5px rgba(0, 0, 0, 0.2);
+}
+
+/* LinkedIn 3D */
+.social-icon.linkedin:hover {
+  background: linear-gradient(135deg, #0077b5 0%, #005885 100%);
+  box-shadow: 0 15px 35px rgba(0, 119, 181, 0.4),
+              0 5px 15px rgba(0, 119, 181, 0.3),
+              inset 0 -2px 5px rgba(0, 0, 0, 0.2);
+}
+
+/* Footer title 3D */
+.footer-title-link {
+  color: white;
+  font-weight: bold;
+  font-size: 1.25rem;
+  transition: all 0.3s ease;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+  display: inline-block;
+}
+
+.footer-title-link:hover {
+  color: #f6f7f8;
+  text-shadow: 0 0 20px rgba(96, 165, 250, 0.6),
+               0 0 40px rgba(96, 165, 250, 0.4);
+  transform: translateZ(10px);
+}
+
+/* Copyright 3D */
+.copyright-container {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 1rem;
+  padding: 1.5rem;
+  backdrop-filter: blur(10px);
+  transform-style: preserve-3d;
+  transition: all 0.3s ease;
+}
+
+.copyright-container:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.copyright-text {
+  color: #9ca3af;
+  font-size: 0.875rem;
+  text-align: center;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+/* Grille 3D */
+.footer-grid {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 2rem;
+  perspective: 1000px;
+}
+
+@media (min-width: 768px) {
+  .footer-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* Animation d'entrée */
+@keyframes fadeInUp3d {
+  from {
+    opacity: 0;
+    transform: translateY(30px) rotateX(-10deg);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) rotateX(0);
+  }
+}
+
+.footer-column {
+  animation: fadeInUp3d 0.8s ease-out backwards;
+}
+
+.footer-column:nth-child(1) {
+  animation-delay: 0.1s;
+}
+
+.footer-column:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.footer-column:nth-child(3) {
+  animation-delay: 0.3s;
+}
