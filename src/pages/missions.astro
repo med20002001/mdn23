@@ -1,40 +1,43 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import MissionSection from "../components/mission/MissionSection.astro";
-import { getEntryBySlug, type CollectionEntry } from "astro:content";
+import { getEntry, type CollectionEntry } from "astro:content";
 
-const entry = await getEntryBySlug("mission", "mission");
-if (!entry) throw new Error("Contenu introuvable: src/content/mission/mission.md");
+const entry = await getEntry("mission", "mission");
+if (!entry) throw new Error("Contenu introuvable");
 
-type PageEntry = CollectionEntry<"pages">;
-type Section = PageEntry["data"]["sections"][number];
-
+type Section = CollectionEntry<"mission">["data"]["sections"][number];
 const { title, intro, sections, conclusion } = entry.data;
 ---
 
 <Layout title={title}>
-  <section class="bg-[#f0f4f8] py-16">
-    <div class="max-w-6xl mx-auto px-4 lg:px-8">
-      <div class="bg-white rounded-lg shadow-sm p-10">
-        <header class="mb-10">
-          <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4">{title}</h1>
-          <p class="text-gray-700 leading-relaxed max-w-none text-justify">{intro}</p>
+  <section class="bg-[#f0f4f8] py-10 sm:py-14 lg:py-16">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="bg-white rounded-lg shadow-sm p-5 sm:p-8 lg:p-10">
+        <header class="mb-8 sm:mb-10">
+          <h1 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-4 leading-tight">
+            {title}
+          </h1>
+
+          <p class=" text-gray-700 leading-relaxed text-base sm:text-lg max-w-3xl ">
+            {intro}
+          </p>
         </header>
-
-        {sections.map((s: Section, idx: number) => (
-          <MissionSection
-            text={s.text}
-            image={s.image}
-            alt={s.alt}
-            layout={s.layout}
-            imageHeightClass={s.imageHeightClass}
-            isFirst={idx === 0}
-          />
-        ))}
-
-        <div class="text-gray-700 leading-relaxed">
+        <div class="space-y-12 sm:space-y-16">
+          {sections.map((s: Section, idx: number) => (
+            <MissionSection
+              text={s.text}
+              image={s.image}
+              alt={s.alt}
+              layout={s.layout}
+              imageHeightClass={s.imageHeightClass}
+            />
+          ))}
+        </div>
+        <div class="mt-12 text-gray-700 text-base sm:text-lg max-w-3xl">
           <p>{conclusion}</p>
         </div>
+
       </div>
     </div>
   </section>

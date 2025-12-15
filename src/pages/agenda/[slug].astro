@@ -2,257 +2,74 @@
 import Layout from "../../layouts/Layout.astro";
 import { getCollection } from "astro:content";
 import type { CollectionEntry } from "astro:content";
-import EventNavigation from "../../components/EventNavigation";
+import EventNavigation from "../../components/agenda/EventNavigation";
+
+import EventHeader from "./presentationvisuelle/EventHeader.astro";
+import EventContent from "./presentationvisuelle/EventContent.astro";
+import EventSidebar from "./presentationvisuelle/EventSidebar.astro";
+import EventMap from "./presentationvisuelle/EventMap.astro";
 
 export const prerender = true;
+type EventEntry = CollectionEntry<"events">;
 
+interface Props {
+  event: EventEntry;
+  allEvents: EventEntry[];
+}
 export async function getStaticPaths() {
   const events = await getCollection("events");
 
-  return events.map((event: CollectionEntry<"events">) => ({
+  return events.map((event: EventEntry) => ({
     params: { slug: event.slug },
     props: { event, allEvents: events },
   }));
 }
-
-interface Props {
-  event: CollectionEntry<"events">;
-  allEvents: CollectionEntry<"events">[];
-}
-
 const { event, allEvents } = Astro.props as Props;
-
-if (!event) {
-  return Astro.redirect("/agenda");
-}
-
 const { Content } = await event.render();
-
 const now = new Date();
 const isPast = event.data.date < now;
-
-const eventsData = allEvents.map((e) => ({
+const eventsData = allEvents.map((e: EventEntry) => ({
   slug: e.slug,
   title: e.data.title,
   date: e.data.date,
 }));
 ---
-
 <Layout title={event.data.title}>
   <main class="bg-background text-foreground">
-    <!-- RETOUR -->
+
+    <!-- Retour -->
     <div class="border-b bg-muted/40">
       <div class="mx-auto max-w-6xl px-4 py-4">
-        <a
-          href="/agenda"
-          class="text-sm font-medium text-muted-foreground hover:text-foreground"
-        >
+        <a href="/agenda" class="text-sm text-muted-foreground hover:text-foreground">
           ← Tous les événements
         </a>
       </div>
     </div>
-
-    <!-- BADGE EVENT PASSÉ -->
-    {
-      isPast && (
-        <div class="border-b bg-background">
-          <div class="mx-auto max-w-6xl px-4 py-4">
-            <span class="inline-flex rounded-full border px-3 py-1 text-xs font-medium text-muted-foreground">
-              Cet événement est passé
-            </span>
-          </div>
+    {isPast && (
+      <div class="border-b">
+        <div class="mx-auto max-w-6xl px-4 py-4">
+          <span class="inline-flex rounded-full border px-3 py-1 text-xs text-muted-foreground">
+            Cet événement est passé
+          </span>
         </div>
-      )
-    }
+      </div>
+    )}
 
     <div class="mx-auto max-w-6xl px-4 py-10">
-      <!-- CARD PRINCIPALE -->
       <div class="rounded-lg border bg-card p-8 shadow-sm">
-        <!-- TITRE -->
-        <h1 class="mb-2 text-3xl font-bold tracking-tight">
-          {event.data.title}
-        </h1>
 
-        <!-- DATE -->
-        <p class="mb-6 text-sm text-muted-foreground">
-          {event.data.datetime}
-        </p>
+        <EventHeader event={event} />
+        <EventContent event={event} Content={Content} />
 
-        <!-- IMAGE -->
-        {
-          event.data.image && (
-            <img
-              src={event.data.image}
-              alt={event.data.title}
-              class="mb-8 w-full rounded-lg border object-contain"
-              loading="lazy"
-            />
-          )
-        }
-
-        <!-- CONTENU -->
-        <article class="prose prose-neutral max-w-none">
-          <Content />
-        </article>
       </div>
 
-      <!-- ESPACEMENT -->
       <div class="h-12"></div>
 
-      <!-- GRID INFOS -->
       <div class="grid grid-cols-1 gap-6 md:grid-cols-4">
-        <!-- DÉTAILS -->
-        <div class="rounded-lg border bg-card p-4">
-          <h3
-            class="mb-4 text-sm font-semibold uppercase text-muted-foreground"
-          >
-            Détails
-          </h3>
-
-          <div class="space-y-3 text-sm">
-            <div>
-              <p class="font-medium">Date</p>
-              <p class="text-muted-foreground">
-                {event.data.datetime.split("@")[0].trim()}
-              </p>
-            </div>
-
-            {
-              event.data.datetime.includes("@") && (
-                <div>
-                  <p class="font-medium">Heure</p>
-                  <p class="text-muted-foreground">
-                    {event.data.datetime.split("@")[1].trim()}
-                  </p>
-                </div>
-              )
-            }
-
-            {
-              event.data.venueWebsite && (
-                <div>
-                  <p class="font-medium">Site</p>
-                  <a
-                    href={event.data.venueWebsite}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    class="text-primary hover:underline hover:text-primary/80 transition-colors"
-                  >
-                    Visiter le site
-                  </a>
-                </div>
-              )
-            }
-          </div>
-        </div>
-
-        <!-- ORGANISATEUR -->
-        <div class="rounded-lg border bg-card p-4">
-          <h3
-            class="mb-4 text-sm font-semibold uppercase text-muted-foreground"
-          >
-            Organisateur
-          </h3>
-
-          {
-            event.data.organizer && (
-              <div class="space-y-2 text-sm">
-                <p class="font-medium">{event.data.organizer}</p>
-
-                {event.data.organizerEmail && (
-                  <div>
-                    <p class="font-medium">Email</p>
-                    <a
-                      href={`mailto:${event.data.organizerEmail}`}
-                      class="block break-all text-primary hover:underline"
-                    >
-                      {event.data.organizerEmail}
-                    </a>
-                  </div>
-                )}
-
-                {event.data.organizerWebsite && (
-                  <a
-                    href={event.data.organizerWebsite}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    class="block text-primary hover:underline"
-                  >
-                    Site organisateur
-                  </a>
-                )}
-              </div>
-            )
-          }
-        </div>
-
-        <!-- LIEU -->
-        <div class="rounded-lg border bg-card p-4">
-          <h3
-            class="mb-4 text-sm font-semibold uppercase text-muted-foreground"
-          >
-            Lieu
-          </h3>
-
-          <div class="space-y-2 text-sm">
-            <p class="font-medium">{event.data.location}</p>
-
-            {
-              event.data.address && (
-                <p class="text-muted-foreground">
-                  <br />
-                  {event.data.city} {event.data.postalCode}
-                  <br />
-                  {event.data.country}
-                </p>
-              )
-            }
-
-            {
-              event.data.phone && (
-                <p class="text-muted-foreground">{event.data.phone}</p>
-              )
-            }
-          </div>
-        </div>
-
-        <!-- MAP -->
-        <div class="rounded-lg border bg-card p-2">
-          {
-            (event.data.googleMapsUrl ||
-              event.data.address ||
-              event.data.location) && (
-              <>
-                <iframe
-                  src={`https://maps.google.com/maps?q=${encodeURIComponent(
-                    `${event.data.address}, ${event.data.city}, ${event.data.country}`,
-                  )}&output=embed`}
-                  width="100%"
-                  height="220"
-                  class="rounded-md border"
-                  loading="lazy"
-                />
-
-                <a
-                  href={
-                    event.data.googleMapsUrl ||
-                    `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
-                      event.data.address,
-                    )}`
-                  }
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="mt-2 inline-block text-sm text-primary hover:underline"
-                >
-                  Ouvrir dans Google Maps
-                </a>
-              </>
-            )
-          }
-        </div>
+        <EventSidebar event={event} />
+        <EventMap event={event} />
       </div>
 
-      <!-- NAVIGATION EVENTS (REACT) -->
       <div class="mt-12">
         <EventNavigation
           client:load

@@ -1,13 +1,12 @@
 export type ViewType = 'liste' | 'mois' | 'jour';
 
 export interface AgendaEvent {
-  id: string;
+  slug: string;
   title: string;
   date: Date;
   datetime: string;
-  location?: string;
+  location: string;
   description?: string;
-  slug?: string;
   image?: string;
   organizer?: string;
   organizerEmail?: string;
@@ -25,5 +24,5 @@ export interface DayInfo {
   day: number;
   isCurrentMonth: boolean;
   date: Date;
-  hasEvent: boolean; // ✅ AJOUTÉ
+  hasEvent: boolean;
 }

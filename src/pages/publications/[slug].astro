@@ -2,34 +2,26 @@
 import Layout from "../../layouts/Layout.astro";
 import PageShell from "../../components/publications/PageShell.astro";
 import Card from "../../components/publications/Card.tsx";
-import { getCollection, getEntryBySlug, type CollectionEntry } from "astro:content";
+import { getCollection, getEntry, type CollectionEntry } from "astro:content";
 import { Image } from "astro:assets";
 
 export const prerender = true;
-type Pub = CollectionEntry<"publications">;
 
 export async function getStaticPaths() {
-  const all = (await getCollection("publications")) as Pub[];
-  return all.map((p) => ({ params: { slug: p.slug } }));
+  const all = await getCollection("publications");
+
+  return all.map((p: CollectionEntry<"publications">) => ({
+    params: { slug: p.slug },
+  }));
 }
-
-const slug = Astro.params.slug;
-if (!slug) throw new Error("Slug manquant dans l'URL.");
-
-const post = await getEntryBySlug("publications", slug);
-if (!post) {
-  return Astro.redirect("/404");
-}
-
+const { slug } = Astro.params;
+const post = await getEntry("publications", slug);
 const { Content } = await post.render();
 
 const dateFR = post.data.publishedAt
   ? new Intl.DateTimeFormat("fr-FR").format(post.data.publishedAt)
   : "";
-
-const nl2br = (s: string) => s.replace(/\n/g, "<br/>");
 ---
-
 <Layout title={post.data.title}>
   <PageShell>
     <Card className="p-8 md:p-10">
@@ -37,10 +29,14 @@ const nl2br = (s: string) => s.replace(/\n/g, "<br/>");
         {post.data.title}
       </h1>
 
-      <div class="bg-gray-100 border border-gray-200 p-4 mb-6 text-sm text-gray-700 rounded-md">
-        {post.data.author && <p class="font-semibold">{post.data.author}</p>}
-        {dateFR && <p>Publié le {dateFR}</p>}
-      </div>
+      {(post.data.author || dateFR) && (
+        <div class="bg-gray-100 border border-gray-200 p-4 mb-6 text-sm text-gray-700 rounded-md">
+          {post.data.author && (
+            <p class="font-semibold">{post.data.author}</p>
+          )}
+          {dateFR && <p>Publié le {dateFR}</p>}
+        </div>
+      )}
 
       {(post.data.leadTitle || post.data.leadText) && (
         <div class="mb-6 text-gray-700 leading-relaxed">
@@ -49,31 +45,42 @@ const nl2br = (s: string) => s.replace(/\n/g, "<br/>");
               {post.data.leadTitle}
             </p>
           )}
-          {post.data.leadText && <p set:html={nl2br(post.data.leadText)} />}
+          {post.data.leadText && <p>{post.data.leadText}</p>}
         </div>
       )}
 
       {post.data.cover && (
-        <figure class="my-8">
-          <Image
-            src={post.data.cover}
-            alt={post.data.coverAlt ?? post.data.title}
-            class="w-full max-h-[500px] object-cover rounded-lg shadow-md"
-            loading="lazy"
-          />
+        <figure class="my-8 flex justify-center">
+          <div class="w-full max-w-4xl">
+            <Image
+              src={post.data.cover}
+              alt={post.data.coverAlt ?? post.data.title}
+              class="w-full max-h-[500px] object-cover rounded-lg shadow-md"
+              loading="lazy"
+            />
+          </div>
         </figure>
       )}
 
-      <article class="prose prose-lg prose-gray max-w-none
-        prose-headings:font-bold prose-headings:text-gray-900
-        prose-h2:text-2xl prose-h2:mt-12 prose-h2:mb-4
-        prose-h3:text-xl prose-h3:mt-8 prose-h3:mb-3
-        prose-p:text-gray-700 prose-p:leading-relaxed prose-p:mb-4
-        prose-ul:list-disc prose-ul:ml-6 prose-ul:mb-4
-        prose-li:text-gray-700 prose-li:mb-2
-        prose-a:text-blue-600 prose-a:underline hover:prose-a:text-blue-800
-        prose-strong:text-gray-900 prose-strong:font-semibold
-        prose-img:rounded-lg prose-img:shadow-md prose-img:my-8">
+      <article
+        class="
+          prose prose-lg prose-gray max-w-none
+          prose-headings:font-bold prose-headings:text-gray-900
+          prose-h2:text-2xl prose-h2:mt-12 prose-h2:mb-4
+          prose-h3:text-xl prose-h3:mt-8 prose-h3:mb-3
+          prose-p:text-gray-700 prose-p:leading-relaxed prose-p:mb-4
+          prose-ul:list-disc prose-ul:ml-6 prose-ul:mb-4
+          prose-li:text-gray-700 prose-li:mb-2
+          prose-a:text-blue-600 prose-a:underline hover:prose-a:text-blue-800
+          prose-strong:text-gray-900 prose-strong:font-semibold
+
+          prose-img:block
+          prose-img:mx-auto
+          prose-img:rounded-lg
+          prose-img:shadow-md
+          prose-img:my-8
+        "
+      >
         <Content />
       </article>
     </Card>

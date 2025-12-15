@@ -8,71 +8,32 @@ type Props = {
   alt: string;
   layout?: "textLeft" | "imageLeft";
   imageHeightClass?: string;
-  isFirst?: boolean;
 };
 const {
   text,
   image,
   alt,
   layout = "textLeft",
-  imageHeightClass = "h-56 md:h-64",
-  isFirst = false,
+  imageHeightClass = "h-64 sm:h-72 md:h-80 lg:h-96",
 } = Astro.props;
+const imageOrder = layout === "imageLeft" ? "lg:order-1" : "lg:order-2";
+const textOrder = layout === "imageLeft" ? "lg:order-2" : "lg:order-1";
 ---
-
-{isFirst ? (
-  <div class="grid gap-10 lg:grid-cols-2 items-center mb-12">
-    <div class="space-y-6 text-gray-700 leading-relaxed">
-      <p>{text}</p>
-    </div>
-
-    <div class={`relative w-full ${imageHeightClass} rounded-lg overflow-hidden shadow`}>
-      <Image
-        src={image}
-        alt={alt}
-        class="w-full h-full object-cover"
-        loading="lazy"
-        widths={[640, 960, 1280]}
-        sizes="(min-width: 1024px) 50vw, 100vw"
-      />
-    </div>
+<div
+  class=" grid grid-cols-1 lg:grid-cols-2 items-center gap-8 sm:gap-10 lg:gap-12 mb-10 sm:mb-12 lg:mb-16">
+  <div class={`relative w-full ${imageHeightClass} rounded-lg overflow-hidden shadow ${imageOrder}`}>
+    <Image
+      src={image}
+      alt={alt}
+      class="w-full h-full object-cover"
+      loading="lazy"
+      widths={[640, 960, 1280]}
+      sizes="(min-width: 1024px) 50vw, 100vw"
+    />
   </div>
-) : (
-  <div class="grid gap-8 lg:grid-cols-2 items-center mb-12">
-    {layout === "imageLeft" ? (
-      <>
-        <div class={`relative w-full ${imageHeightClass} rounded-lg overflow-hidden shadow`}>
-          <Image
-            src={image}
-            alt={alt}
-            class="w-full h-full object-cover"
-            loading="lazy"
-            widths={[640, 960, 1280]}
-            sizes="(min-width: 1024px) 50vw, 100vw"
-          />
-        </div>
-
-        <div class="text-gray-700 leading-relaxed">
-          <p>{text}</p>
-        </div>
-      </>
-    ) : (
-      <>
-        <div class="text-gray-700 leading-relaxed order-2 lg:order-1">
-          <p>{text}</p>
-        </div>
-
-        <div class={`relative w-full ${imageHeightClass} rounded-lg overflow-hidden shadow order-1 lg:order-2`}>
-          <Image
-            src={image}
-            alt={alt}
-            class="w-full h-full object-cover"
-            loading="lazy"
-            widths={[640, 960, 1280]}
-            sizes="(min-width: 1024px) 50vw, 100vw"
-          />
-        </div>
-      </>
-    )}
+  <div
+    class={`text-gray-700 leading-relaxed text-base sm:text-lg ${textOrder}`}
+  >
+    <p>{text}</p>
   </div>
-)}
+</div>

@@ -1,4 +1,3 @@
-// components/agenda/shared/hooks/useAgendaFilters.ts
 import { useMemo } from 'react';
 import { getEventsForDay } from '../../utils';
 import type { AgendaEvent } from '../../types';
@@ -8,9 +7,8 @@ export const useAgendaFilters = (
   pastEvents: AgendaEvent[],
   calendarEvents: AgendaEvent[],
   searchQuery: string,
-  dateFilter: Date | null // ✅ null = pas de filtre
+  dateFilter: Date | null 
 ) => {
-  // Helper pour comparer les dates (ignorer l'heure)
   const isSameDate = (date1: Date, date2: Date) => {
     const d1 = new Date(date1);
     const d2 = new Date(date2);
@@ -20,11 +18,8 @@ export const useAgendaFilters = (
       d1.getDate() === d2.getDate()
     );
   };
-
   const filteredUpcoming = useMemo(() => {
     let events = upcomingEvents;
-
-    // Filtre par recherche
     if (searchQuery.trim()) {
       const query = searchQuery.toLowerCase().trim();
       events = events.filter(event =>
@@ -33,22 +28,18 @@ export const useAgendaFilters = (
         event.organizer?.toLowerCase().includes(query)
       );
     }
-
-    // ✅ Filtre par date SEULEMENT si dateFilter existe
     if (dateFilter) {
       events = events.filter(event => {
         const eventDate = new Date(event.date);
         return isSameDate(eventDate, dateFilter);
       });
     }
-
     return events;
   }, [upcomingEvents, searchQuery, dateFilter]);
 
   const filteredPast = useMemo(() => {
     let events = pastEvents;
 
-    // Filtre par recherche
     if (searchQuery.trim()) {
       const query = searchQuery.toLowerCase().trim();
       events = events.filter(event =>
@@ -57,8 +48,6 @@ export const useAgendaFilters = (
         event.organizer?.toLowerCase().includes(query)
       );
     }
-
-    // ✅ Filtre par date SEULEMENT si dateFilter existe
     if (dateFilter) {
       events = events.filter(event => {
         const eventDate = new Date(event.date);
@@ -70,11 +59,7 @@ export const useAgendaFilters = (
   }, [pastEvents, searchQuery, dateFilter]);
 
   const dayEvents = useMemo(() => {
-    // Pour la vue jour, on utilise toujours selectedDate (pas dateFilter)
-    // Note: dateFilter est pour Liste/Mois, pas pour la vue Jour
     const events = getEventsForDay(calendarEvents, dateFilter || new Date());
-    
-    // Filtre par recherche
     if (searchQuery.trim()) {
       const query = searchQuery.toLowerCase().trim();
       return events.filter(event =>
@@ -83,7 +68,6 @@ export const useAgendaFilters = (
         event.organizer?.toLowerCase().includes(query)
       );
     }
-    
     return events;
   }, [calendarEvents, dateFilter, searchQuery]);
 

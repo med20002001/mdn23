@@ -5,23 +5,18 @@ interface Event {
   title: string;
   date: Date;
 }
-
 interface Props {
   currentSlug: string;
   allEvents: Event[];
 }
-
 export default function EventNavigation({ currentSlug, allEvents }: Props) {
   const [prevEvent, setPrevEvent] = useState<Event | null>(null);
   const [nextEvent, setNextEvent] = useState<Event | null>(null);
 
   useEffect(() => {
-    // Trier les événements par date
     const sortedEvents = [...allEvents].sort((a, b) => 
       a.date.getTime() - b.date.getTime()
     );
-
-    // Trouver l'index de l'événement actuel
     const currentIndex = sortedEvents.findIndex(e => e.slug === currentSlug);
 
     if (currentIndex > 0) {
@@ -40,7 +35,6 @@ export default function EventNavigation({ currentSlug, allEvents }: Props) {
   return (
     <div className="border-t pt-6 mt-12">
       <div className="flex justify-between items-center gap-4">
-        {/* Événement précédent */}
         {prevEvent ? (
           <a 
             href={`/agenda/${prevEvent.slug}`}
@@ -59,8 +53,6 @@ export default function EventNavigation({ currentSlug, allEvents }: Props) {
         ) : (
           <div></div>
         )}
-
-        {/* Événement suivant */}
         {nextEvent ? (
           <a 
             href={`/agenda/${nextEvent.slug}`}

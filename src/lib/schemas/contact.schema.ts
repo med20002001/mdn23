@@ -7,8 +7,8 @@ export const contactFormSchema = z.object({
     .max(30, { message: 'Le nom ne peut pas dépasser 30 caractères' }),
   email: z
     .string()
-    .email({ message: 'Please fill in this field' })
-    .min(1, { message: 'L\'email est requis' }),
+    .email({ message: "L'email est requis" })
+    .min(1, { message:"Format d'email invalide"}),
   sujet: z
     .string()
     .min(3, { message: 'Please fill in this field' })

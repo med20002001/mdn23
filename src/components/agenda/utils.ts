@@ -7,8 +7,6 @@ export const formatDate = (date: Date): string => {
     day: 'numeric' 
   });
 };
-
-// ✅ FONCTION HELPER AJOUTÉE
 function hasEventOnDate(date: Date, events: AgendaEvent[]): boolean {
   const dateStr = date.toISOString().split('T')[0];
   return events.some(event => {
@@ -16,8 +14,6 @@ function hasEventOnDate(date: Date, events: AgendaEvent[]): boolean {
     return eventDateStr === dateStr;
   });
 }
-
-// ✅ MODIFIÉ - Ajout du paramètre events
 export const getDaysInMonth = (date: Date, events: AgendaEvent[] = []): DayInfo[] => {
   const year = date.getFullYear();
   const month = date.getMonth();
@@ -36,7 +32,7 @@ export const getDaysInMonth = (date: Date, events: AgendaEvent[] = []): DayInfo[
       day: prevMonthLastDay - i,
       isCurrentMonth: false,
       date: dayDate,
-      hasEvent: hasEventOnDate(dayDate, events) // ✅ AJOUTÉ
+      hasEvent: hasEventOnDate(dayDate, events)
     });
   }
   
@@ -46,7 +42,7 @@ export const getDaysInMonth = (date: Date, events: AgendaEvent[] = []): DayInfo[
       day: i,
       isCurrentMonth: true,
       date: dayDate,
-      hasEvent: hasEventOnDate(dayDate, events) // ✅ AJOUTÉ
+      hasEvent: hasEventOnDate(dayDate, events)
     });
   }
   
@@ -57,7 +53,7 @@ export const getDaysInMonth = (date: Date, events: AgendaEvent[] = []): DayInfo[
       day: i,
       isCurrentMonth: false,
       date: dayDate,
-      hasEvent: hasEventOnDate(dayDate, events) // ✅ AJOUTÉ
+      hasEvent: hasEventOnDate(dayDate, events)
     });
   }
   

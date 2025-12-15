@@ -13,6 +13,9 @@ interface DayEventCardProps {
 }
 
 export default function DayEventCard({ event }: DayEventCardProps) {
+  // Construire l'URL à partir du slug
+  const href = `/agenda/${event.slug}`;
+
   return (
     <Card>
       <CardHeader className="pb-3">
@@ -22,7 +25,7 @@ export default function DayEventCard({ event }: DayEventCardProps) {
 
         <CardTitle className="text-xl leading-snug">
           <a
-            href={event.href}
+            href={href}
             className="hover:underline hover:text-primary"
           >
             {event.title}
@@ -33,7 +36,7 @@ export default function DayEventCard({ event }: DayEventCardProps) {
       <CardContent className="space-y-2">
         {event.location && (
           <div className="text-sm text-muted-foreground">
-            📍 {event.location}
+             {event.location}
           </div>
         )}
 

@@ -1,28 +1,29 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import Slider from '../components/Slider';
+import Layout from "../layouts/Layout.astro";
+import Slider from "../components/accueil/Slider";
+import { Image } from "astro:assets";
+import nasrine from "../assets/team/nasrine.jpg";
+import initiativesplaceholder from "../assets/accueil/initiatives-placeholder.jpg";
+import newsplaceholder from "../assets/accueil/news-placeholder.jpg";
 
 ---
-<Layout title="Notre force réside dans notre unité et notre diversité" description="Notre force réside dans notre unité et notre diversité">
+
+<Layout
+  title="Notre force réside dans notre unité et notre diversité"
+  description="Notre force réside dans notre unité et notre diversité"
+>
   <div class="bg-[#f0f4f8]">
     <div class="container mx-auto px-4 py-8">
-      
-      <!-- Carte blanche pour le texte hero + slider -->
       <div class="bg-white rounded-lg shadow-sm p-10 mb-12">
-        <!-- Hero Text en rouge -->
         <div class="text-center mb-8">
           <p class="text-red-600 font-bold text-lg md:text-xl">
             – Notre force réside dans notre unité et notre diversité –
           </p>
         </div>
-
-        <!-- Slider Section -->
         <div>
           <Slider client:load />
         </div>
       </div>
-
-      <!-- Divider -->
       <div class="flex justify-center my-12">
         <div class="flex space-x-2">
           <span class="w-2 h-2 bg-gray-400 rounded-full"></span>
@@ -30,20 +31,16 @@ import Slider from '../components/Slider';
           <span class="w-2 h-2 bg-gray-400 rounded-full"></span>
         </div>
       </div>
-
-      <!-- Carte blanche pour les 3 articles -->
       <div class="bg-white rounded-lg shadow-sm p-10">
-        <!-- Featured Articles -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          <!-- Article 1 - Nasrine Kheltent (CLIQUABLE) -->
           <article class="overflow-hidden">
-            <a 
-              href="/nasrine-kheltent" 
+            <a
+              href="/news/nasrine-kheltent"
               class="block hover:opacity-90 transition-opacity duration-300 cursor-pointer"
             >
-              <img 
-                src="/images/nasrine-kheltent-fh2.jpg" 
-                alt="Nasrine Kheltent" 
+              <Image
+                src={nasrine}
+                alt="Nasrine Kheltent"
                 class="w-full h-64 object-cover rounded-lg mb-4"
               />
               <div>
@@ -51,30 +48,28 @@ import Slider from '../components/Slider';
                   Rencontre de Nasrine Kheltent avec la fondation Hassan 2
                 </h3>
                 <div class="flex justify-center">
-                  <span class="inline-block bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-6 rounded-lg transition-colors">
+                  <span
+                    class="inline-block bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-6 rounded-lg transition-colors"
+                  >
                     Lire l'article
                   </span>
                 </div>
               </div>
             </a>
           </article>
-
-          <!-- Article 2 - Placeholder -->
           <article class="overflow-hidden">
-            <img 
-              src="/images/news-placeholder.jpg" 
-              alt="News" 
-              class="w-full h-64 object-cover rounded-lg"
-            />
+             <Image
+                src={newsplaceholder}
+                alt="News"
+                class="w-full h-64 object-cover rounded-lg"
+              />
           </article>
-
-          <!-- Article 3 - Placeholder -->
           <article class="overflow-hidden">
-            <img 
-              src="/images/initiatives-placeholder.jpg" 
-              alt="Initiatives" 
-              class="w-full h-64 object-cover rounded-lg"
-            />
+             <Image
+                src={initiativesplaceholder}
+                alt="Initiatives"
+                class="w-full h-64 object-cover rounded-lg"
+              />
           </article>
         </div>
       </div>

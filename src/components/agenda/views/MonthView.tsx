@@ -107,8 +107,6 @@ export default function MonthView({
             })}
           </div>
         </div>
-
-        {/* SUBSCRIBE */}
         <div className="pt-4">
           <SubscribeButton />
         </div>

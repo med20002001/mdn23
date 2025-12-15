@@ -58,14 +58,9 @@ export default function DayView({
           </Button>
         </div>
       </CardHeader>
-
       <Separator />
-
       <CardContent className="pt-6 space-y-8">
-        {/* EMPTY STATE */}
         {dayEvents.length === 0 && <EmptyState />}
-
-        {/* LISTE DES ÉVÉNEMENTS */}
         {dayEvents.length > 0 && (
           <div className="space-y-6">
             {dayEvents.map((event, idx) => (
@@ -73,11 +68,11 @@ export default function DayView({
             ))}
           </div>
         )}
-
-        {/* SUBSCRIBE */}
-        <div className="pt-4">
-          <SubscribeButton />
-        </div>
+        
+          <div className="pt-4">
+             <SubscribeButton />
+          </div>
+        
       </CardContent>
     </Card>
   );

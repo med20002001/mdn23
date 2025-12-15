@@ -4,10 +4,7 @@ date: 2024-04-21
 datetime: "avril 21, 2024 @ 4:00 pm - 6:30 pm"
 location: "Théâtre De Lieve Vrouw Lieve Vrouwestraat 13, Amersfoort Vrouw"
 description: "Hamid Bouchnak & L'orchestre Andalou d'Amsterdam La star marocaine et l'orchestre donnent une nouvelle dimension à la musique andalouse et au raï"
-image: "/images/events/event1.jpg"
-month: "AVR"
-day: "21"
-year: "2024"
+image: "../../assets/events/event1.jpg"
 organizer: "Fondation ArteGanza"
 organizerEmail: "info@arteganza.nl"
 organizerWebsite: "https://lievevrouw.nl/agenda/musica-mundo-series/agenda/musica-mundo-series"
@@ -30,5 +27,5 @@ Hamid Bouchnak est installé à Marrakech depuis 2013, où il transmet son expé
 
 Le concert avec l’Orchestra Andalou d’Amsterdam est une réunion chaleureuse au cours de laquelle il se rapproche du cœur de son public !
 
-### DES MOMENTS MUSICAUX INCOMPARABLES
+#### DES MOMENTS MUSICAUX INCOMPARABLES
 La Fondation ArteGanza (www.arteganza.nl)croit au pouvoir des arts de la scène dans le monde en tant que moyen de relier des personnes de cultures différentes. Les concerts de la série Musica Mundo et du festival Musica Mundo vous feront découvrir la puissance et la beauté de la diversité culturelle. Un cadeau réconfortant pour la ville !

@@ -1,35 +1,30 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import AgendaContainer from "../components/agenda/AgendaContainer";
-import { getCollection } from 'astro:content';
-import type { CollectionEntry } from 'astro:content';
+import { getCollection, type CollectionEntry } from "astro:content";
 
-type Event = CollectionEntry<'events'> & {
-  slug: string;
-  href: string;
-}; 
-const allEvents = await getCollection('events');
-const events: Event[] = allEvents.map((event: CollectionEntry<'events'>): Event => ({
-  ...event,
-  slug: event.slug,
-  href: `/agenda/${event.slug}`,
-}));
+type EventEntry = CollectionEntry<'events'>;
+type UIEvent = EventEntry & { href: string };
 
+const events: UIEvent[] = (await getCollection('events')).map(
+  (e: EventEntry): UIEvent => ({
+    ...e,
+    href: `/agenda/${e.slug}`,
+  })
+);
 const now = new Date();
 
-const upcomingEvents: Event[] = events
-  .filter((event: Event): boolean => event.data.date >= now)
-  .sort((a: Event, b: Event): number => a.data.date.getTime() - b.data.date.getTime());
+const isUpcoming = (e: UIEvent) => e.data.date >= now;
+const isPast = (e: UIEvent) => e.data.date < now;
 
-const pastEvents: Event[] = events
-  .filter((event: Event): boolean => event.data.date < now)
-  .sort((a: Event, b: Event): number => b.data.date.getTime() - a.data.date.getTime());
+const sortAsc = (a: UIEvent, b: UIEvent) =>
+  a.data.date.getTime() - b.data.date.getTime();
 
-// Données pour la vue liste
-const upcomingEventsData = upcomingEvents.map((e: Event) => ({
-  month: e.data.month,
-  day: e.data.day,
-  year: e.data.year,
+const sortDesc = (a: UIEvent, b: UIEvent) =>
+  b.data.date.getTime() - a.data.date.getTime();
+
+const mapToListItem = (e: UIEvent, id: string) => ({
+  id,
   datetime: e.data.datetime,
   title: e.data.title,
   location: e.data.location,
@@ -37,31 +32,20 @@ const upcomingEventsData = upcomingEvents.map((e: Event) => ({
   image: e.data.image,
   href: e.href,
   date: e.data.date,
-}));
+  slug: e.slug,
+});
 
-const pastEventsData = pastEvents.map((e: Event) => ({
-  month: e.data.month,
-  day: e.data.day,
-  year: e.data.year,
-  datetime: e.data.datetime,
-  title: e.data.title,
-  location: e.data.location,
-  description: e.data.description,
-  image: e.data.image,
-  href: e.href,
-  date: e.data.date,
-}));
+const upcomingEventsData = events
+  .filter(isUpcoming)
+  .sort(sortAsc)
+  .map((e, i) => mapToListItem(e, `upcoming-${i + 1}`));
 
-// Données pour les calendriers
-const calendarEvents = upcomingEvents.map((e: Event) => ({
-  date: e.data.date,
-  title: e.data.title,
-  datetime: e.data.datetime,
-  location: e.data.location,
-  description: e.data.description,
-  href: e.href,
-}));
+const pastEventsData = events
+  .filter(isPast)
+  .sort(sortDesc)
+  .map((e, i) => mapToListItem(e, `past-${i + 1}`));
 ---
+
 <Layout title="Agenda - Tous les événements">
   <main class="bg-white min-h-screen">
     <AgendaContainer 

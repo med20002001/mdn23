@@ -1,0 +1,102 @@
+---
+const { event } = Astro.props;
+---
+<div class="rounded-lg border bg-card p-4">
+    <h3 class="mb-4 text-sm font-semibold uppercase text-muted-foreground">
+        Détails :
+    </h3>
+
+    <div class="space-y-3 text-sm">
+        <div>
+            <p class="font-medium">Date</p>
+            <p class="text-muted-foreground">
+                {event.data.datetime.split("@")[0].trim()}
+            </p>
+        </div>
+
+        {
+            event.data.datetime.includes("@") && (
+                <div>
+                    <p class="font-medium">Heure</p>
+                    <p class="text-muted-foreground">
+                        {event.data.datetime.split("@")[1].trim()}
+                    </p>
+                </div>
+            )
+        }
+        {
+            event.data.venueWebsite && (
+                <div>
+                    <p class="font-medium">Site :</p>
+                    <a
+                        href={event.data.venueWebsite}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="text-primary hover:underline hover:text-primary/80 transition-colors">
+                        Visiter le site
+                    </a>
+                </div>
+            )
+        }
+    </div>
+</div>
+
+<div class="rounded-lg border bg-card p-4">
+    <h3 class="mb-4 text-sm font-semibold uppercase text-muted-foreground">Organisateur :</h3>
+    { event.data.organizer && (
+         <div class="space-y-2 text-sm">
+             <p class="font-medium">{event.data.organizer}</p>
+
+                {event.data.organizerEmail && (
+                    <div>
+                        <p class="font-medium">Email :</p>
+                        <a
+                            href={`mailto:${event.data.organizerEmail}`}
+                            class="block break-all text-primary hover:underline"
+                        >
+                            {event.data.organizerEmail}
+                        </a>
+                    </div>
+                )}
+                {event.data.organizerWebsite && (
+                    <a href={event.data.organizerWebsite}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="block text-primary hover:underline">Site organisateur</a>)}
+            </div>
+        )
+    }
+</div>
+<div class="rounded-lg border bg-card p-4">
+    <h3 class="mb-4 text-sm font-semibold uppercase text-muted-foreground">
+        Lieu :
+    </h3>
+
+    <div class="space-y-2 text-sm">
+        <p class="font-medium">{event.data.location}</p>
+
+        {
+            event.data.address && (
+                <p class="text-muted-foreground">
+                    <br />
+                    {event.data.city} {event.data.postalCode}
+                    <br />
+                    {event.data.country}
+                </p>
+            )
+        }
+        {
+            event.data.phone && (
+                <div>
+                    <p class="font-medium">Téléphone</p>
+                    <a
+                        href={`tel:${event.data.phone}`}
+                        class="text-muted-foreground hover:text-foreground transition-colors"
+                    >
+                        {event.data.phone}
+                    </a>
+                </div>
+            )
+        }
+    </div>
+</div>

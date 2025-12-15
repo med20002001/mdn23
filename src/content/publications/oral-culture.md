@@ -85,5 +85,5 @@ Writing remains very important, particularly in our IT organizations. Documentat
 #### References :
 
 - [https://occurrence.fr/newsletter/wp-content/uploads/2021/02/CP_etude-Occurrence-Mediameeting-janvier-2021.pdf](https://occurrence.fr/newsletter/wp-content/uploads/2021/02/CP_etude-Occurrence-Mediameeting-janvier-2021.pdf)
-- [https://edokumassoupwith.wordpress.com/2022/03/05/pourquoi-la-culture-de-lecrit-doit-prendre-le-pas-sur-loral-dans-votre-startup/](https://edokumassoupwith.wordpress.com/2022/03/05/pourquoi-la-culture-de-lecrit-doit-prendre-le-pas-sur-loral-dans-votre-startup/)
+- [https://edokumassoupwith.wordpress.com/2022/03/05/pourquoi-la-culture-de-lecrit-doit-prendre-le-pas-sur-loral-dans-votre-startup/](https://cedricmesas.com/2022/03/05/pourquoi-la-culture-de-lecrit-doit-prendre-le-pas-sur-loral-dans-votre-startup/)
 - [https://www.infoq.com/articles/asynchronous-collaborations-software-teams/](https://www.infoq.com/articles/asynchronous-collaborations-software-teams/)

@@ -4,15 +4,14 @@ date: 2024-03-14
 datetime: "mars 14, 2024 @ 12:00 pm - 1:15 pm"
 location: "Sfeir Lille 74 Rue des Arts, Lille"
 description: "Détails En mars, nous avons le plaisir d'accueillir deux speakers ! Et comme d'habitude, même endroit, même heure !..."
-image: "/images/events/event2.jpg"
-month: "MAR"
-day: "14"
-year: "2024"
+image: "../../assets/events/event2.jpg"
 organizerWebsite: "https://sfeir.com"
 venueWebsite: "https://www.meetup.com/fr-FR/sfeir-lille/events/299288851/"
 address: "74 Rue des Arts, 59800 Lille, France"
 Site : "https://www.meetup.com/fr-FR/sfeir-lille/events/299288851/"
 organizer: "Sfeir"
+phone: "+33366726132"
+organizerEmail: "contact@sfeir-institute.com"
 ---
 
 #### Détails

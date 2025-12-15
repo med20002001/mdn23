@@ -1,24 +1,4 @@
 import { defineCollection, z, type SchemaContext } from "astro:content";
-
-const mission = defineCollection({
-  type: "content",
-  schema: ({ image }: SchemaContext) =>
-    z.object({
-      title: z.string(),
-      intro: z.string(),
-      sections: z.array(
-        z.object({
-          text: z.string(),
-          layout: z.enum(["textLeft", "imageLeft"]).default("textLeft"),
-          image: image(),
-          alt: z.string(),
-          imageHeightClass: z.string().optional(),
-        })
-      ),
-      conclusion: z.string(),
-    }),
-});
-
 const publicationsCollection = defineCollection({
   type: 'content',
   schema: ({ image }) => z.object({
@@ -33,20 +13,15 @@ const publicationsCollection = defineCollection({
     excerpt: z.string().optional(),
   }),
 });
-
-// Collection EVENTS avec tous les champs nécessaires
 const events = defineCollection({
   type: "content",
-  schema: z.object({
+   schema: ({ image }) => z.object({
     title: z.string(),
     date: z.date(),
     datetime: z.string(),
     location: z.string(),
     description: z.string(),
-    image: z.string(),
-    month: z.string(),
-    day: z.string(),
-    year: z.string(),
+    image: image(),
     organizer: z.string().optional(),
     organizerEmail: z.string().optional(),
     organizerWebsite: z.string().optional(),
@@ -71,6 +46,24 @@ const equipeCollection = defineCollection({
       image: image(), 
     })),
   }),
+});
+const mission = defineCollection({
+  type: "content",
+  schema: ({ image }: SchemaContext) =>
+    z.object({
+      title: z.string(),
+      intro: z.string(),
+      sections: z.array(
+        z.object({
+          text: z.string(),
+          layout: z.enum(["textLeft", "imageLeft"]).default("textLeft"),
+          image: image(),
+          alt: z.string(),
+          imageHeightClass: z.string().optional(),
+        })
+      ),
+      conclusion: z.string(),
+    }),
 });
 
 const articlesCollection = defineCollection({

@@ -34,21 +34,16 @@ const nav = useNavLogic(
   state.setSelectedDate,
   state.currentMonth,
   state.setCurrentMonth,
-  state.showAllEvents,        // ✅ Valeur booléenne (pas setState)
-  state.setShowAllEvents,     // ✅ Fonction setState
-  state.setShowAllPastEvents  // ✅ Fonction setState
+  state.showAllEvents,       
+  state.setShowAllEvents,    
+  state.setShowAllPastEvents  
 );
-
-  // ✅ Limiter à 3 événements si pas de filtre actif
   const displayUpcoming = React.useMemo(() => {
     if (dateFilter || state.searchQuery.trim()) {
-      // Si filtre actif, afficher tous les résultats
       return filters.filteredUpcoming;
     }
-    // Sinon, afficher seulement les 3 prochains
     return filters.filteredUpcoming.slice(0, 3);
   }, [filters.filteredUpcoming, dateFilter, state.searchQuery]);
-
   return (
     <div className="bg-gray-50 min-h-screen">
       {/* HEADER */}
@@ -83,7 +78,6 @@ const nav = useNavLogic(
           </div>
         </div>
       </div>
-      {/* VUES */}
       <div className="max-w-6xl mx-auto px-4 py-8">
         {state.view === 'liste' && (
           <ListView

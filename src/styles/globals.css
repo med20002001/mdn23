@@ -1,8 +1,6 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-
 @layer base {
   :root {
     --background: 0 0% 100%;
@@ -86,8 +84,6 @@ html.view-transition::view-transition-new(fade) {
   from { opacity: 0; transform: translateY(-10px); }
   to   { opacity: 1; transform: translateY(0); }
 }
-
-
 
 @layer base {
   * {

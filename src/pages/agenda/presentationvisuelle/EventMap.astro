@@ -1,0 +1,33 @@
+---
+const { event } = Astro.props;
+
+const query =
+  event.data.googleMapsUrl
+    ? event.data.location
+    : [event.data.address, event.data.city, event.data.country]
+        .filter(Boolean)
+        .join(", ");
+---
+
+{query && (
+  <div class="rounded-lg border bg-card p-2">
+    <iframe
+      src={`https://maps.google.com/maps?q=${encodeURIComponent(query)}&output=embed`}
+      class="w-full rounded-md border"
+      height="220"
+      loading="lazy"
+    />
+
+    <a
+      href={
+        event.data.googleMapsUrl ||
+        `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`
+      }
+      target="_blank"
+      rel="noopener noreferrer"
+      class="mt-2 inline-block text-sm text-primary hover:underline"
+    >
+      Ouvrir dans Google Maps
+    </a>
+  </div>
+)}

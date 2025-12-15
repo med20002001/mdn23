@@ -13,15 +13,30 @@ interface EventCardProps {
 }
 
 export default function EventCard({ event }: EventCardProps) {
+  // Extraire month, day, year depuis event.date
+  const eventDate = new Date(event.date);
+  
+  // Formater le mois en français (ex: "jan", "fév", "mar")
+  const month = eventDate.toLocaleDateString('fr-FR', { month: 'short' });
+  
+  // Obtenir le jour et le convertir en string
+  const day = String(eventDate.getDate());
+  
+  // Obtenir l'année et la convertir en string
+  const year = String(eventDate.getFullYear());
+  
+  // Construire l'URL à partir du slug
+  const href = `/agenda/${event.slug}`;
+
   return (
     <Card className="mb-6">
       <CardContent className="pt-6">
         <div className="flex gap-6">
           {/* DATE */}
           <EventDate
-            month={event.month}
-            day={event.day}
-            year={event.year}
+            month={month}
+            day={day}
+            year={year}
           />
 
           {/* CONTENU */}
@@ -32,7 +47,7 @@ export default function EventCard({ event }: EventCardProps) {
 
             <h3 className="text-xl font-semibold leading-snug">
               <a
-                href={event.href}
+                href={href}
                 className="hover:text-primary hover:underline"
               >
                 {event.title}
@@ -56,7 +71,7 @@ export default function EventCard({ event }: EventCardProps) {
           {event.image && (
             <div className="flex-shrink-0 w-48">
               <img
-                src={event.image}
+                src={typeof event.image === 'string' ? event.image : (event.image as any).src}
                 alt={event.title}
                 className="h-32 w-full rounded-md object-cover"
               />

@@ -1,9 +1,8 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import ContactForm from "../components/ContactForm";
+import ContactForm from "../components/form/ContactForm";
 import { getEntry } from 'astro:content';
 import { Image } from 'astro:assets';
-
 const contactEntry = await getEntry('contact', 'contact');
 const { Content } = await contactEntry.render();
 ---
@@ -13,7 +12,6 @@ const { Content } = await contactEntry.render();
       <div class="contact-wrapper">
         <div class="bg-white rounded-lg p-10 shadow-sm contact-card">
           <div class="grid grid-cols-1 lg:grid-cols-[1fr_280px] gap-8 mb-8">
-            <!-- Colonne gauche : Titre + Texte -->
             <div>
               <h1 class="text-3xl font-bold text-gray-900 mb-4">
                 {contactEntry.data.title}
@@ -22,8 +20,6 @@ const { Content } = await contactEntry.render();
                 <Content />
               </div>
             </div>
-
-            <!-- Colonne droite : Image optimisée depuis assets -->
             <div class="hidden lg:block contact-image-box">
               <div class="contact-image-bg">
                 <Image
@@ -38,8 +34,6 @@ const { Content } = await contactEntry.render();
               <div class="contact-character"></div>
             </div>
           </div>
-
-          <!-- Formulaire dans la même carte -->
           <div class="max-w-full">
             <ContactForm client:load />
           </div>

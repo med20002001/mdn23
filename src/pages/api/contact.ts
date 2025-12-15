@@ -6,7 +6,6 @@ export const prerender = false;
 
 export const POST: APIRoute = async ({ request }) => {
   try {
-    // Vérifier le Content-Type
     const contentType = request.headers.get('content-type');
     if (!contentType || !contentType.includes('application/json')) {
       return new Response(
@@ -20,11 +19,7 @@ export const POST: APIRoute = async ({ request }) => {
         }
       );
     }
-
-    // Parser les données
     const data = await request.json();
-
-    // Validation avec Zod
     const validation = contactFormSchema.safeParse(data);
 
     if (!validation.success) {
@@ -40,16 +35,10 @@ export const POST: APIRoute = async ({ request }) => {
           status: 400, 
           headers: { 'Content-Type': 'application/json' } 
         }
-      );
-    }
-
+      );}
     const { nom, email, sujet, message } = validation.data;
-    // Envoyer les emails avec Nodemailer
     try {
       await sendContactEmails({ nom, email, sujet, message });
-
-      console.log('✅ Emails envoyés avec succès');
-
       return new Response(
         JSON.stringify({ 
           success: true, 
@@ -59,16 +48,10 @@ export const POST: APIRoute = async ({ request }) => {
           status: 200, 
           headers: { 'Content-Type': 'application/json' } 
         }
-      );
-
-    } catch (emailError) {
-      console.error('❌ Erreur envoi emails:', emailError);
-      
-      // Message d'erreur plus détaillé
-      const errorMessage = emailError instanceof Error 
+      );} catch (emailError) {
+       const errorMessage = emailError instanceof Error 
         ? emailError.message 
         : 'Erreur inconnue';
-
       return new Response(
         JSON.stringify({ 
           success: false, 
@@ -80,14 +63,10 @@ export const POST: APIRoute = async ({ request }) => {
         }
       );
     }
-
-  } catch (error) {
-    console.error('❌ Erreur API:', error);
-    
+  } catch (error) {    
     const errorMessage = error instanceof Error 
       ? error.message 
       : 'Erreur serveur inconnue';
-
     return new Response(
       JSON.stringify({ 
         success: false, 

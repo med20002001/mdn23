@@ -1,12 +1,15 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import { getCollection } from 'astro:content';
-import type { CollectionEntry } from 'astro:content';
-import { Image } from 'astro:assets';
+import { getCollection, type CollectionEntry } from "astro:content";
+import { Image } from "astro:assets";
 
-const articles = await getCollection('articles');
-const sortedArticles = articles.sort((a: CollectionEntry<'articles'>, b: CollectionEntry<'articles'>) => 
-  new Date(b.data.date).getTime() - new Date(a.data.date).getTime()
+const articles = await getCollection("articles");
+
+type Article = CollectionEntry<"articles">;
+
+const sortedArticles = [...articles].sort(
+  (a: Article, b: Article) =>
+    new Date(b.data.date).getTime() - new Date(a.data.date).getTime(),
 );
 ---
 
@@ -16,47 +19,51 @@ const sortedArticles = articles.sort((a: CollectionEntry<'articles'>, b: Collect
       <h1 class="text-2xl md:text-3xl font-bold text-gray-900 mb-6">
         News
       </h1>
-      
-      <div class="space-y-8">
-        {sortedArticles.map((article: CollectionEntry<'articles'>) => (
-          <div class="article-wrapper">
-            <article class="bg-white shadow-sm border border-gray-200 rounded-lg article-overflow">
-              <div class="grid grid-cols-1 md:grid-cols-2">
-                
-                <a href={`/news/${article.slug}`} class="image-3d-box relative block">
-                  <div class="image-bg">
-                    <Image
-                      src={article.data.image}
-                      alt={article.data.imageAlt}
-                      class="w-full h-full object-cover"
-                      loading="lazy"
-                      width={800}
-                      height={600}
-                    />
-                  </div>
-                  <div class="character"></div>
-                </a>
-                
-                <div class="p-6 md:p-8">
-                  <p class="text-xs uppercase tracking-wide text-gray-500 mb-2">
-                    Publié le {article.data.date}
-                  </p>
 
+      <div class="space-y-8">
+        {
+          sortedArticles.map((article: Article) => (
+            <div class="article-wrapper">
+              <article class="bg-white shadow-sm border border-gray-200 rounded-lg article-overflow">
+                <div class="grid grid-cols-1 md:grid-cols-2">
                   <a
                     href={`/news/${article.slug}`}
-                    class="text-base md:text-lg font-semibold text-gray-900 underline underline-offset-2 decoration-gray-800 hover:text-[#080808] transition-colors"
+                    class="image-3d-box relative block"
                   >
-                    {article.data.title}
+                    <div class="image-bg">
+                      <Image
+                        src={article.data.image}
+                        alt={article.data.imageAlt}
+                        class="w-full h-full object-cover"
+                        loading="lazy"
+                        width={800}
+                        height={600}
+                      />
+                    </div>
+                    <div class="character" />
                   </a>
 
-                  <p class="mt-4 text-sm text-gray-700 leading-relaxed">
-                    {article.data.description}
-                  </p>
+                  <div class="p-6 md:p-8">
+                    <p class="text-xs uppercase tracking-wide text-gray-500 mb-2">
+                      Publié le {article.data.date}
+                    </p>
+
+                    <a
+                      href={`/news/${article.slug}`}
+                      class="text-base md:text-lg font-semibold text-gray-900 underline underline-offset-2 decoration-gray-800 hover:text-[#080808] transition-colors"
+                    >
+                      {article.data.title}
+                    </a>
+
+                    <p class="mt-4 text-sm text-gray-700 leading-relaxed">
+                      {article.data.description}
+                    </p>
+                  </div>
                 </div>
-              </div>
-            </article>
-          </div>
-        ))}
+              </article>
+            </div>
+          ))
+        }
       </div>
     </section>
   </main>

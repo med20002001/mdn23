@@ -5,5 +5,4 @@ export { formatDate, getDaysInMonth, getEventsForDay, WEEK_DAYS, MONTHS } from '
 export * from './header';
 export * from './shared';
 export * from './views';
-export * from './dropdowns';
 export * from './cards';
