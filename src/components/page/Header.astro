@@ -2,11 +2,9 @@
 const currentPath = Astro.url.pathname;
 import "../../styles/navbar/navbar.css";
 ---
-
 <header class="bg-white shadow-sm sticky top-0 z-50">
   <nav class="container mx-auto px-4">
     <div class="flex items-center justify-between h-24">
-      <!-- Logo -->
       <div class="flex-shrink-0">
         <a href="/" class="flex items-center">
           <img
@@ -105,8 +103,6 @@ import "../../styles/navbar/navbar.css";
           </li>
         </ul>
       </div>
-
-      <!-- Mobile Menu Button -->
       <button
         id="mobile-menu-btn"
         class="lg:hidden p-2 text-gray-700"
@@ -126,101 +122,86 @@ import "../../styles/navbar/navbar.css";
         </svg>
       </button>
     </div>
-       <!-- Mobile Menu -->
-<div id="mobile-menu" class="hidden lg:hidden pb-4">
-  <div class="space-y-1">
-    <!-- Organisation Mobile -->
-    <details>
-      <summary>
-        <span>Organisation</span>
-        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M19 9l-7 7-7-7"></path>
-        </svg>
-      </summary>
-      <div>
-        <a href="/missions">Mission</a>
-        <a href="/equipe">Équipe</a>
-        <a href="/partenariats">Partenariats</a>
-      </div>
-    </details>
-
-    <!-- Actualités Mobile -->
-    <details>
-      <summary>
-        <span>Actualités</span>
-        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M19 9l-7 7-7-7"></path>
-        </svg>
-      </summary>
-      <div>
-        <a href="/news">News</a>
-        <a href="/publications">Publications</a>
-        <a href="/projets">Projets</a>
-        <a href="/media">Média</a>
-      </div>
-    </details>
-
-    <!-- Autres liens -->
-    <a
-      href="/agenda"
-      class={currentPath.startsWith("/agenda") ? "active" : ""}
-    >
-      Agenda
-    </a>
-    <a
-      href="/initiatives"
-      class={currentPath.startsWith("/initiatives") ? "active" : ""}
-    >
-      Initiatives
-    </a>
-    <a
-      href="/services"
-      class={currentPath.startsWith("/services") ? "active" : ""}
-    >
-      Services
-    </a>
-    <a
-      href="/contact"
-      class={currentPath === "/contact" ? "active" : ""}
-    >
-      Contact
-    </a>
-  </div>
-</div>
-
+    <div id="mobile-menu" class="hidden lg:hidden pb-4">
+      <div class="space-y-1">
+        <details>
+          <summary>
+            <span>Organisation</span>
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M19 9l-7 7-7-7"></path>
+            </svg>
+          </summary>
+          <div>
+            <a href="/missions">Mission</a>
+            <a href="/equipe">Équipe</a>
+            <a href="/partenariats">Partenariats</a>
+          </div>
+        </details>
+        <details>
+          <summary>
+            <span>Actualités</span>
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M19 9l-7 7-7-7"></path>
+            </svg>
+          </summary>
+          <div>
+            <a href="/news">News</a>
+            <a href="/publications">Publications</a>
+            <a href="/projets">Projets</a>
+            <a href="/media">Média</a>
+          </div>
+        </details>
+        <a
+          href="/agenda"
+          class={currentPath.startsWith("/agenda") ? "active" : ""}
+        >
+          Agenda
+        </a>
+        <a
+          href="/initiatives"
+          class={currentPath.startsWith("/initiatives") ? "active" : ""}
+        >
+          Initiatives
+        </a>
+        <a
+          href="/services"
+          class={currentPath.startsWith("/services") ? "active" : ""}
+        >
+          Services
+        </a>
+        <a href="/contact" class={currentPath === "/contact" ? "active" : ""}>
+          Contact
+        </a>
       </div>
     </div>
-
-    <script>
-      const mobileMenuBtn = document.getElementById("mobile-menu-btn");
-      const mobileMenu = document.getElementById("mobile-menu");
-
-      mobileMenuBtn?.addEventListener("click", () => {
-        const isHidden = mobileMenu?.classList.toggle("hidden");
-        mobileMenuBtn?.setAttribute(
-          "aria-expanded",
-          isHidden ? "false" : "true",
-        );
-      });
-      document.addEventListener("click", (e) => {
-        const target = e.target as HTMLElement;
-        if (!mobileMenuBtn?.contains(target) && !mobileMenu?.contains(target)) {
-          mobileMenu?.classList.add("hidden");
-          mobileMenuBtn?.setAttribute("aria-expanded", "false");
-        }
-      });
-      document.addEventListener("astro:page-load", () => {
-        mobileMenu?.classList.add("hidden");
-        mobileMenuBtn?.setAttribute("aria-expanded", "false");
-      });
-    </script>
   </nav>
 </header>
+
+<script>
+  const mobileMenuBtn = document.getElementById("mobile-menu-btn");
+  const mobileMenu = document.getElementById("mobile-menu");
+
+  mobileMenuBtn?.addEventListener("click", () => {
+    const isHidden = mobileMenu?.classList.toggle("hidden");
+    mobileMenuBtn?.setAttribute("aria-expanded", isHidden ? "false" : "true");
+  });
+  document.addEventListener("click", (e) => {
+    const target = e.target as HTMLElement;
+    if (!mobileMenuBtn?.contains(target) && !mobileMenu?.contains(target)) {
+      mobileMenu?.classList.add("hidden");
+      mobileMenuBtn?.setAttribute("aria-expanded", "false");
+    }
+  });
+  document.addEventListener("astro:page-load", () => {
+    mobileMenu?.classList.add("hidden");
+    mobileMenuBtn?.setAttribute("aria-expanded", "false");
+  });
+</script>

@@ -7,21 +7,42 @@ type Props = {
   image: ImageMetadata;
   alt: string;
   layout?: "textLeft" | "imageLeft";
-  imageHeightClass?: string;
 };
+
 const {
   text,
   image,
   alt,
   layout = "textLeft",
-  imageHeightClass = "h-64 sm:h-72 md:h-80 lg:h-96",
 } = Astro.props;
+
+// Ordre uniquement sur desktop
 const imageOrder = layout === "imageLeft" ? "lg:order-1" : "lg:order-2";
-const textOrder = layout === "imageLeft" ? "lg:order-2" : "lg:order-1";
+const textOrder  = layout === "imageLeft" ? "lg:order-2" : "lg:order-1";
 ---
-<div
-  class=" grid grid-cols-1 lg:grid-cols-2 items-center gap-8 sm:gap-10 lg:gap-12 mb-10 sm:mb-12 lg:mb-16">
-  <div class={`relative w-full ${imageHeightClass} rounded-lg overflow-hidden shadow ${imageOrder}`}>
+
+<section
+  class="
+    grid
+    grid-cols-1
+    lg:grid-cols-2
+    items-center
+    gap-8 sm:gap-10 lg:gap-12
+    mb-10 sm:mb-12 lg:mb-16
+  "
+>
+  <!-- IMAGE -->
+  <div
+    class={`
+      relative
+      w-full
+      aspect-[16/9]
+      rounded-lg
+      overflow-hidden
+      shadow
+      ${imageOrder}
+    `}
+  >
     <Image
       src={image}
       alt={alt}
@@ -32,8 +53,13 @@ const textOrder = layout === "imageLeft" ? "lg:order-2" : "lg:order-1";
     />
   </div>
   <div
-    class={`text-gray-700 leading-relaxed text-base sm:text-lg ${textOrder}`}
+    class={`
+      text-gray-700
+      leading-relaxed
+      text-base sm:text-lg
+      ${textOrder}
+    `}
   >
     <p>{text}</p>
   </div>
-</div>
+</section>
