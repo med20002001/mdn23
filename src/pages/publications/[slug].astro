@@ -14,6 +14,7 @@ export async function getStaticPaths() {
     params: { slug: p.slug },
   }));
 }
+
 const { slug } = Astro.params;
 const post = await getEntry("publications", slug);
 const { Content } = await post.render();
@@ -22,15 +23,17 @@ const dateFR = post.data.publishedAt
   ? new Intl.DateTimeFormat("fr-FR").format(post.data.publishedAt)
   : "";
 ---
+
 <Layout title={post.data.title}>
   <PageShell>
-    <Card className="p-8 md:p-10">
-      <h1 class="text-2xl md:text-3xl font-bold text-gray-900 mb-6">
+    <Card className="p-4 sm:p-6 md:p-10">
+
+      <h1 class="text-xl sm:text-2xl md:text-3xl font-bold text-gray-900 mb-4 sm:mb-6">
         {post.data.title}
       </h1>
 
       {(post.data.author || dateFR) && (
-        <div class="bg-gray-100 border border-gray-200 p-4 mb-6 text-sm text-gray-700 rounded-md">
+        <div class="bg-gray-100 border border-gray-200 p-3 sm:p-4 mb-4 sm:mb-6 text-xs sm:text-sm text-gray-700 rounded-md">
           {post.data.author && (
             <p class="font-semibold">{post.data.author}</p>
           )}
@@ -39,9 +42,9 @@ const dateFR = post.data.publishedAt
       )}
 
       {(post.data.leadTitle || post.data.leadText) && (
-        <div class="mb-6 text-gray-700 leading-relaxed">
+        <div class="text-gray-700 leading-relaxed text-sm sm:text-base md:text-lg mb-6">
           {post.data.leadTitle && (
-            <p class="font-bold text-lg mb-3">
+            <p class="font-bold text-base sm:text-lg mb-2 sm:mb-3">
               {post.data.leadTitle}
             </p>
           )}
@@ -50,12 +53,12 @@ const dateFR = post.data.publishedAt
       )}
 
       {post.data.cover && (
-        <figure class="my-8 flex justify-center">
-          <div class="w-full max-w-4xl">
+        <figure class="my-6 sm:my-8">
+          <div class="w-full overflow-hidden rounded-lg">
             <Image
               src={post.data.cover}
               alt={post.data.coverAlt ?? post.data.title}
-              class="w-full max-h-[500px] object-cover rounded-lg shadow-md"
+              class="w-full h-auto max-h-[220px] sm:max-h-[360px] md:max-h-[500px] object-cover"
               loading="lazy"
             />
           </div>
@@ -63,26 +66,35 @@ const dateFR = post.data.publishedAt
       )}
 
       <article
-        class="
-          prose prose-lg prose-gray max-w-none
-          prose-headings:font-bold prose-headings:text-gray-900
-          prose-h2:text-2xl prose-h2:mt-12 prose-h2:mb-4
-          prose-h3:text-xl prose-h3:mt-8 prose-h3:mb-3
-          prose-p:text-gray-700 prose-p:leading-relaxed prose-p:mb-4
-          prose-ul:list-disc prose-ul:ml-6 prose-ul:mb-4
-          prose-li:text-gray-700 prose-li:mb-2
-          prose-a:text-blue-600 prose-a:underline hover:prose-a:text-blue-800
-          prose-strong:text-gray-900 prose-strong:font-semibold
+  class="
+    prose prose-sm sm:prose-base md:prose-lg prose-gray max-w-none
 
-          prose-img:block
-          prose-img:mx-auto
-          prose-img:rounded-lg
-          prose-img:shadow-md
-          prose-img:my-8
-        "
-      >
-        <Content />
-      </article>
+    prose-headings:font-bold prose-headings:text-gray-900
+    prose-h2:text-xl sm:prose-h2:text-2xl prose-h2:mt-10 prose-h2:mb-4
+    prose-h3:text-lg sm:prose-h3:text-xl prose-h3:mt-8 prose-h3:mb-3
+
+    prose-p:text-gray-700 prose-p:leading-relaxed
+    prose-ul:list-disc prose-ul:ml-5 sm:prose-ul:ml-6
+    prose-li:text-gray-700 prose-li:mb-2 prose-li:break-words
+
+    prose-a:text-blue-600 prose-a:underline hover:prose-a:text-blue-800
+    prose-a:break-all prose-a:break-words
+
+    prose-strong:text-gray-900 prose-strong:font-semibold
+
+    prose-img:block
+    prose-img:w-full
+    prose-img:h-auto
+    prose-img:mx-auto
+    prose-img:rounded-lg
+    prose-img:shadow-md
+    prose-img:my-6 sm:prose-img:my-8
+  "
+>
+  <Content />
+</article>
+
+
     </Card>
   </PageShell>
 </Layout>

@@ -10,13 +10,16 @@ const query =
 ---
 
 {query && (
-  <div class="rounded-lg border bg-card p-2">
-    <iframe
-      src={`https://maps.google.com/maps?q=${encodeURIComponent(query)}&output=embed`}
-      class="w-full rounded-md border"
-      height="220"
-      loading="lazy"
-    />
+  <div class="rounded-lg border bg-card p-3 sm:p-4">
+    
+    <div class="relative w-full overflow-hidden rounded-md aspect-[16/9]">
+      <iframe
+        src={`https://maps.google.com/maps?q=${encodeURIComponent(query)}&output=embed`}
+        class="absolute inset-0 w-full h-full border-0"
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"
+      ></iframe>
+    </div>
 
     <a
       href={
@@ -25,9 +28,10 @@ const query =
       }
       target="_blank"
       rel="noopener noreferrer"
-      class="mt-2 inline-block text-sm text-primary hover:underline"
+      class="mt-2 sm:mt-3 inline-block text-xs sm:text-sm text-primary hover:underline"
     >
       Ouvrir dans Google Maps
     </a>
+
   </div>
 )}

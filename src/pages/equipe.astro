@@ -13,7 +13,7 @@ const members = teamData.data.members;
           <h1 class="text-3xl font-bold text-gray-900 mb-4">
             {teamData.data.title}
           </h1>
-          <p class="text-gray-900 text-sm leading-relaxed max-w-3xl mx-auto">
+          <p  class="text-gray-700 leading-relaxed text-base sm:text-lg">
             {teamData.data.description}
           </p>
         </header>
@@ -57,42 +57,65 @@ const members = teamData.data.members;
   </section>
 </Layout>
 <style>
-  .swiper {
-    width: 100%;
-    padding: 50px 0 70px;
+.swiper {
+  width: 100%;
+  padding: 50px 0 70px;
+  overflow: visible; 
+}
+
+.swiper-wrapper {
+  overflow: visible; 
+}
+.swiper-slide {
+  background-position: center;
+  background-size: cover;
+  width: 350px;
+  height: 500px;
+}
+
+.swiper-slide article {
+  box-shadow: 0 15px 50px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+}
+
+.swiper-slide-active article {
+  transform: scale(1.05);
+}
+
+.swiper-button-next,
+.swiper-button-prev {
+  color: #1f2937;
+}
+
+.swiper-pagination-bullet-active {
+  background: #1f2937;
+}
+
+.swiper-3d .swiper-slide-shadow-left,
+.swiper-3d .swiper-slide-shadow-right {
+  background-image: linear-gradient(
+    to right,
+    rgba(0, 0, 0, 0.5),
+    rgba(0, 0, 0, 0)
+  );
+}
+@media (max-width: 639px) {
+  .teamSwiper3D {
+    overflow: hidden;
   }
+
+  .teamSwiper3D .swiper-wrapper {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
   .swiper-slide {
-    background-position: center;
-    background-size: cover;
-    width: 350px;
-    height: 500px;
+    width: 220px;
+    height: 330px;
   }
+}
 
-  .swiper-slide article {
-    box-shadow: 0 15px 50px rgba(0, 0, 0, 0.2);
-    transition: all 0.3s ease;
-  }
 
-  .swiper-slide-active article {
-    transform: scale(1.05);
-  }
-
-  .swiper-button-next,
-  .swiper-button-prev {
-    color: #1f2937;
-  }
-
-  .swiper-pagination-bullet-active {
-    background: #1f2937;
-  }
-  .swiper-3d .swiper-slide-shadow-left,
-  .swiper-3d .swiper-slide-shadow-right {
-    background-image: linear-gradient(
-      to right,
-      rgba(0, 0, 0, 0.5),
-      rgba(0, 0, 0, 0)
-    );
-  }
 </style>
 
 <script>
@@ -103,31 +126,54 @@ const members = teamData.data.members;
   import 'swiper/css/pagination';
   import 'swiper/css/effect-coverflow';
 
-  new Swiper('.teamSwiper3D', {
-    modules: [Navigation, Pagination, EffectCoverflow, Autoplay],
-    effect: 'coverflow',
-    grabCursor: true,
-    centeredSlides: true,
-    slidesPerView: 'auto',
-    loop: true,
-    coverflowEffect: {
-      rotate: 50,
-      stretch: 0,
-      depth: 100,
-      modifier: 1,
-      slideShadows: true,
+ new Swiper('.teamSwiper3D', {
+  modules: [Navigation, Pagination, EffectCoverflow, Autoplay],
+  effect: 'coverflow',
+  grabCursor: true,
+  centeredSlides: true,
+  slidesPerView: 'auto',
+  loop: true,
+
+  coverflowEffect: {
+    rotate: 50,
+    stretch: 0,
+    depth: 100,
+    modifier: 1,
+    slideShadows: true,
+  },
+
+  breakpoints: {
+    0: {
+      coverflowEffect: {
+        rotate: 35,
+        depth: 80,
+        modifier: 0.9,
+      },
     },
-    autoplay: {
-      delay: 3000,
-      disableOnInteraction: false,
+    640: {
+      coverflowEffect: {
+        rotate: 50,
+        depth: 100,
+        modifier: 1,
+      },
     },
-    pagination: {
-      el: '.swiper-pagination',
-      clickable: true,
-    },
-    navigation: {
-      nextEl: '.swiper-button-next',
-      prevEl: '.swiper-button-prev',
-    },
-  });
+  },
+
+  autoplay: {
+    delay: 3000,
+    disableOnInteraction: false,
+  },
+
+  pagination: {
+    el: '.swiper-pagination',
+    clickable: true,
+  },
+
+  navigation: {
+    nextEl: '.swiper-button-next',
+    prevEl: '.swiper-button-prev',
+  },
+});
+
+
 </script>

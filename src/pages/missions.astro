@@ -15,25 +15,29 @@ const { title, intro, sections, conclusion } = entry.data;
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="bg-white rounded-lg shadow-sm p-5 sm:p-8 lg:p-10">
         <header class="mb-8 sm:mb-10">
-          <h1 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-4 leading-tight">
+          <h1
+            class="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-4 leading-tight"
+          >
             {title}
           </h1>
 
-          <p class=" text-gray-700 leading-relaxed text-base sm:text-lg max-w-3xl ">
+          <p class="text-gray-700 leading-relaxed text-base sm:text-lg">
             {intro}
           </p>
         </header>
-        <div class="space-y-12 sm:space-y-16">
-          {sections.map((s: Section, idx: number) => (
-            <MissionSection
-              text={s.text}
-              image={s.image}
-              alt={s.alt}
-              layout={s.layout}
-            />
-          ))}
+        <div class="space-y-6 sm:space-y-8">
+          {
+            sections.map((s: Section, idx: number) => (
+              <MissionSection
+                text={s.text}
+                image={s.image}
+                alt={s.alt}
+                layout={s.layout}
+              />
+            ))
+          }
         </div>
-        <div class="mt-12 text-gray-700 text-base sm:text-lg max-w-3xl">
+        <div class="text-gray-700 leading-relaxed text-base sm:text-lg">
           <p>{conclusion}</p>
         </div>
       </div>

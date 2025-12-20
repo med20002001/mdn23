@@ -1,22 +1,18 @@
 ---
 import { Image } from "astro:assets";
 import type { ImageMetadata } from "astro";
-
 type Props = {
   text: string;
   image: ImageMetadata;
   alt: string;
   layout?: "textLeft" | "imageLeft";
 };
-
 const {
   text,
   image,
   alt,
   layout = "textLeft",
 } = Astro.props;
-
-// Ordre uniquement sur desktop
 const imageOrder = layout === "imageLeft" ? "lg:order-1" : "lg:order-2";
 const textOrder  = layout === "imageLeft" ? "lg:order-2" : "lg:order-1";
 ---
@@ -31,7 +27,6 @@ const textOrder  = layout === "imageLeft" ? "lg:order-2" : "lg:order-1";
     mb-10 sm:mb-12 lg:mb-16
   "
 >
-  <!-- IMAGE -->
   <div
     class={`
       relative

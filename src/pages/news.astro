@@ -28,7 +28,6 @@ const sortedArticles = [...articles].sort(
                 <div class="grid grid-cols-1 md:grid-cols-2">
                   <a
                     href={`/news/${article.slug}`}
-                    class="image-3d-box relative block"
                   >
                     <div class="image-bg">
                       <Image
@@ -55,7 +54,7 @@ const sortedArticles = [...articles].sort(
                       {article.data.title}
                     </a>
 
-                    <p class="mt-4 text-sm text-gray-700 leading-relaxed">
+                    <p class="text-gray-700 leading-relaxed text-base sm:text-lg">
                       {article.data.description}
                     </p>
                   </div>

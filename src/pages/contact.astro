@@ -3,41 +3,45 @@ import Layout from "../layouts/Layout.astro";
 import ContactForm from "../components/contact/ContactForm";
 import { getEntry } from 'astro:content';
 import { Image } from 'astro:assets';
+
 const contactEntry = await getEntry('contact', 'contact');
 const { Content } = await contactEntry.render();
 ---
+
 <Layout title={contactEntry.data.title}>
   <main class="bg-[#f0f4f8] min-h-screen">
-    <section class="max-w-6xl mx-auto px-4 lg:px-8 py-16">
-      <div class="contact-wrapper">
-        <div class="bg-white rounded-lg p-10 shadow-sm contact-card">
-          <div class="grid grid-cols-1 lg:grid-cols-[1fr_280px] gap-8 mb-8">
-            <div>
-              <h1 class="text-3xl font-bold text-gray-900 mb-4">
-                {contactEntry.data.title}
-              </h1>
-              <div class="text-gray-800 leading-relaxed text-sm prose prose-sm max-w-none">
-                <Content />
-              </div>
-            </div>
-            <div class="hidden lg:block contact-image-box">
-              <div class="contact-image-bg">
-                <Image
-                  src={contactEntry.data.image}
-                  alt={contactEntry.data.imageAlt}
-                  class="w-full h-auto rounded-xl object-cover shadow-sm"
-                  loading="lazy"
-                  width={280}
-                  height={350}
-                />
-              </div>
-              <div class="contact-character"></div>
+    <section class="max-w-6xl mx-auto px-3 sm:px-5 lg:px-8 py-8 sm:py-12 lg:py-16">
+      <div class="bg-white rounded-xl shadow-md p-4 sm:p-6 lg:p-10">
+
+        <div class="grid grid-cols-[1fr_160px] sm:grid-cols-[1fr_220px] md:grid-cols-[1fr_260px] lg:grid-cols-[1fr_320px] gap-4 sm:gap-6 lg:gap-10 items-start">
+
+          <div class="max-w-prose">
+            <h1 class="text-lg sm:text-xl md:text-2xl lg:text-3xl font-semibold text-gray-900 mb-3 sm:mb-4 lg:mb-6">
+              {contactEntry.data.title}
+            </h1>
+
+            <div class="text-xs sm:text-sm md:text-base leading-5 sm:leading-6 md:leading-7 text-gray-700">
+              <Content />
             </div>
           </div>
-          <div class="max-w-full">
-            <ContactForm client:load />
+
+          <div class="flex justify-end">
+            <Image
+              src={contactEntry.data.image}
+              alt={contactEntry.data.imageAlt}
+              class="w-full max-w-[160px] sm:max-w-[220px] md:max-w-[260px] lg:max-w-[320px] aspect-[4/5] object-cover rounded-lg sm:rounded-xl shadow-sm"
+              loading="lazy"
+              width={320}
+              height={400}
+            />
           </div>
+
         </div>
+
+        <div class="mt-6 sm:mt-8 lg:mt-14">
+          <ContactForm client:load />
+        </div>
+
       </div>
     </section>
   </main>

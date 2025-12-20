@@ -20,7 +20,7 @@ sections:
     alt: "Équipe sur le terrain dans un village"
     imageHeightClass: "h-56 md:h-64"
 
-conclusion: "En encourageant le dialogue et la compréhension mutuelle, notre groupe contribue à établir des ponts entre ceux  qui vivent à l’étranger et les 
+conclusion: "En encourageant le dialogue et la compréhension mutuelle, notre groupe contribue à établir des  ponts entre ceux  qui vivent à l’étranger et les 
  résidents locaux, créant ainsi un espace d’échange culturel et d’enrichissement mutuel.
  Ensemble, en unissant nos compétences diverses, nous cherchons à projeter une image authentique du Maroc, reflétant la force de notre identité collective et la richesse de notre héritage, à travers le prisme unique de ceux qui portent le Maroc dans leur cœur, où qu’ils soient dans le monde."
 ---

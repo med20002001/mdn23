@@ -16,14 +16,15 @@ interface Props {
   event: EventEntry;
   allEvents: EventEntry[];
 }
+
 export async function getStaticPaths() {
   const events = await getCollection("events");
-
   return events.map((event: EventEntry) => ({
     params: { slug: event.slug },
     props: { event, allEvents: events },
   }));
 }
+
 const { event, allEvents } = Astro.props as Props;
 const { Content } = await event.render();
 const now = new Date();
@@ -34,20 +35,21 @@ const eventsData = allEvents.map((e: EventEntry) => ({
   date: e.data.date,
 }));
 ---
+
 <Layout title={event.data.title}>
   <main class="bg-background text-foreground">
 
-    <!-- Retour -->
     <div class="border-b bg-muted/40">
-      <div class="mx-auto max-w-6xl px-4 py-4">
-        <a href="/agenda" class="text-sm text-muted-foreground hover:text-foreground">
+      <div class="mx-auto max-w-6xl px-3 sm:px-4 md:px-6 py-3">
+        <a href="/agenda" class="text-xs sm:text-sm text-muted-foreground hover:text-foreground">
           ← Tous les événements
         </a>
       </div>
     </div>
+
     {isPast && (
       <div class="border-b">
-        <div class="mx-auto max-w-6xl px-4 py-4">
+        <div class="mx-auto max-w-6xl px-3 sm:px-4 md:px-6 py-2">
           <span class="inline-flex rounded-full border px-3 py-1 text-xs text-muted-foreground">
             Cet événement est passé
           </span>
@@ -55,28 +57,32 @@ const eventsData = allEvents.map((e: EventEntry) => ({
       </div>
     )}
 
-    <div class="mx-auto max-w-6xl px-4 py-10">
-      <div class="rounded-lg border bg-card p-8 shadow-sm">
+    <section class="mx-auto max-w-6xl px-3 sm:px-4 md:px-6 py-6 sm:py-8 lg:py-12">
 
+      <article class="rounded-lg border bg-card p-4 sm:p-6 lg:p-8 shadow-sm min-w-0">
         <EventHeader event={event} />
         <EventContent event={event} Content={Content} />
+      </article>
 
+      <div class="h-6 sm:h-8 lg:h-12"></div>
+
+      <div class="flex flex-col gap-6 lg:grid lg:grid-cols-[1fr_2fr] lg:gap-8">
+        <aside class="min-w-0">
+          <EventSidebar event={event} />
+        </aside>
+        <section class="min-w-0">
+          <EventMap event={event} />
+        </section>
       </div>
 
-      <div class="h-12"></div>
-
-      <div class="grid grid-cols-1 gap-6 md:grid-cols-4">
-        <EventSidebar event={event} />
-        <EventMap event={event} />
-      </div>
-
-      <div class="mt-12">
+      <nav class="mt-6 sm:mt-8 lg:mt-12">
         <EventNavigation
           client:load
           currentSlug={event.slug}
           allEvents={eventsData}
         />
-      </div>
-    </div>
+      </nav>
+
+    </section>
   </main>
 </Layout>
