@@ -2,6 +2,7 @@
 const currentPath = Astro.url.pathname;
 import "../../styles/navbar/navbar.css";
 ---
+
 <header class="bg-white shadow-sm sticky top-0 z-50">
   <nav class="container mx-auto px-4">
     <div class="flex items-center justify-between h-24">
@@ -107,6 +108,7 @@ import "../../styles/navbar/navbar.css";
         id="mobile-menu-btn"
         class="lg:hidden p-2 text-gray-700"
         aria-label="Toggle menu"
+        aria-expanded="false"
       >
         <svg
           class="w-6 h-6"
@@ -122,7 +124,10 @@ import "../../styles/navbar/navbar.css";
         </svg>
       </button>
     </div>
-    <div id="mobile-menu" class="hidden lg:hidden pb-4">
+   <div
+  id="mobile-menu"
+  class="lg:hidden pb-4 max-h-0 opacity-0 overflow-hidden pointer-events-none transition-all duration-300"
+>
       <div class="space-y-1">
         <details>
           <summary>
@@ -184,24 +189,41 @@ import "../../styles/navbar/navbar.css";
     </div>
   </nav>
 </header>
-
 <script>
-  const mobileMenuBtn = document.getElementById("mobile-menu-btn");
-  const mobileMenu = document.getElementById("mobile-menu");
+  function initMobileMenu() {
+    const btn = document.getElementById("mobile-menu-btn");
+    const menu = document.getElementById("mobile-menu");
 
-  mobileMenuBtn?.addEventListener("click", () => {
-    const isHidden = mobileMenu?.classList.toggle("hidden");
-    mobileMenuBtn?.setAttribute("aria-expanded", isHidden ? "false" : "true");
-  });
-  document.addEventListener("click", (e) => {
-    const target = e.target as HTMLElement;
-    if (!mobileMenuBtn?.contains(target) && !mobileMenu?.contains(target)) {
-      mobileMenu?.classList.add("hidden");
-      mobileMenuBtn?.setAttribute("aria-expanded", "false");
+    if (!(btn instanceof HTMLElement) || !(menu instanceof HTMLElement)) {
+      return;
     }
-  });
-  document.addEventListener("astro:page-load", () => {
-    mobileMenu?.classList.add("hidden");
-    mobileMenuBtn?.setAttribute("aria-expanded", "false");
-  });
+    if (btn.dataset.bound === "1") return;
+    btn.dataset.bound = "1";
+
+    const detailsItems = menu.querySelectorAll("details");
+
+    const closeMenu = (btnEl: HTMLElement, menuEl: HTMLElement) => {
+      menuEl.classList.remove("is-open");
+      btnEl.setAttribute("aria-expanded", "false");
+      detailsItems.forEach((d) => d.removeAttribute("open"));
+    };
+
+    const openMenu = (btnEl: HTMLElement, menuEl: HTMLElement) => {
+      menuEl.classList.add("is-open");
+      btnEl.setAttribute("aria-expanded", "true");
+    };
+
+    btn.addEventListener("click", () => {
+      const isOpen = menu.classList.contains("is-open");
+      isOpen ? closeMenu(btn, menu) : openMenu(btn, menu);
+    });
+    menu.querySelectorAll("a").forEach((link) => {
+      link.addEventListener("click", () => closeMenu(btn, menu));
+    });
+  }
+
+  document.addEventListener("DOMContentLoaded", initMobileMenu);
+  document.addEventListener("astro:page-load", initMobileMenu);
+  document.addEventListener("astro:after-swap", initMobileMenu);
 </script>
+
