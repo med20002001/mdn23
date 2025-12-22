@@ -1,15 +1,5 @@
-import type {
-  Control,
-  FieldPath,
-  FieldValues,
-} from "react-hook-form";
-import {
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
+import type {Control,FieldPath,FieldValues,} from "react-hook-form";
+import {FormControl,FormField,FormItem,FormLabel,FormMessage,} from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 type BaseProps<T extends FieldValues> = {
@@ -74,7 +64,6 @@ export function FormFieldControl<T extends FieldValues>({
                 />
               )}
             </FormControl>
-
             <FormMessage className="text-xs text-red-600 mt-1" />
           </FormItem>
         );

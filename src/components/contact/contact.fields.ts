@@ -10,7 +10,6 @@ export type ContactFieldConfig = {
   rows?: number;
   autoComplete?: string;
 };
-
 export const contactFields: ContactFieldConfig[] = [
   {
     name: "nom",
@@ -41,5 +40,4 @@ export const contactFields: ContactFieldConfig[] = [
     rows: 5,
     required: true,
   },
-  
 ];

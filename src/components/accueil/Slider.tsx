@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 interface Slide {
@@ -14,92 +14,117 @@ const slides: Slide[] = [
   { id: 4, image: "/images/slides/slide4.jpg", alt: "Event 3" }
 ];
 
+const AUTO_DELAY = 3000;
+
 export default function Slider() {
   const [current, setCurrent] = useState(0);
-  const [isAutoPlaying, setIsAutoPlaying] = useState(true);
+  const [auto, setAuto] = useState(true);
+  const progressRef = useRef<HTMLDivElement>(null);
 
-  // Auto-play logic
   useEffect(() => {
-    if (!isAutoPlaying) return;
+    if (!auto) return;
 
-    const timer = setInterval(() => {
-      setCurrent((prev) => (prev + 1) % slides.length);
-    }, 3000);
+    if (progressRef.current) {
+      progressRef.current.style.transition = "none";
+      progressRef.current.style.width = "0%";
+      requestAnimationFrame(() => {
+        if (progressRef.current) {
+          progressRef.current.style.transition = `width ${AUTO_DELAY}ms linear`;
+          progressRef.current.style.width = "100%";
+        }
+      });
+    }
 
-    return () => clearInterval(timer);
-  }, [isAutoPlaying]);
+    const t = setTimeout(
+      () => setCurrent((c) => (c + 1) % slides.length),
+      AUTO_DELAY
+    );
+    return () => clearTimeout(t);
+  }, [current, auto]);
 
-  const goToPrevious = () => {
-    setCurrent((prev) => (prev - 1 + slides.length) % slides.length);
-    setIsAutoPlaying(false);
+  const goTo = (i: number) => {
+    setCurrent(i);
+    setAuto(false);
   };
 
-  const goToNext = () => {
-    setCurrent((prev) => (prev + 1) % slides.length);
-    setIsAutoPlaying(false);
-  };
-
-  const goToSlide = (index: number) => {
-    setCurrent(index);
-    setIsAutoPlaying(false);
-  };
+  const next = () => goTo((current + 1) % slides.length);
+  const prev = () => goTo((current - 1 + slides.length) % slides.length);
 
   return (
-    <div
-      className="relative w-full h-[300px] md:h-[400px] lg:h-[500px] overflow-hidden rounded-lg shadow-xl group"
-      onMouseEnter={() => setIsAutoPlaying(false)}
-      onMouseLeave={() => setIsAutoPlaying(true)}
+    <section
+      className="relative w-full h-[340px] md:h-[440px] lg:h-[560px]
+                 overflow-hidden rounded-3xl bg-white shadow-2xl group"
+      onMouseEnter={() => setAuto(false)}
+      onMouseLeave={() => setAuto(true)}
     >
-
       {/* Slides */}
-      <div className="relative h-full">
-        {slides.map((slide, index) => (
-          <div
-            key={slide.id}
-            className={`absolute inset-0 transition-opacity duration-500 ease-in-out
-              ${index === current ? "opacity-100" : "opacity-0"}`}
-          >
-            <img
-              src={slide.image}
-              alt={slide.alt}
-              className="w-full h-full object-cover"
-            />
-          </div>
-        ))}
-      </div>
-
-      {/* Navigation buttons */}
-      <button
-        onClick={goToPrevious}
-        aria-label="Previous slide"
-        className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white text-gray-800 p-2 rounded-full shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-      >
-        <ChevronLeft className="w-6 h-6" />
-      </button>
-
-      <button
-        onClick={goToNext}
-        aria-label="Next slide"
-        className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white text-gray-800 p-2 rounded-full shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-      >
-        <ChevronRight className="w-6 h-6" />
-      </button>
-
-      {/* Dots */}
-      <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex space-x-2">
-        {slides.map((_, index) => (
-          <button
-            key={index}
-            aria-label={`Go to slide ${index + 1}`}
-            onClick={() => goToSlide(index)}
-            className={`w-3 h-3 rounded-full transition-all duration-300 ${
-              index === current
-                ? "bg-white w-8"
-                : "bg-white/50 hover:bg-white/75"
-            }`}
+      {slides.map((s, i) => (
+        <div
+          key={s.id}
+          className={`absolute inset-0 transition-opacity duration-[1200ms] ease-out
+            ${i === current ? "opacity-100 z-10" : "opacity-0 z-0"}`}
+        >
+          <img
+            src={s.image}
+            alt={s.alt}
+            className={`w-full h-full object-cover
+              transition-transform ease-linear
+              ${i === current ? "scale-[1.07]" : "scale-100"}`}
+            style={{ transitionDuration: `${AUTO_DELAY}ms` }}
           />
+        </div>
+      ))}
+      <button
+        onClick={prev}
+        aria-label="Previous"
+        className="absolute left-6 top-1/2 -translate-y-1/2
+                   w-10 h-10 rounded-full
+                   bg-white/70 backdrop-blur
+                   text-gray-700 shadow
+                   opacity-0 group-hover:opacity-100
+                   transition hover:bg-white"
+      >
+        <ChevronLeft className="w-5 h-5 mx-auto" />
+      </button>
+
+      <button
+        onClick={next}
+        aria-label="Next"
+        className="absolute right-6 top-1/2 -translate-y-1/2
+                   w-10 h-10 rounded-full
+                   bg-white/70 backdrop-blur
+                   text-gray-700 shadow
+                   opacity-0 group-hover:opacity-100
+                   transition hover:bg-white"
+      >
+        <ChevronRight className="w-5 h-5 mx-auto" />
+      </button>
+      <div
+        className="absolute bottom-8 left-1/2 -translate-x-1/2
+                   flex gap-3 px-4 py-2
+                   rounded-2xl bg-white/70 backdrop-blur
+                   shadow-lg opacity-0 group-hover:opacity-100
+                   transition"
+      >
+        {slides.map((s, i) => (
+          <button
+            key={s.id}
+            onClick={() => goTo(i)}
+            className={`relative w-16 h-10 rounded-lg overflow-hidden
+                        transition-all duration-300
+                        ${i === current ? "ring-2 ring-green-600" : "opacity-70 hover:opacity-100"}`}
+          >
+            <img src={s.image} alt="" className="w-full h-full object-cover" />
+          </button>
         ))}
       </div>
-    </div>
+      <div className="absolute bottom-0 left-0 w-full h-[3px] bg-gray-200">
+        <div
+          ref={progressRef}
+          className="h-full bg-green-600"
+          style={{ width: "0%" }}
+        />
+      </div>
+    </section>
   );
 }
