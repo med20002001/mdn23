@@ -14,56 +14,72 @@ const sortedArticles = [...articles].sort(
 ---
 
 <Layout title="News">
-  <main class="bg-white">
-    <section class="max-w-6xl mx-auto px-4 lg:px-0 py-16">
-      <h1 class="text-2xl md:text-3xl font-bold text-gray-900 mb-6">
-        News
-      </h1>
+  <section class=" py-14 sm:py-20">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="bg-white rounded-2xl shadow-md p-6 sm:p-10 lg:p-14">
 
-      <div class="space-y-8">
-        {
-          sortedArticles.map((article: Article) => (
-            <div class="article-wrapper">
-              <article class="bg-white shadow-sm border border-gray-200 rounded-lg article-overflow">
+        <!-- Header (comme Mission / Partenariats) -->
+        <header class="mb-16 max-w-3xl">
+          <h1 class="mt-2 text-3xl sm:text-4xl lg:text-5xl font-extrabold text-gray-900">
+            News
+          </h1>
+
+          <div
+            class="h-1 w-20 rounded-full mb-6
+                   bg-gradient-to-r from-red-500/40 to-green-500/40"
+          ></div>
+
+          <p class="mt-6 text-gray-600 text-base sm:text-lg">
+            Retrouvez ici nos dernières actualités, annonces et publications.
+          </p>
+        </header>
+
+        <!-- Articles -->
+        <div class="space-y-12">
+          {
+            sortedArticles.map((article: Article) => (
+              <article class="overflow-hidden rounded-xl border border-gray-200 shadow-sm hover:shadow-md transition-shadow">
                 <div class="grid grid-cols-1 md:grid-cols-2">
-                  <a
-                    href={`/news/${article.slug}`}
-                  >
-                    <div class="image-bg">
-                      <Image
-                        src={article.data.image}
-                        alt={article.data.imageAlt}
-                        class="w-full h-full object-cover"
-                        loading="lazy"
-                        width={800}
-                        height={600}
-                      />
-                    </div>
-                    <div class="character" />
+                  
+                  <!-- Image -->
+                  <a href={`/news/${article.slug}`} class="relative block h-full">
+                    <Image
+                      src={article.data.image}
+                      alt={article.data.imageAlt}
+                      class="w-full h-full object-cover"
+                      loading="lazy"
+                      width={800}
+                      height={600}
+                    />
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
                   </a>
 
-                  <div class="p-6 md:p-8">
+                  <!-- Content -->
+                  <div class="p-6 md:p-8 flex flex-col justify-center">
                     <p class="text-xs uppercase tracking-wide text-gray-500 mb-2">
                       Publié le {article.data.date}
                     </p>
 
                     <a
                       href={`/news/${article.slug}`}
-                      class="text-base md:text-lg font-semibold text-gray-900 underline underline-offset-2 decoration-gray-800 hover:text-[#080808] transition-colors"
+                      class="text-lg md:text-xl font-semibold text-gray-900
+                             hover:underline underline-offset-4"
                     >
                       {article.data.title}
                     </a>
 
-                    <p class="text-gray-700 leading-relaxed text-base sm:text-lg">
+                    <p class="mt-3 text-gray-700 leading-relaxed text-base sm:text-lg">
                       {article.data.description}
                     </p>
                   </div>
+
                 </div>
               </article>
-            </div>
-          ))
-        }
+            ))
+          }
+        </div>
+
       </div>
-    </section>
-  </main>
+    </div>
+  </section>
 </Layout>

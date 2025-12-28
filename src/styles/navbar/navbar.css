@@ -177,7 +177,6 @@
     padding: 0 25px;
   }
 }
-/* Mobile */
 .menu > li.open .submenu {
   max-height: 2000px;
   z-index: 10;
@@ -200,7 +199,6 @@ details summary::-webkit-details-marker {
 details[open]>summary svg {
   transform: rotate(180deg);
 }
-/* Dropdown indicator (desktop) */
 .menu a.has-dropdown {
   display: flex;
   align-items: center;
@@ -253,12 +251,10 @@ body {
   color: #C4302B;
   background-color: transparent;
 }
-/* Active state mobile */
 #mobile-menu a.active {
   border-left: 3px solid #C4302B;
   color: #C4302B;
 }
-/* Details/Summary mobile */
 #mobile-menu details {
   background-color: transparent;
    perspective: 400px;
@@ -298,7 +294,6 @@ body {
   color: #C4302B;
   border-left: 3px solid #C4302B;
 }
-/* Sous-menu mobile - même style que desktop */
 #mobile-menu details>div {
   background-color: #ffffff;
   border-radius: 4px;
@@ -330,7 +325,7 @@ body {
 }#mobile-menu .text-gray-600 {color: #4a4a4a !important;
 }#mobile-menu .text-gray-700 {
   color: #4a4a4a !important;
-}/* ===== EFFET 3D MOBILE IDENTIQUE AU DESKTOP ===== */
+}
 #mobile-menu details {
   -webkit-perspective: 400px;
   -moz-perspective: 400px;
@@ -339,7 +334,6 @@ body {
   perspective: 400px;
   position: relative;
 }
-/* État fermé - rotation 3D */
 #mobile-menu details:not([open]) > div {
   -webkit-transform: rotateY(90deg);
   -moz-transform: rotateY(90deg);
@@ -544,7 +538,7 @@ body {
 
 #mobile-menu details > div {
   width: 100%;
-  max-width: 320px; /* même sensation que submenu desktop */
+  max-width: 320px; 
   border-radius: 4px;
 }
 

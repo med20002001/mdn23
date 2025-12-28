@@ -57,7 +57,6 @@ export default function Slider() {
       onMouseEnter={() => setAuto(false)}
       onMouseLeave={() => setAuto(true)}
     >
-      {/* Slides */}
       {slides.map((s, i) => (
         <div
           key={s.id}

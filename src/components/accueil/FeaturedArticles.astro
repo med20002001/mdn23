@@ -4,96 +4,97 @@ import nasrine from "../../assets/team/nasrine.jpg";
 import initiativesPlaceholder from "../../assets/accueil/initiatives-placeholder.jpg";
 import newsPlaceholder from "../../assets/accueil/news-placeholder.jpg";
 ---
- <section class="bg-gray-50 py-16">
+
+<section class="bg-gray-50 py-16">
   <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-      <article class="group relative lg:col-span-2 h-[520px] overflow-hidden rounded-3xl bg-gray-200">
-        <Image
-          src={nasrine}
-          alt="Nasrine Kheltent"
-          class="absolute inset-0 h-full w-full object-cover transition duration-700 group-hover:scale-[1.04]"
-        />
-        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
-
-        <div class="relative z-10 flex h-full flex-col justify-end p-10">
-          <span class="mb-3 inline-block text-xs font-semibold uppercase tracking-widest text-green-300">
-            Actualité principale
-          </span>
-
-          <h3 class="max-w-2xl text-2xl md:text-3xl font-bold leading-tight text-white">
-            Rencontre de Nasrine Kheltent avec la fondation Hassan II
-          </h3>
-
-          <p class="mt-4 max-w-xl text-sm md:text-base text-white/85">
-            Retour sur cette rencontre institutionnelle marquante et les perspectives de collaboration évoquées.
-          </p>
-
-          <a
-            href="/news/nasrine-kheltent"
-            class="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-white"
-          >
-            Lire l’article
-            <span class="transition group-hover:translate-x-1">→</span>
-          </a>
-        </div>
-      </article>
-      <div class="grid grid-cols-1 gap-8">
-        <article class="group relative h-[250px] overflow-hidden rounded-2xl bg-gray-200">
+    <div class="bg-white rounded-2xl shadow-md p-6 sm:p-8 lg:p-10">
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <article class="group relative lg:col-span-2 h-[520px] overflow-hidden rounded-3xl bg-gray-200">
           <Image
-            src={newsPlaceholder}
-            alt="Actualité"
-            class="absolute inset-0 h-full w-full object-cover transition duration-700 group-hover:scale-105"
+            src={nasrine}
+            alt="Nasrine Kheltent"
+            class="absolute inset-0 h-full w-full object-cover transition duration-700 group-hover:scale-[1.04]"
           />
-          <div class="absolute inset-0 bg-gradient-to-t from-black/75 via-black/30 to-transparent"></div>
+          <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
 
-          <div class="relative z-10 flex h-full flex-col justify-end p-6">
-            <span class="mb-2 text-xs font-semibold uppercase tracking-wider text-green-300">
-              Communiqué
+          <div class="relative z-10 flex h-full flex-col justify-end p-10">
+            <span class="mb-3 inline-block text-xs font-semibold uppercase tracking-widest text-green-300">
+              Actualité principale
             </span>
 
-            <h3 class="text-base font-bold text-white">
-              Nouvelle actualité institutionnelle à venir
+            <h3 class="max-w-2xl text-2xl md:text-3xl font-bold leading-tight text-white">
+              Rencontre de Nasrine Kheltent avec la fondation Hassan II
             </h3>
-            
-             <a
-              href="/news"
-              class="mt-3 inline-flex items-center gap-2 text-sm font-semibold text-white"
-            >
-              Découvrir
-              <span class="transition group-hover:translate-x-1">→</span>
-            </a>
-              
-            </span>
-          </div>
-        </article>
-        <article class="group relative h-[250px] overflow-hidden rounded-2xl bg-gray-200">
-          <Image
-            src={initiativesPlaceholder}
-            alt="Initiatives"
-            class="absolute inset-0 h-full w-full object-cover transition duration-700 group-hover:scale-105"
-          />
-          <div class="absolute inset-0 bg-gradient-to-t from-black/75 via-black/30 to-transparent"></div>
 
-          <div class="relative z-10 flex h-full flex-col justify-end p-6">
-            <span class="mb-2 text-xs font-semibold uppercase tracking-wider text-green-300">
-              Initiative
-            </span>
-
-            <h3 class="text-base font-bold text-white">
-              Initiatives et actions sur le terrain
-            </h3>
+            <p class="mt-4 max-w-xl text-sm md:text-base text-white/85">
+              Retour sur cette rencontre institutionnelle marquante et les perspectives de collaboration évoquées.
+            </p>
 
             <a
-              href="/initiatives"
-              class="mt-3 inline-flex items-center gap-2 text-sm font-semibold text-white"
+              href="/news/nasrine-kheltent"
+              class="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-white"
             >
-              Découvrir
+              Lire l’article
               <span class="transition group-hover:translate-x-1">→</span>
             </a>
           </div>
         </article>
 
+        <div class="grid grid-cols-1 gap-8">
+          <article class="group relative h-[250px] overflow-hidden rounded-2xl bg-gray-200">
+            <Image
+              src={newsPlaceholder}
+              alt="Actualité"
+              class="absolute inset-0 h-full w-full object-cover transition duration-700 group-hover:scale-105"
+            />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/75 via-black/30 to-transparent"></div>
+
+            <div class="relative z-10 flex h-full flex-col justify-end p-6">
+              <span class="mb-2 text-xs font-semibold uppercase tracking-wider text-green-300">
+                Communiqué
+              </span>
+
+              <h3 class="text-base font-bold text-white">
+                Nouvelle actualité institutionnelle à venir
+              </h3>
+
+              <a
+                href="/news"
+                class="mt-3 inline-flex items-center gap-2 text-sm font-semibold text-white"
+              >
+                Découvrir
+                <span class="transition group-hover:translate-x-1">→</span>
+              </a>
+            </div>
+          </article>
+
+          <article class="group relative h-[250px] overflow-hidden rounded-2xl bg-gray-200">
+            <Image
+              src={initiativesPlaceholder}
+              alt="Initiatives"
+              class="absolute inset-0 h-full w-full object-cover transition duration-700 group-hover:scale-105"
+            />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/75 via-black/30 to-transparent"></div>
+
+            <div class="relative z-10 flex h-full flex-col justify-end p-6">
+              <span class="mb-2 text-xs font-semibold uppercase tracking-wider text-green-300">
+                Initiative
+              </span>
+
+              <h3 class="text-base font-bold text-white">
+                Initiatives et actions sur le terrain
+              </h3>
+
+              <a
+                href="/initiatives"
+                class="mt-3 inline-flex items-center gap-2 text-sm font-semibold text-white"
+              >
+                Découvrir
+                <span class="transition group-hover:translate-x-1">→</span>
+              </a>
+            </div>
+          </article>
+        </div>
       </div>
     </div>
   </div>

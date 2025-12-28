@@ -42,12 +42,10 @@ export default function ListView({
       <Separator />
 
       <CardContent className="space-y-10 pt-6">
-        {/* EMPTY STATE */}
+    
         {upcomingEvents.length === 0 && !showAllEvents && (
           <EmptyState />
         )}
-
-        {/* ÉVÉNEMENTS PASSÉS (MODE ALL) */}
         {showAllEvents && pastEvents.length > 0 && (
           <section className="space-y-4">
             <h3 className="text-lg font-semibold text-muted-foreground">
@@ -60,7 +58,6 @@ export default function ListView({
           </section>
         )}
 
-        {/* ÉVÉNEMENTS À VENIR */}
         {upcomingEvents.length > 0 && (
           <section className="space-y-4">
             {showAllEvents && (
@@ -74,8 +71,6 @@ export default function ListView({
             ))}
           </section>
         )}
-
-        {/* DERNIERS ÉVÉNEMENTS PASSÉS */}
         {!showAllEvents && pastEvents.length > 0 && (
           <section className="space-y-4">
             <h3 className="text-lg font-semibold text-muted-foreground">

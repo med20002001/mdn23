@@ -1,11 +1,14 @@
-/* Footer 3D gradient background */
+
 .footer-gradient {
-  background: linear-gradient(135deg, #1e293b 0%, #0f172a 50%, #1e293b 100%);
+  background: linear-gradient(
+    135deg,
+    rgba(34, 197, 94, 0.99) 0%,   /* vert */
+    rgba(239, 68, 68, 0.99) 100%  /* rouge */
+  );
   position: relative;
   overflow: hidden;
 }
 
-/* Effet 3D avec ombres */
 .footer-gradient::before {
   content: '';
   position: absolute;
@@ -18,40 +21,8 @@
   pointer-events: none;
 }
 
-@keyframes rotate3d {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-}
-
-.footer-3d-container {
-  position: relative;
-  z-index: 1;
-  transform-style: preserve-3d;
-}
-.footer-column {
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 1rem;
-  padding: 2rem;
-  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  transform-style: preserve-3d;
-  backdrop-filter: blur(10px);
-}
-
-.footer-column:hover {
-  transform: translateY(-10px) rotateX(5deg);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4),
-              0 0 30px rgba(59, 130, 246, 0.2);
-  background: rgba(255, 255, 255, 0.05);
-}
-
-/* Social media icons 3D */
 .social-icon {
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(4, 4, 4, 0.1);
   width: 3rem;
   height: 3rem;
   border-radius: 1rem;
@@ -63,7 +34,6 @@
   transform-style: preserve-3d;
   border: 1px solid rgba(255, 255, 255, 0.2);
 }
-
 .social-icon::before {
   content: '';
   position: absolute;
@@ -85,7 +55,7 @@
 .social-icon svg {
   width: 1.5rem;
   height: 1.5rem;
-  color: white;
+  color: rgb(0, 0, 0);
   position: relative;
   z-index: 1;
 }
@@ -121,7 +91,7 @@
               inset 0 -2px 5px rgba(0, 0, 0, 0.2);
 }
 .footer-title-link {
-  color: white;
+  color: rgb(9, 9, 9);
   font-weight: bold;
   font-size: 1.25rem;
   transition: all 0.3s ease;
@@ -129,7 +99,7 @@
   display: inline-block;
 }
 .footer-title-link:hover {
-  color: #f6f7f8;
+  color: #000000;
   text-shadow: 0 0 20px rgba(96, 165, 250, 0.6),
                0 0 40px rgba(96, 165, 250, 0.4);
   transform: translateZ(10px);
@@ -148,7 +118,7 @@
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
 }
 .copyright-text {
-  color: #9ca3af;
+  color: #000000;
   font-size: 0.875rem;
   text-align: center;
   text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
@@ -163,16 +133,3 @@
     transform: translateY(0) rotateX(0);
   }
 }
-.footer-column {
-  animation: fadeInUp3d 0.8s ease-out backwards;
-}
-.footer-column:nth-child(1) {
-  animation-delay: 0.1s;
-}
-.footer-column:nth-child(2) {
-  animation-delay: 0.2s;
-}
-.footer-column:nth-child(3) {
-  animation-delay: 0.3s;
-}
-

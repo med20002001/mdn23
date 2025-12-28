@@ -6,41 +6,75 @@ import { getEntry, type CollectionEntry } from "astro:content";
 const entry = await getEntry("mission", "mission");
 if (!entry) throw new Error("Contenu introuvable");
 
-type Section = CollectionEntry<"mission">["data"]["sections"][number];
+type MissionSectionData =
+  CollectionEntry<"mission">["data"]["sections"][number];
+
 const { title, intro, sections, conclusion } = entry.data;
 ---
 
 <Layout title={title}>
-  <section class="bg-[#f0f4f8] py-10 sm:py-14 lg:py-16">
+  <section class=" py-14 sm:py-20">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="bg-white rounded-lg shadow-sm p-5 sm:p-8 lg:p-10">
-        <header class="mb-8 sm:mb-10">
+      <div class="bg-white rounded-2xl shadow-md p-6 sm:p-10 lg:p-14">
+        <header class="mb-16">
           <h1
-            class="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-4 leading-tight"
+            class="mt-2 text-3xl sm:text-4xl lg:text-5xl font-extrabold text-gray-900"
           >
             {title}
           </h1>
-
-          <p class="text-gray-700 leading-relaxed text-base sm:text-lg">
+          <div
+            class="h-1
+    w-20
+    rounded-full
+    mb-6
+    bg-gradient-to-r
+    from-red-500/40
+    to-green-500/40"
+          >
+          </div>
+          <p class="mt-6 text-gray-600 text-base sm:text-lg max-w-3xl">
             {intro}
           </p>
         </header>
-        <div class="space-y-6 sm:space-y-8">
+        <div>
           {
-            sections.map((s: Section, idx: number) => (
+            sections.map((s: MissionSectionData, idx: number) => (
               <MissionSection
                 text={s.text}
                 image={s.image}
                 alt={s.alt}
                 layout={s.layout}
+                index={idx}
               />
             ))
           }
         </div>
-        <div class="text-gray-700 leading-relaxed text-base sm:text-lg">
-          <p>{conclusion}</p>
+        <div
+          class="mt-16 text-gray-700 text-base sm:text-lg leading-relaxed max-w-3xl"
+        >
+          {conclusion}
         </div>
       </div>
     </div>
   </section>
-</Layout>
+  <script is:inline>
+  function initReveal() {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("is-visible");
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.2 }
+    );
+
+    document.querySelectorAll(".reveal").forEach((el) => {
+      observer.observe(el);
+    });
+  }
+
+  document.addEventListener("astro:page-load", initReveal);
+</script>

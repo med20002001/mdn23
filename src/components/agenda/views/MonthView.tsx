@@ -36,12 +36,8 @@ export default function MonthView({
       <Separator />
 
       <CardContent className="pt-6 space-y-6">
-        {/* EMPTY STATE (info seulement) */}
         {calendarEvents.length === 0 && <EmptyState />}
-
-        {/* ✅ CALENDRIER — TOUJOURS AFFICHÉ */}
         <div className="overflow-hidden rounded-md border">
-          {/* HEADER JOURS */}
           <div className="grid grid-cols-7 bg-muted">
             {WEEK_DAYS.map((day) => (
               <div
@@ -52,8 +48,6 @@ export default function MonthView({
               </div>
             ))}
           </div>
-
-          {/* JOURS */}
           <div className="grid grid-cols-7">
             {days.map((day, idx) => {
               const dayEvents = getEventsForDay(
@@ -75,7 +69,6 @@ export default function MonthView({
                     .filter(Boolean)
                     .join(" ")}
                 >
-                  {/* NUMÉRO DU JOUR */}
                   <div
                     className={[
                       "mb-1 font-medium",
@@ -89,13 +82,11 @@ export default function MonthView({
                   >
                     {day.day}
                   </div>
-
-                  {/* EVENTS (optionnels) */}
                   <div className="space-y-1">
                     {dayEvents.map((event, i) => (
                       <a
                         key={i}
-                        href={`/agenda/${event.slug}`}  // ✅ Construction dynamique
+                        href={`/agenda/${event.slug}`}
                         className="block truncate rounded bg-primary/10 px-1 py-0.5 text-xs text-primary hover:bg-primary/20"
                       >
                         {event.title}

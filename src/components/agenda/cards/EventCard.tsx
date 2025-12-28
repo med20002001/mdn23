@@ -19,8 +19,6 @@ export default function EventCard({ event }: EventCardProps) {
   return (
     <Card className="mb-6 overflow-hidden">
       <CardContent className="pt-4 sm:pt-6">
-
-        {/* MOBILE : image en haut */}
         {event.image && (
           <div className="sm:hidden mb-4">
             <img
@@ -35,16 +33,10 @@ export default function EventCard({ event }: EventCardProps) {
             />
           </div>
         )}
-
-        {/* CONTENU */}
         <div className="flex gap-4">
-
-          {/* DATE */}
           <div className="shrink-0">
             <EventDate month={month} day={day} year={year} />
           </div>
-
-          {/* TEXTE */}
           <div className="flex-1 min-w-0 space-y-2">
             <div className="text-xs sm:text-sm text-muted-foreground">
               {event.datetime}
@@ -68,8 +60,6 @@ export default function EventCard({ event }: EventCardProps) {
               </p>
             )}
           </div>
-
-          {/* DESKTOP : image à droite */}
           {event.image && (
             <div className="hidden sm:block w-40 lg:w-48 shrink-0">
               <img

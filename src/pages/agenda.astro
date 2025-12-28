@@ -3,15 +3,16 @@ import Layout from "../layouts/Layout.astro";
 import AgendaContainer from "../components/agenda/AgendaContainer";
 import { getCollection, type CollectionEntry } from "astro:content";
 
-type EventEntry = CollectionEntry<'events'>;
+type EventEntry = CollectionEntry<"events">;
 type UIEvent = EventEntry & { href: string };
 
-const events: UIEvent[] = (await getCollection('events')).map(
+const events: UIEvent[] = (await getCollection("events")).map(
   (e: EventEntry): UIEvent => ({
     ...e,
     href: `/agenda/${e.slug}`,
   })
 );
+
 const now = new Date();
 
 const isUpcoming = (e: UIEvent) => e.data.date >= now;
@@ -47,11 +48,28 @@ const pastEventsData = events
 ---
 
 <Layout title="Agenda - Tous les événements">
-  <main class="bg-white min-h-screen">
-    <AgendaContainer 
-      client:load
-      upcomingEvents={upcomingEventsData}
-      pastEvents={pastEventsData}    
-    />
-  </main>
+  <section class=" py-14 sm:py-20 min-h-screen">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="bg-white rounded-2xl shadow-md p-6 sm:p-10 lg:p-14">
+
+        <header class="mb-16 max-w-3xl">
+          <h1 class="mt-2 text-3xl sm:text-4xl lg:text-5xl font-extrabold text-gray-900">
+            Agenda
+          </h1>
+
+          <div
+            class="h-1 w-20 rounded-full mb-6
+                   bg-gradient-to-r from-red-500/40 to-green-500/40"
+          ></div>
+        </header>
+
+        <AgendaContainer
+          client:load
+          upcomingEvents={upcomingEventsData}
+          pastEvents={pastEventsData}
+        />
+
+      </div>
+    </div>
+  </section>
 </Layout>

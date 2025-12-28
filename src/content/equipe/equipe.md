@@ -90,7 +90,7 @@ members:
   - name: "Abdelmalek DOUHOU"
     role: "Enseignant des Sciences Industrielles – Université Sorbonne Paris Nord"
     location: "Paris – France"
-    image: "../../assets/team/malak.jpg"
+    image: "../../assets/team/PROFILE.png"
   
   - name: "Hamid RAHMOUNI"
     role: "Président de l'association avignonnaise Amitié et entraide franco-marocaine"
@@ -105,7 +105,7 @@ members:
   - name: "Zinelabidine MEZIANE"
     role: "Directeur Régional d'un groupe Hôtelier International"
     location: "Riadh – Arabie Saoudite"
-    image: "../../assets/team/zine.jpg"
+    image: "../../assets/team/PROFILE.png"
   
   - name: "Fouzia MABROUR"
     role: "Laborantine et Actrice associative"

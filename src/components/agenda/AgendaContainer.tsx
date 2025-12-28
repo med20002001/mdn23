@@ -46,7 +46,6 @@ const nav = useNavLogic(
   }, [filters.filteredUpcoming, dateFilter, state.searchQuery]);
   return (
     <div className="bg-gray-50 min-h-screen">
-      {/* HEADER */}
       <div className="bg-white border-b shadow-sm sticky top-0 z-40">
         <div className="max-w-6xl mx-auto px-4 py-4">
           <div className="flex items-center gap-4 flex-wrap">
