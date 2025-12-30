@@ -25,14 +25,16 @@ export default function ContactForm() {
       sujet: "",
       message: "",
     },
-    mode: "onBlur",});
+    mode: "onBlur",
+  });
   const onSubmit = async (data: ContactFormData) => {
     try {
-      const response = await fetch("/api/contact", {
+      const response = await fetch("/.netlify/functions/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
+        body: JSON.stringify(data)
       });
+
       if (!response.ok) throw new Error();
       const result = (await response.json()) as ApiResponse;
       setStatus({
@@ -48,7 +50,9 @@ export default function ContactForm() {
       setStatus({
         type: "error",
         message: "Impossible de contacter le serveur.",
-      });}};
+      });
+    }
+  };
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
@@ -69,7 +73,7 @@ export default function ContactForm() {
               <Loader2 className="mr-2 h-4 w-4 animate-spin" />
               Envoi en cours...
             </>
-          ) : ( "Envoyer" )}
+          ) : ("Envoyer")}
         </Button>
         {status.type && (
           <div className="border p-4 rounded">
