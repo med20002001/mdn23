@@ -7,6 +7,7 @@ const articles = await getCollection("articles");
 
 type Article = CollectionEntry<"articles">;
 
+
 const sortedArticles = [...articles].sort(
   (a: Article, b: Article) =>
     new Date(b.data.date).getTime() - new Date(a.data.date).getTime(),
@@ -17,8 +18,6 @@ const sortedArticles = [...articles].sort(
   <section class=" py-14 sm:py-20">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="bg-white rounded-2xl shadow-md p-6 sm:p-10 lg:p-14">
-
-        <!-- Header (comme Mission / Partenariats) -->
         <header class="mb-16 max-w-3xl">
           <h1 class="mt-2 text-3xl sm:text-4xl lg:text-5xl font-extrabold text-gray-900">
             News
@@ -33,8 +32,6 @@ const sortedArticles = [...articles].sort(
             Retrouvez ici nos dernières actualités, annonces et publications.
           </p>
         </header>
-
-        <!-- Articles -->
         <div class="space-y-12">
           {
             sortedArticles.map((article: Article) => (

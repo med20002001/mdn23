@@ -1,8 +1,8 @@
 ---
-import Header from '../components/page/Header.astro';
-import Footer from '../components/page/Footer.astro';
+import Header from "../components/page/Header.astro";
+import Footer from "../components/page/Footer.astro";
 import { ClientRouter } from "astro:transitions";
-import '../styles/globals.css';
+import "../styles/globals.css";
 
 interface Props {
   title: string;
@@ -10,8 +10,10 @@ interface Props {
 }
 
 const { title } = Astro.props;
+export const prerender = true;
 ---
-<!DOCTYPE html>
+
+<!doctype html>
 <html lang="fr" class="view-transition">
   <head>
     <meta charset="UTF-8" />
@@ -30,15 +32,21 @@ const { title } = Astro.props;
         animation-duration: 0.35s;
         animation-timing-function: ease-in-out;
       }
-       html {
-        min-height: 100%;
-        background: url("/images/5268821.jpg") center / cover no-repeat fixed;
+      body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        background-image: url("/images/5268821.jpg");
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        z-index: -1;
       }
 
       body {
         margin: 0;
         background: transparent;
-        font-family: 'Poppins', sans-serif;
+        font-family: "Poppins", sans-serif;
       }
     </style>
   </head>

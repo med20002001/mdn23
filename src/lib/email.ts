@@ -17,10 +17,9 @@ export async function sendContactEmails(data: {
   message: string;
 }) {
   try {
-    // Email 1: Notification à l'admin (Simple)
     await transporter.sendMail({
       from: `"${data.nom} via MDN23" <${import.meta.env.EMAIL_USER}>`,
-      to: 'mohamed1berkaoui@gmail.com',
+      to: 'mohammedberkaoui87@gmail.com',
       replyTo: data.email,
       subject: `[MDN23] ${data.sujet}`,
       html: `
@@ -86,8 +85,6 @@ ${data.message}
 MDN23 - Moroccan Diaspora Networking 23
       `,
     });
-
-    // Email 2: Confirmation au visiteur (Simple)
     await transporter.sendMail({
       from: `"MDN23" <${import.meta.env.EMAIL_USER}>`,
       to: data.email,

@@ -2,6 +2,7 @@
 import Layout from "../layouts/Layout.astro";
 import Slider from "../components/accueil/Slider";
 import FeaturedArticles from "@/components/accueil/FeaturedArticles.astro";
+
 ---
 
 <Layout
@@ -11,7 +12,7 @@ import FeaturedArticles from "@/components/accueil/FeaturedArticles.astro";
   <section class="py-14 sm:py-20 bg-transparent">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
 
-      <div class="bg-white rounded-2xl shadow-md p-6 sm:p-10 lg:p-14 mb-16">
+      <div class="bg-white rounded-2xl shadow-md p-6 sm:p-10 lg:p-14">
 
         <header class="mb-12 text-center">
           <p class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-gray-900">
@@ -23,11 +24,13 @@ import FeaturedArticles from "@/components/accueil/FeaturedArticles.astro";
           ></div>
         </header>
 
-        <Slider client:load />
+        <div class="mb-16">
+          <Slider client:load />
+        </div>
+
+        <FeaturedArticles />
 
       </div>
-
-      <FeaturedArticles />
 
     </div>
   </section>

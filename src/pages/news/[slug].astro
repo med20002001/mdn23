@@ -3,8 +3,9 @@ import Layout from "../../layouts/Layout.astro";
 import { getCollection } from 'astro:content';
 import type { CollectionEntry } from 'astro:content';
 import { Image } from 'astro:assets';
-
 export const prerender = true;
+import Card from "../../components/publications/Card.tsx";
+
 type Article = CollectionEntry<'articles'>;
 export async function getStaticPaths() {
   const articles = await getCollection('articles');
@@ -29,7 +30,7 @@ const { Content } = await article.render();
       >
         ← Retour aux articles
       </a>
-      <div class="bg-white rounded-lg shadow-sm p-10">
+      <Card className="p-4 sm:p-6 md:p-10">
         <div class="flex justify-center mb-8">
           <Image
             src={image}
@@ -49,7 +50,7 @@ const { Content } = await article.render();
         <div class="text-gray-900 text-sm leading-relaxed space-y-4 prose prose-sm max-w-none prose-p:my-4 prose-strong:font-bold prose-strong:text-gray-900">
           <Content />
         </div>
-      </div>
+      </Card>
     </div>
   </section>
 </Layout>

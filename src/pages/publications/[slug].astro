@@ -5,7 +5,7 @@ import Card from "../../components/publications/Card.tsx";
 import { getCollection, getEntry, type CollectionEntry } from "astro:content";
 import { Image } from "astro:assets";
 
-export const prerender = true;
+
 
 export async function getStaticPaths() {
   const all = await getCollection("publications");
@@ -79,22 +79,15 @@ const dateFR = post.data.publishedAt
 
     prose-a:text-blue-600 prose-a:underline hover:prose-a:text-blue-800
     prose-a:break-all prose-a:break-words
-
     prose-strong:text-gray-900 prose-strong:font-semibold
-
     prose-img:block
     prose-img:w-full
     prose-img:h-auto
     prose-img:mx-auto
-    prose-img:rounded-lg
-    prose-img:shadow-md
-    prose-img:my-6 sm:prose-img:my-8
-  "
->
+    prose-img:rounded-lg prose-img:shadow-md
+    prose-img:my-6 sm:prose-img:my-8 ">
   <Content />
 </article>
-
-
     </Card>
   </PageShell>
 </Layout>

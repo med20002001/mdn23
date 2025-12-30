@@ -1,0 +1,70 @@
+
+<script>
+  import Swiper from 'swiper';
+  import { Navigation, Pagination, EffectCoverflow, Autoplay } from 'swiper/modules';
+  import 'swiper/css';
+  import 'swiper/css/navigation';
+  import 'swiper/css/pagination';
+  import 'swiper/css/effect-coverflow';
+
+  function initTeamSwiper() {
+    const el = document.querySelector('.teamSwiper3D') as (HTMLElement & { swiper?: Swiper }) | null;
+    if (!el) return;
+
+    if (el.swiper) {
+      el.swiper.destroy(true, true);
+    }
+
+    el.swiper = new Swiper(el, {
+      modules: [Navigation, Pagination, EffectCoverflow, Autoplay],
+      effect: 'coverflow',
+      grabCursor: true,
+      centeredSlides: true,
+      slidesPerView: 'auto',
+      loop: true,
+
+      coverflowEffect: {
+        rotate: 50,
+        stretch: 0,
+        depth: 100,
+        modifier: 1,
+        slideShadows: true,
+      },
+
+      breakpoints: {
+        0: {
+          coverflowEffect: {
+            rotate: 35,
+            depth: 80,
+            modifier: 0.9,
+          },
+        },
+        640: {
+          coverflowEffect: {
+            rotate: 50,
+            depth: 100,
+            modifier: 1,
+          },
+        },
+      },
+
+      autoplay: {
+        delay: 3000,
+        disableOnInteraction: false,
+      },
+
+      pagination: {
+        el: '.swiper-pagination',
+        clickable: true,
+      },
+
+      navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev',
+      },
+    });
+  }
+
+  document.addEventListener('astro:page-load', initTeamSwiper);
+</script>
+

@@ -45,6 +45,7 @@ const pastEventsData = events
   .filter(isPast)
   .sort(sortDesc)
   .map((e, i) => mapToListItem(e, `past-${i + 1}`));
+  
 ---
 
 <Layout title="Agenda - Tous les événements">
