@@ -28,10 +28,7 @@ export default function ContactForm() {
     },
     mode: "onBlur",
   });
-  const API_URL =
-  import.meta.env.MODE === "development"
-    ? "/.netlify/functions/contact"
-    : "https://mdn23.netlify.app/.netlify/functions/contact";
+  const API_URL = "/api/contact";
   const onSubmit = async (data: ContactFormData) => {
     try {
       const response = await fetch(API_URL, {

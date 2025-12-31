@@ -9,3 +9,7 @@
   command = "npm run dev"
   targetPort = 4321
   port = 8888
+[[redirects]]
+  from = "/api/contact"
+  to = "/.netlify/functions/api-contact"
+  status = 200
