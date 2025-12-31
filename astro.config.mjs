@@ -4,7 +4,7 @@ import tailwind from "@astrojs/tailwind";
 
 export default defineConfig({
   output: "static",
-
+  adapter: netlify(),
   viewTransitions: true,
 
   integrations: [

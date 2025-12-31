@@ -6,6 +6,9 @@ type ContactEmailData = {
   sujet: string;
   message: string;
 };
+if (typeof process === "undefined") {
+  throw new Error("sendContactEmails doit être exécuté côté serveur uniquement");
+}
 
 export async function sendContactEmails({
   nom,
