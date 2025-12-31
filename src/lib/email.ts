@@ -26,8 +26,6 @@ export async function sendContactEmails({
   }
 
   const resend = new Resend(RESEND_API_KEY);
-
-  // 📩 Email vers l’admin
   await resend.emails.send({
     from: EMAIL_FROM,
     to: [EMAIL_ADMIN],

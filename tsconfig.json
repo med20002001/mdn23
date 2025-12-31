@@ -9,6 +9,6 @@
     },
     "types": ["vite/client", "astro/client"]
   }, 
-  "include": ["src"],
+  "include": ["src", "netlify/functions/contact.ts"],
   "exclude": ["node_modules"]
 }

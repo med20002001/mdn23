@@ -12,10 +12,7 @@ type ApiResponse = {
   success: boolean;
   message?: string;
 };
-const API_URL =
-  import.meta.env.MODE === "development"
-    ? "/.netlify/functions/contact"
-    : "https://mdn23.netlify.app/.netlify/functions/contact";
+
 export default function ContactForm() {
   const [status, setStatus] = useState<{
     type: "success" | "error" | null;
@@ -31,6 +28,10 @@ export default function ContactForm() {
     },
     mode: "onBlur",
   });
+  const API_URL =
+  import.meta.env.MODE === "development"
+    ? "/.netlify/functions/contact"
+    : "https://mdn23.netlify.app/.netlify/functions/contact";
   const onSubmit = async (data: ContactFormData) => {
     try {
       const response = await fetch(API_URL, {
