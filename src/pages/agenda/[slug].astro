@@ -3,10 +3,10 @@ import Layout from "../../layouts/Layout.astro";
 import { getCollection } from "astro:content";
 import type { CollectionEntry } from "astro:content";
 import EventNavigation from "../../components/agenda/EventNavigation";
-import EventHeader from "./presentationvisuelle/EventHeader.astro";
-import EventContent from "./presentationvisuelle/EventContent.astro";
-import EventSidebar from "./presentationvisuelle/EventSidebar.astro";
-import EventMap from "./presentationvisuelle/EventMap.astro";
+import EventHeader from "../../components/presentationvisuelle/EventHeader.astro";
+import EventContent from "../../components/presentationvisuelle/EventContent.astro";
+import EventSidebar from "../../components/presentationvisuelle/EventSidebar.astro";
+import EventMap from "../../components/presentationvisuelle/EventMap.astro";
 type EventEntry = CollectionEntry<"events">;
 interface Props {
   event: EventEntry;

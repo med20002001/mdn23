@@ -1,4 +1,4 @@
-import { Handler } from "@netlify/functions";
+import type { Handler } from "@netlify/functions";
 import { contactFormSchema } from "../../src/lib/schemas/contact.schema";
 import { sendContactEmails } from "../../src/lib/email";
 

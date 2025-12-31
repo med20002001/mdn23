@@ -1,8 +1,13 @@
 ---
 import { Image } from "astro:assets";
-const { event, Content } = Astro.props;
----
 
+const event = Astro.props?.event;
+const Content = Astro.props?.Content;
+
+if (!event || !event.data) {
+  throw new Error("EventContent: event ou event.data manquant au build");
+}
+---
 {event.data.image && (
   <div class="mb-6 sm:mb-8 w-full overflow-hidden rounded-lg border">
     <Image

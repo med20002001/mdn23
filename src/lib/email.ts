@@ -1,6 +1,4 @@
-import { Resend } from 'resend';
-
-const resend = new Resend(process.env.RESEND_API_KEY);
+import { Resend } from "resend";
 
 type ContactEmailData = {
   nom: string;
@@ -15,61 +13,60 @@ export async function sendContactEmails({
   sujet,
   message,
 }: ContactEmailData) {
-  if (!process.env.RESEND_API_KEY) {
-    throw new Error('RESEND_API_KEY manquante');
+  const RESEND_API_KEY = process.env.RESEND_API_KEY;
+  const EMAIL_FROM = process.env.EMAIL_FROM;
+  const EMAIL_ADMIN = process.env.EMAIL_ADMIN;
+
+  if (!RESEND_API_KEY) {
+    throw new Error("RESEND_API_KEY manquante");
   }
+
+  if (!EMAIL_FROM || !EMAIL_ADMIN) {
+    throw new Error("EMAIL_FROM ou EMAIL_ADMIN manquant");
+  }
+
+  const resend = new Resend(RESEND_API_KEY);
+
+  // 📩 Email vers l’admin
   await resend.emails.send({
-    from: import.meta.env.EMAIL_FROM,
-    to: [import.meta.env.EMAIL_ADMIN],
+    from: EMAIL_FROM,
+    to: [EMAIL_ADMIN],
     replyTo: email,
     subject: `[MDN23] ${sujet}`,
     html: `
-<!DOCTYPE html>
-<html>
-<body style="font-family: Arial, sans-serif;">
-  <h2>Nouveau message de contact</h2>
-  <p><strong>Nom :</strong> ${nom}</p>
-  <p><strong>Email :</strong> ${email}</p>
-  <p><strong>Sujet :</strong> ${sujet}</p>
-  <hr />
-  <p>${message.replace(/\n/g, '<br />')}</p>
-  <hr />
-  <p style="font-size:12px;color:#666">
-    MDN23 - Moroccan Diaspora Networking 23
-  </p>
-</body>
-</html>
+      <h2>Nouveau message de contact</h2>
+      <p><strong>Nom :</strong> ${nom}</p>
+      <p><strong>Email :</strong> ${email}</p>
+      <p><strong>Sujet :</strong> ${sujet}</p>
+      <hr />
+      <p>${message.replace(/\n/g, "<br />")}</p>
+      <hr />
+      <p style="font-size:12px;color:#666">
+        MDN23 - Moroccan Diaspora Networking 23
+      </p>
     `,
   });
+
   await resend.emails.send({
-    from: import.meta.env.EMAIL_FROM,
+    from: EMAIL_FROM,
     to: [email],
-    subject: 'Confirmation de réception - MDN23',
+    subject: "Confirmation de réception - MDN23",
     html: `
-<!DOCTYPE html>
-<html>
-<body style="font-family: Arial, sans-serif;">
-  <p>Bonjour ${nom},</p>
-
-  <p>
-    Nous avons bien reçu votre message concernant
-    <strong>${sujet}</strong>.
-  </p>
-
-  <p>
-    Notre équipe vous répondra dans les plus brefs délais.
-  </p>
-
-  <p>
-    Cordialement,<br />
-    <strong>L’équipe MDN23</strong>
-  </p>
-
-  <p style="font-size:12px;color:#666">
-    Moroccan Diaspora Networking 23
-  </p>
-</body>
-</html>
+      <p>Bonjour ${nom},</p>
+      <p>
+        Nous avons bien reçu votre message concernant
+        <strong>${sujet}</strong>.
+      </p>
+      <p>
+        Notre équipe vous répondra dans les plus brefs délais.
+      </p>
+      <p>
+        Cordialement,<br />
+        <strong>L’équipe MDN23</strong>
+      </p>
+      <p style="font-size:12px;color:#666">
+        Moroccan Diaspora Networking 23
+      </p>
     `,
   });
 
