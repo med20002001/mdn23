@@ -29,33 +29,44 @@ export default function ContactForm() {
     mode: "onBlur",
   });
   const onSubmit = async (data: ContactFormData) => {
-    try {
-      const response = await fetch("/api/contact", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(data)
-      });
+  try {
+    const response = await fetch("/api/contact", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
 
-      if (!response.ok) throw new Error();
-      const result = (await response.json()) as ApiResponse;
-      setStatus({
-        type: result.success ? "success" : "error",
-        message:
-          result.message ??
-          (result.success
-            ? "Message envoyé avec succès."
-            : "Une erreur est survenue."),
-      });
-      if (result.success) form.reset();
-    } catch {
-      setStatus({
-        type: "error",
-        message: "Impossible de contacter le serveur.",
-      });
+    // 🔑 lire le JSON AVANT de tester response.ok
+    const result = (await response.json()) as ApiResponse;
+
+    if (!response.ok) {
+      throw new Error(result.message || "Erreur serveur");
     }
-  };
+
+    setStatus({
+      type: result.success ? "success" : "error",
+      message:
+        result.message ??
+        (result.success
+          ? "Message envoyé avec succès."
+          : "Une erreur est survenue."),
+    });
+
+    if (result.success) {
+      form.reset();
+    }
+  } catch (error) {
+    setStatus({
+      type: "error",
+      message:
+        error instanceof Error
+          ? error.message
+          : "Impossible de contacter le serveur.",
+    });
+  }
+};
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
