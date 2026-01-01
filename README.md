@@ -10,3 +10,4 @@ Site web moderne construit avec **Astro**, intégrant des composants React, une 
 - [shadcn/ui](https://ui.shadcn.com/) – Composants UI accessibles et stylés (basés sur Radix + Tailwind)
 - [Tailwind CSS](https://tailwindcss.com/) – Framework CSS utilitaire
 - Content Collections (Astro) – Gestion de contenu typée et sécurisée
+"# mdn23"  
