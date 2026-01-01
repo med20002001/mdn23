@@ -7,23 +7,16 @@ type ContactEmailData = {
   message: string;
 };
 
-type Env = {
-  RESEND_API_KEY?: string;
-  EMAIL_FROM?: string;
-  EMAIL_ADMIN?: string;
-};
-
-export async function sendContactEmails(
-  { nom, email, sujet, message }: ContactEmailData,
-  env?: Env
-) {
-  // ✅ fallback intelligent (Cloudflare + local)
-  const RESEND_API_KEY =
-    env?.RESEND_API_KEY ?? import.meta.env.RESEND_API_KEY;
-  const EMAIL_FROM =
-    env?.EMAIL_FROM ?? import.meta.env.EMAIL_FROM;
-  const EMAIL_ADMIN =
-    env?.EMAIL_ADMIN ?? import.meta.env.EMAIL_ADMIN;
+export async function sendContactEmails({
+  nom,
+  email,
+  sujet,
+  message,
+}: ContactEmailData) {
+  // ✅ SEULE MÉTHODE FIABLE SUR CLOUDFLARE PAGES
+  const RESEND_API_KEY = process.env.RESEND_API_KEY;
+  const EMAIL_FROM = process.env.EMAIL_FROM;
+  const EMAIL_ADMIN = process.env.EMAIL_ADMIN;
 
   if (!RESEND_API_KEY) {
     throw new Error("RESEND_API_KEY manquante");
@@ -35,6 +28,7 @@ export async function sendContactEmails(
 
   const resend = new Resend(RESEND_API_KEY);
 
+  // Email admin
   const admin = await resend.emails.send({
     from: EMAIL_FROM,
     to: [EMAIL_ADMIN],
@@ -54,6 +48,7 @@ export async function sendContactEmails(
     throw new Error(admin.error.message);
   }
 
+  // Email utilisateur
   const user = await resend.emails.send({
     from: EMAIL_FROM,
     to: [email],
@@ -61,7 +56,7 @@ export async function sendContactEmails(
     html: `
       <p>Bonjour ${nom},</p>
       <p>Nous avons bien reçu votre message concernant <strong>${sujet}</strong>.</p>
-      <p>Notre équipe vous répondra dans les plus brefs délais.</p>
+      <p>Notre équipe vous répondra très bientôt.</p>
       <p><strong>L’équipe MDN23</strong></p>
     `,
   });
