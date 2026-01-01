@@ -9,6 +9,6 @@
     },
     "types": ["vite/client", "astro/client"]
   }, 
-  "include": ["src"],
+  "include": ["src", "src/**/*.d.ts"],
   "exclude": ["node_modules"]
 }
