@@ -8,16 +8,22 @@ type ContactEmailData = {
 };
 
 type Env = {
-  RESEND_API_KEY: string;
-  EMAIL_FROM: string;
-  EMAIL_ADMIN: string;
+  RESEND_API_KEY?: string;
+  EMAIL_FROM?: string;
+  EMAIL_ADMIN?: string;
 };
 
 export async function sendContactEmails(
   { nom, email, sujet, message }: ContactEmailData,
-  env: Env
+  env?: Env
 ) {
-  const { RESEND_API_KEY, EMAIL_FROM, EMAIL_ADMIN } = env;
+  // ✅ fallback intelligent (Cloudflare + local)
+  const RESEND_API_KEY =
+    env?.RESEND_API_KEY ?? import.meta.env.RESEND_API_KEY;
+  const EMAIL_FROM =
+    env?.EMAIL_FROM ?? import.meta.env.EMAIL_FROM;
+  const EMAIL_ADMIN =
+    env?.EMAIL_ADMIN ?? import.meta.env.EMAIL_ADMIN;
 
   if (!RESEND_API_KEY) {
     throw new Error("RESEND_API_KEY manquante");
@@ -47,7 +53,6 @@ export async function sendContactEmails(
   if (admin.error) {
     throw new Error(admin.error.message);
   }
-
 
   const user = await resend.emails.send({
     from: EMAIL_FROM,
