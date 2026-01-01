@@ -28,14 +28,16 @@ export default function ContactForm() {
     },
     mode: "onBlur",
   });
-  const API_URL = "/api/contact";
   const onSubmit = async (data: ContactFormData) => {
     try {
-      const response = await fetch(API_URL, {
+      const response = await fetch("/api/contact", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(data)
       });
+
       if (!response.ok) throw new Error();
       const result = (await response.json()) as ApiResponse;
       setStatus({

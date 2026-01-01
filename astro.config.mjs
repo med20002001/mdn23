@@ -1,12 +1,11 @@
 import { defineConfig } from "astro/config";
-import netlify from "@astrojs/netlify";
+import cloudflare from "@astrojs/cloudflare";
 import react from "@astrojs/react";
 import tailwind from "@astrojs/tailwind";
 
 export default defineConfig({
-  output: "static",
-  adapter: netlify(),             
-  viewTransitions: true,
+  output: "hybrid", 
+  adapter: cloudflare(),
 
   integrations: [
     react(),
