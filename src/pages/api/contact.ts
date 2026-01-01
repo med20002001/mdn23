@@ -37,6 +37,9 @@ export const POST: APIRoute = async ({ request }) => {
 
     await sendContactEmails({ nom, email, sujet, message });
 
+    console.log("API contact appelée");
+    console.log({ nom, email, sujet, message });
+
     return new Response(
       JSON.stringify({
         success: true,

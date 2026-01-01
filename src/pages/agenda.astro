@@ -2,6 +2,7 @@
 import Layout from "../layouts/Layout.astro";
 import AgendaContainer from "../components/agenda/AgendaContainer";
 import { getCollection, type CollectionEntry } from "astro:content";
+export const prerender = true;
 
 type EventEntry = CollectionEntry<"events">;
 type UIEvent = EventEntry & { href: string };

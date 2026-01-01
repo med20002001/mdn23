@@ -6,19 +6,16 @@ type ContactEmailData = {
   sujet: string;
   message: string;
 };
-if (typeof process === "undefined") {
-  throw new Error("sendContactEmails doit être exécuté côté serveur uniquement");
-}
 
 export async function sendContactEmails({
   nom,
   email,
   sujet,
-  message,
+  message
 }: ContactEmailData) {
-  const RESEND_API_KEY = process.env.RESEND_API_KEY;
-  const EMAIL_FROM = process.env.EMAIL_FROM;
-  const EMAIL_ADMIN = process.env.EMAIL_ADMIN;
+  const RESEND_API_KEY = import.meta.env.RESEND_API_KEY;
+  const EMAIL_FROM = import.meta.env.EMAIL_FROM;
+  const EMAIL_ADMIN = import.meta.env.EMAIL_ADMIN;
 
   if (!RESEND_API_KEY) {
     throw new Error("RESEND_API_KEY manquante");
@@ -29,6 +26,7 @@ export async function sendContactEmails({
   }
 
   const resend = new Resend(RESEND_API_KEY);
+
   await resend.emails.send({
     from: EMAIL_FROM,
     to: [EMAIL_ADMIN],
@@ -45,7 +43,7 @@ export async function sendContactEmails({
       <p style="font-size:12px;color:#666">
         MDN23 - Moroccan Diaspora Networking 23
       </p>
-    `,
+    `
   });
 
   await resend.emails.send({
@@ -68,8 +66,6 @@ export async function sendContactEmails({
       <p style="font-size:12px;color:#666">
         Moroccan Diaspora Networking 23
       </p>
-    `,
+    `
   });
-
-  return { success: true };
 }
