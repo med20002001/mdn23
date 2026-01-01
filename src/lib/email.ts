@@ -26,12 +26,11 @@ export async function sendContactEmails({
   }
 
   const resend = new Resend(RESEND_API_KEY);
-
   await resend.emails.send({
     from: EMAIL_FROM,
     to: [EMAIL_ADMIN],
     replyTo: email,
-    subject: `[MDN23] ${sujet}`,
+    subject: `[MDN23] Nouveau message : ${sujet}`,
     html: `
       <h2>Nouveau message de contact</h2>
       <p><strong>Nom :</strong> ${nom}</p>
@@ -49,7 +48,7 @@ export async function sendContactEmails({
   await resend.emails.send({
     from: EMAIL_FROM,
     to: [email],
-    subject: "Confirmation de réception - MDN23",
+    subject: "Confirmation de réception – MDN23",
     html: `
       <p>Bonjour ${nom},</p>
       <p>

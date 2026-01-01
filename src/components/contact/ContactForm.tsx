@@ -79,9 +79,13 @@ export default function ContactForm() {
           ) : ("Envoyer")}
         </Button>
         {status.type && (
-          <div className="border p-4 rounded">
-            {status.type === "success" ? <CheckCircle2 /> : <XCircle />}
-            {status.message}
+          <div className="border p-4 rounded flex items-center gap-2">
+            {status.type === "success" ? (
+              <CheckCircle2 className="h-5 w-5" />
+            ) : (
+              <XCircle className="h-5 w-5" />
+            )}
+            <span>{status.message}</span>
           </div>
         )}
       </form>
