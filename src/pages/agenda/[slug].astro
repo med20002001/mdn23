@@ -1,47 +1,62 @@
 ---
+export const prerender = true;
+
 import Layout from "../../layouts/Layout.astro";
 import { getCollection } from "astro:content";
 import type { CollectionEntry } from "astro:content";
+
 import EventNavigation from "../../components/agenda/EventNavigation";
 import EventHeader from "../../components/presentationvisuelle/EventHeader.astro";
 import EventContent from "../../components/presentationvisuelle/EventContent.astro";
 import EventSidebar from "../../components/presentationvisuelle/EventSidebar.astro";
 import EventMap from "../../components/presentationvisuelle/EventMap.astro";
+
 type EventEntry = CollectionEntry<"events">;
+
 interface Props {
   event: EventEntry;
   allEvents: EventEntry[];
 }
-
 export async function getStaticPaths() {
   const events = await getCollection("events");
+
   return events.map((event: EventEntry) => ({
     params: { slug: event.slug },
-    props: { event, allEvents: events },
+    props: {
+      event,
+      allEvents: events,
+    },
   }));
 }
 
 const { event, allEvents } = Astro.props as Props;
+
+if (!event) {
+  throw new Error("Event not found — check getStaticPaths()");
+}
 const { Content } = await event.render();
 const now = new Date();
 const isPast = event.data.date < now;
-const eventsData = allEvents.map((e: EventEntry) => ({
+const eventsData = allEvents.map((e) => ({
   slug: e.slug,
   title: e.data.title,
   date: e.data.date,
 }));
 ---
+
 <Layout title={event.data.title}>
   <main class="bg-transparent text-foreground">
 
     <div class="border-b bg-muted/40">
       <div class="mx-auto max-w-6xl px-3 sm:px-4 md:px-6 py-3">
-        <a href="/agenda" class="text-xs sm:text-sm text-muted-foreground hover:text-foreground">
+        <a
+          href="/agenda"
+          class="text-xs sm:text-sm text-muted-foreground hover:text-foreground"
+        >
           ← Tous les événements
         </a>
       </div>
     </div>
-
     {isPast && (
       <div class="border-b">
         <div class="mx-auto max-w-6xl px-3 sm:px-4 md:px-6 py-2">
@@ -51,6 +66,7 @@ const eventsData = allEvents.map((e: EventEntry) => ({
         </div>
       </div>
     )}
+
     <section class="mx-auto max-w-6xl px-3 sm:px-4 md:px-6 py-6 sm:py-8 lg:py-12">
       <article class="rounded-lg border bg-card shadow-sm p-4 sm:p-6 lg:p-8 space-y-8">
         <div class="space-y-6">
@@ -70,12 +86,11 @@ const eventsData = allEvents.map((e: EventEntry) => ({
       </article>
       <nav class="mt-6 sm:mt-8 lg:mt-12">
         <EventNavigation
-          client:load
           currentSlug={event.slug}
           allEvents={eventsData}
         />
       </nav>
-
     </section>
+
   </main>
 </Layout>

@@ -4,7 +4,7 @@ import { sendContactEmails } from "../../lib/email";
 
 export const POST: APIRoute = async ({ request, locals }) => {
   try {
-    // ✅ SOLUTION ROBUSTE (ignore le typage Astro cassé)
+    
     const env = (locals as any).runtime.env;
 
     const RESEND_API_KEY = env.RESEND_API_KEY;

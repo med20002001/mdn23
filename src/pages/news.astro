@@ -37,8 +37,6 @@ const sortedArticles = [...articles].sort(
             sortedArticles.map((article: Article) => (
               <article class="overflow-hidden rounded-xl border border-gray-200 shadow-sm hover:shadow-md transition-shadow">
                 <div class="grid grid-cols-1 md:grid-cols-2">
-                  
-                  <!-- Image -->
                   <a href={`/news/${article.slug}`} class="relative block h-full">
                     <Image
                       src={article.data.image}
@@ -50,8 +48,6 @@ const sortedArticles = [...articles].sort(
                     />
                     <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
                   </a>
-
-                  <!-- Content -->
                   <div class="p-6 md:p-8 flex flex-col justify-center">
                     <p class="text-xs uppercase tracking-wide text-gray-500 mb-2">
                       Publié le {article.data.date}
