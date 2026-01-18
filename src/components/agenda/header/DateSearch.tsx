@@ -19,7 +19,7 @@ export default function DateSearch({ selectedDate, onDateChange }: DateSearchPro
         type="date"
         value={toYyyyMmDd(selectedDate)}
         onChange={(e) => {
-          const v = e.target.value; // yyyy-mm-dd
+          const v = e.target.value;
           if (!v) return;
           onDateChange(new Date(`${v}T00:00:00`));
         }}

@@ -19,8 +19,15 @@ export const prerender = true;
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/png" href="/favicon.png" />
+
     <title>{title}</title>
-    <ClientRouter />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap"
+      rel="stylesheet"
+    />
 
     <style>
       :root {
@@ -32,6 +39,7 @@ export const prerender = true;
         animation-duration: 0.35s;
         animation-timing-function: ease-in-out;
       }
+
       body::before {
         content: "";
         position: fixed;
@@ -42,16 +50,29 @@ export const prerender = true;
         background-repeat: no-repeat;
         z-index: -1;
       }
+    </style>
+
+    <style is:global>
+      :root {
+        --font-body: "Inter", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+        --font-display: "Space Grotesk", "Inter", system-ui, sans-serif;
+      }
 
       body {
         margin: 0;
         background: transparent;
-        font-family: "Poppins", sans-serif;
+        font-family: var(--font-body);
+      }
+
+      h1, h2, h3 {
+        font-family: var(--font-display);
       }
     </style>
   </head>
 
   <body class="min-h-screen flex flex-col bg-transparent">
+    <ClientRouter />
+
     <Header />
 
     <main class="flex-1 bg-transparent">

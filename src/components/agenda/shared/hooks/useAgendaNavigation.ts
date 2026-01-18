@@ -1,4 +1,3 @@
-// components/agenda/shared/hooks/useAgendaNavigation.ts
 import type { ViewType } from '../../types';
 
 export const useAgendaNavigation = (

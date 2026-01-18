@@ -1,24 +1,28 @@
 
 .footer-gradient {
-  background: linear-gradient(
-    135deg,
-    rgba(34, 197, 94, 0.99) 0%,   /* vert */
-    rgba(239, 68, 68, 0.99) 100%  /* rouge */
-  );
+  background-color: #fdfcfc;
   position: relative;
   overflow: hidden;
 }
+.footer-title-link {
+  color: #4a4a4a;
+  font-weight: bold;
+  font-size: 18px;
+  text-decoration: none;
+  transition: color 0.25s ease;
+  font-family: 'Lucida Console', monospace;
+}
+.footer-title-link:hover {
+  color: #C4302B;
+}
 
-.footer-gradient::before {
-  content: '';
-  position: absolute;
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
-  background: radial-gradient(circle, rgba(59, 130, 246, 0.1) 0%, transparent 70%);
-  animation: rotate3d 20s linear infinite;
-  pointer-events: none;
+.footer-gradient p,
+.footer-gradient span,
+.footer-gradient li,
+.footer-gradient a {
+  color: #4a4a4a;
+  font-family: 'Lucida Console', monospace;
+  transition: color 0.25s ease;
 }
 
 .social-icon {
@@ -43,11 +47,9 @@
   opacity: 0;
   transition: opacity 0.4s ease;
 }
-
 .social-icon:hover::before {
   opacity: 1;
 }
-
 .social-icon:hover {
   transform: translateY(-8px) scale(1.1) rotateZ(5deg);
 }
@@ -59,35 +61,16 @@
   position: relative;
   z-index: 1;
 }
-.social-icon.twitter:hover {
-  background: linear-gradient(135deg, #1da1f2 0%, #0d8bd9 100%);
-  box-shadow: 0 15px 35px rgba(29, 161, 242, 0.4),
-              0 5px 15px rgba(29, 161, 242, 0.3),
-              inset 0 -2px 5px rgba(0, 0, 0, 0.2);
-}
 .social-icon.facebook:hover {
   background: linear-gradient(135deg, #1877f2 0%, #0d5dbf 100%);
   box-shadow: 0 15px 35px rgba(24, 119, 242, 0.4),
               0 5px 15px rgba(24, 119, 242, 0.3),
               inset 0 -2px 5px rgba(0, 0, 0, 0.2);
 }
-.social-icon.youtube:hover {
-  background: linear-gradient(135deg, #ff0000 0%, #cc0000 100%);
-  box-shadow: 0 15px 35px rgba(255, 0, 0, 0.4),
-              0 5px 15px rgba(255, 0, 0, 0.3),
-              inset 0 -2px 5px rgba(0, 0, 0, 0.2);
-}
 .social-icon.instagram:hover {
   background: linear-gradient(135deg, #9333ea 0%, #db2777 100%);
   box-shadow: 0 15px 35px rgba(219, 39, 119, 0.4),
               0 5px 15px rgba(147, 51, 234, 0.3),
-              inset 0 -2px 5px rgba(0, 0, 0, 0.2);
-}
-
-.social-icon.linkedin:hover {
-  background: linear-gradient(135deg, #0077b5 0%, #005885 100%);
-  box-shadow: 0 15px 35px rgba(0, 119, 181, 0.4),
-              0 5px 15px rgba(0, 119, 181, 0.3),
               inset 0 -2px 5px rgba(0, 0, 0, 0.2);
 }
 .footer-title-link {
@@ -98,12 +81,7 @@
   text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
   display: inline-block;
 }
-.footer-title-link:hover {
-  color: #000000;
-  text-shadow: 0 0 20px rgba(96, 165, 250, 0.6),
-               0 0 40px rgba(96, 165, 250, 0.4);
-  transform: translateZ(10px);
-}
+
 .copyright-container {
   background: rgba(255, 255, 255, 0.03);
   border: 1px solid rgba(255, 255, 255, 0.1);
@@ -118,10 +96,10 @@
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
 }
 .copyright-text {
-  color: #000000;
-  font-size: 0.875rem;
+  color: #4a4a4a;
+  font-size: 0.895rem;
   text-align: center;
-  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+  font-family: 'Lucida Console', monospace;
 }
 @keyframes fadeInUp3d {
   from {

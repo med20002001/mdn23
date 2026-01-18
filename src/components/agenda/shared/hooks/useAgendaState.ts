@@ -1,4 +1,3 @@
-// components/agenda/shared/hooks/useAgendaState.ts
 import { useState } from 'react';
 import type { ViewType } from '../../types';
 

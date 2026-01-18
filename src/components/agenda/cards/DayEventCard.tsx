@@ -13,7 +13,6 @@ interface DayEventCardProps {
 }
 
 export default function DayEventCard({ event }: DayEventCardProps) {
-  // Construire l'URL à partir du slug
   const href = `/agenda/${event.slug}`;
 
   return (

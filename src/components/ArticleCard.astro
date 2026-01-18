@@ -1,0 +1,65 @@
+---
+import { Image } from "astro:assets";
+
+interface Props {
+  url: string;
+  title: string;
+  description: string;
+  image: any;
+  imageAlt?: string;
+  date?: string;
+}
+
+const { url, title, description, image, imageAlt, date } = Astro.props;
+---
+
+<article class="overflow-hidden rounded-xl border border-gray-200 shadow-sm hover:shadow-md transition-shadow">
+  <div class="grid grid-cols-1 md:grid-cols-2">
+    <a
+      href={url}
+      class="relative block h-[260px] sm:h-[300px] md:h-[320px]"
+    >
+      <Image
+        src={image}
+        alt={imageAlt ?? title}
+        class="w-full h-full object-cover"
+        loading="lazy"
+        width={800}
+        height={600}
+      />
+      <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+    </a>
+    <div class="p-6 md:p-8 flex flex-col justify-between h-full">
+      <div>
+        {date && (
+          <p class="text-xs uppercase tracking-wide text-gray-500 mb-2">
+            Publié le {date}
+          </p>
+        )}
+
+        <a
+          href={url}
+          class="text-lg md:text-xl font-semibold text-gray-900
+                 hover:underline underline-offset-4"
+        >
+          {title}
+        </a>
+
+        <p class="mt-3 text-gray-700 leading-relaxed text-base sm:text-lg">
+          {description}
+        </p>
+      </div>
+
+      <a
+        href={url}
+        class="mt-6 inline-flex items-center justify-center
+               w-fit rounded-full bg-[#00d27f]
+               px-6 py-3 text-white text-sm sm:text-base font-medium
+               hover:opacity-90 transition"
+      >
+        Lire l’article
+      </a>
+    </div>
+
+  </div>
+</article>

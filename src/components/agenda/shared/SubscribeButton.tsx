@@ -21,12 +21,10 @@ interface SubscribeButtonProps {
 }
 
 export default function SubscribeButton({ event }: SubscribeButtonProps) {
-  // Fonction pour formater les dates au format ISO requis
+ 
   const formatDateToISO = (dateString: string) => {
     return new Date(dateString).toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
   };
-
-  // 1. Google Calendar
   const handleGoogleCalendar = () => {
     if (!event) return;
     

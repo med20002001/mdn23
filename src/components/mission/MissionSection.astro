@@ -6,70 +6,33 @@ type Props = {
   text: string;
   image: ImageMetadata;
   alt: string;
-  layout?: "textLeft" | "imageLeft";
-  index?: number;
+  index: number;
 };
 
-const {
-  text,
-  image,
-  alt,
-  layout = "textLeft",
-  index = 0,
-} = Astro.props;
-
-const imageOrder = layout === "imageLeft" ? "lg:order-1" : "lg:order-2";
-const textOrder  = layout === "imageLeft" ? "lg:order-2" : "lg:order-1";
-const delayClass = `delay-${(index % 3) + 1}`;
+const { text, image, alt, index } = Astro.props;
 ---
-
-<section
-  class={`
-    group
-    reveal
-    ${delayClass}
-    grid
-    grid-cols-1
-    lg:grid-cols-2
-    items-center
-    gap-12 lg:gap-16
-    mb-20
-  `}
+<article
+  class="group bg-white border border-gray-200 rounded-3xl
+         overflow-hidden transition-all duration-300
+         hover:-translate-y-2 hover:shadow-xl
+         h-full flex flex-col"
 >
-  <div
-    class={`
-      relative
-      w-full
-      aspect-[16/9]
-      rounded-2xl
-      overflow-hidden
-      shadow-xl
-      transition-transform
-      duration-700
-      group-hover:scale-[1.03]
-      ${imageOrder}
-    `}
-  >
+  <div class="relative h-72 overflow-hidden">
     <Image
       src={image}
       alt={alt}
-      class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+      class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
       loading="lazy"
-      widths={[640, 960, 1280]}
-      sizes="(min-width: 1024px) 50vw, 100vw"
     />
-    <div class="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent"></div>
+
+    <span class="absolute top-6 left-6 text-4xl font-bold text-white/80">
+      0{index + 1}
+    </span>
   </div>
 
- 
-  <div class={`${textOrder} relative`}>
-    <span
-  class="absolute -left-4 top-0 h-full w-1 rounded-full
-         bg-gradient-to-b from-red-500/40 to-green-500/40">
-</span>
-
-    <p class="pl-6 text-gray-700 text-base sm:text-lg leading-relaxed">
+  <div class="p-10 flex-1">
+    <p class="text-lg leading-loose text-gray-700">
       {text}
     </p>
   </div>
-</section>
+</article>

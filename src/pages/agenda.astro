@@ -2,6 +2,7 @@
 import Layout from "../layouts/Layout.astro";
 import AgendaContainer from "../components/agenda/AgendaContainer";
 import { getCollection, type CollectionEntry } from "astro:content";
+
 export const prerender = true;
 
 type EventEntry = CollectionEntry<"events">;
@@ -46,31 +47,25 @@ const pastEventsData = events
   .filter(isPast)
   .sort(sortDesc)
   .map((e, i) => mapToListItem(e, `past-${i + 1}`));
-  
 ---
-
 <Layout title="Agenda - Tous les événements">
-  <section class=" py-14 sm:py-20 min-h-screen">
-    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="bg-white rounded-2xl shadow-md p-6 sm:p-10 lg:p-14">
-
-        <header class="mb-16 max-w-3xl">
+  <section class="py-14 sm:py-20 min-h-screen">
+    <div class="max-w-[100rem] mx-auto px-4 sm:px-6 lg:px-12">
+     <div class="bg-white rounded-[2rem]
+         shadow-xl p-10 sm:p-14 lg:p-20">
+        <header class="mb-16 max-w-4xl">
           <h1 class="mt-2 text-3xl sm:text-4xl lg:text-5xl font-extrabold text-gray-900">
             Agenda
           </h1>
-
           <div
-            class="h-1 w-20 rounded-full mb-6
-                   bg-gradient-to-r from-red-500/40 to-green-500/40"
-          ></div>
+            class="h-1 w-20 rounded-full mb-6 bg-gradient-to-r from-red-500/40 to-green-500/40">
+          </div>
         </header>
-
         <AgendaContainer
           client:load
           upcomingEvents={upcomingEventsData}
           pastEvents={pastEventsData}
         />
-
       </div>
     </div>
   </section>

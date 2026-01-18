@@ -6,75 +6,48 @@ import { getEntry, type CollectionEntry } from "astro:content";
 const entry = await getEntry("mission", "mission");
 if (!entry) throw new Error("Contenu introuvable");
 
-type MissionSectionData =
+type MissionSectionType =
   CollectionEntry<"mission">["data"]["sections"][number];
 
 const { title, intro, sections, conclusion } = entry.data;
 ---
-
 <Layout title={title}>
-  <section class=" py-14 sm:py-20">
-    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="bg-white rounded-2xl shadow-md p-6 sm:p-10 lg:p-14">
-        <header class="mb-16">
-          <h1
-            class="mt-2 text-3xl sm:text-4xl lg:text-5xl font-extrabold text-gray-900"
-          >
+  <section class="py-24">
+    <div class="max-w-[100rem] mx-auto px-10">
+      <div class="relative bg-white border border-gray-200 rounded-[3rem] p-20">
+        <div class="max-w-full">
+          <h1 class="text-5xl font-bold mb-8">
             {title}
           </h1>
           <div
-            class="h-1
-    w-20
-    rounded-full
-    mb-6
-    bg-gradient-to-r
-    from-red-500/40
-    to-green-500/40"
-          >
-          </div>
-          <p class="mt-6 text-gray-600 text-base sm:text-lg max-w-3xl">
+            class="h-1.5 w-24 rounded-full mb-10
+                   bg-gradient-to-r from-red-500/40 to-green-500/40"
+          ></div>
+          <p class="text-xl leading-loose text-gray-700 mb-24">
             {intro}
           </p>
-        </header>
-        <div>
-          {
-            sections.map((s: MissionSectionData, idx: number) => (
-              <MissionSection
-                text={s.text}
-                image={s.image}
-                alt={s.alt}
-                layout={s.layout}
-                index={idx}
-              />
-            ))
-          }
-        </div>
-        <div
-          class="mt-16 text-gray-700 text-base sm:text-lg leading-relaxed max-w-3xl"
-        >
-          {conclusion}
+          <div
+            class="grid gap-12
+                   grid-cols-1 sm:grid-cols-2 lg:grid-cols-3
+                   items-stretch"
+          >
+            {
+              sections.map((s: MissionSectionType, i: number) => (
+                <MissionSection
+                  index={i}
+                  text={s.text}
+                  image={s.image}
+                  alt={s.alt}
+                />
+              ))
+            }
+          </div>
+          <p class="mt-24 text-xl leading-loose text-gray-700">
+            {conclusion}
+          </p>
+
         </div>
       </div>
     </div>
   </section>
-  <script is:inline>
-  function initReveal() {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("is-visible");
-            observer.unobserve(entry.target);
-          }
-        });
-      },
-      { threshold: 0.2 }
-    );
-
-    document.querySelectorAll(".reveal").forEach((el) => {
-      observer.observe(el);
-    });
-  }
-
-  document.addEventListener("astro:page-load", initReveal);
-</script>
+</Layout>

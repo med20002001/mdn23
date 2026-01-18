@@ -3,78 +3,109 @@ import Layout from "../layouts/Layout.astro";
 import { getEntry } from "astro:content";
 import { Image } from "astro:assets";
 import type { CollectionEntry } from "astro:content";
-
-import Script from "@/components/equipe/Script.astro";
-import Stylequipe from "@/components/equipe/Stylequipe.astro";
+import "../styles/animations.css";
 
 const teamData = await getEntry("equipe", "equipe");
 
 type TeamEntry = CollectionEntry<"equipe">;
 type Member = TeamEntry["data"]["members"][number];
-
 const members = teamData.data.members;
 ---
 
 <Layout title="Équipe">
-  <section class=" py-16">
-    <div class="max-w-7xl mx-auto px-4 lg:px-8">
-      <div class="bg-white rounded-lg shadow-sm p-10">
-        <header class="mb-10 ">
-          <h1 class="text-3xl font-bold text-gray-900 mb-4">
+  <section class="py-24">
+    <div class="max-w-[100rem] mx-auto px-10">
+      <div class="relative bg-white border border-gray-200 rounded-[3rem] p-20">
+        <div class="max-w-full slide slide-left">
+          <h1 class="text-3xl sm:text-4xl font-extrabold text-slate-900 mb-4 sm:mb-6">
             {teamData.data.title}
           </h1>
-             <div
-            class="h-1
-    w-20
-    rounded-full
-    mb-6
-    bg-gradient-to-r
-    from-red-500/40
-    to-green-500/40"
-          >
-          </div>
-          <p  class="text-gray-700 leading-relaxed text-base sm:text-lg">
+
+          <div class="h-1.5 w-24 rounded-full mb-10 bg-gradient-to-r from-red-500/40 to-green-500/40"></div>
+
+          <p class="text-base sm:text-lg text-slate-600 leading-relaxed">
             {teamData.data.description}
           </p>
-        </header>
-        <div class="swiper teamSwiper3D">
-          <div class="swiper-wrapper">
-            {members.map((member: Member) => (
-              <div class="swiper-slide">
-                <article class="team-card">
-                  <div class="w-full border-t-2 border-gray-400 mb-6" />
-                  <div class="w-32 h-32 rounded-full overflow-hidden mb-4">
+        </div>
+        <div class="space-y-10 sm:space-y-14 mt-16">
+          {members.map((member: Member, index: number) => (
+            <article
+              class="bg-white rounded-xl sm:rounded-2xl
+                     border border-slate-200
+                     p-6 sm:p-8 lg:p-10
+                     transition
+                     hover:shadow-[0_30px_60px_-25px_rgba(0,0,0,0.25)]
+                     slide slide-bottom"
+              style={`transition-delay: ${index * 0.1}s`}
+            >
+              <div class="flex flex-col sm:flex-row items-center gap-6 sm:gap-10">
+
+                <!-- IMAGE -->
+                <div class="shrink-0">
+                  <div
+                    class="w-36 h-36 sm:w-40 sm:h-40 lg:w-44 lg:h-44
+                           rounded-2xl overflow-hidden
+                           ring-1 ring-slate-200"
+                  >
                     <Image
                       src={member.image}
                       alt={member.name}
-                      width={128}
-                      height={128}
+                      width={176}
+                      height={176}
                       class="w-full h-full object-cover"
                       loading="lazy"
-                      quality={80}
                     />
                   </div>
-                  <h2 class="text-sm font-bold text-gray-900 mb-3">
+                </div>
+                <div class="flex-1 text-center sm:text-left">
+                  <h3 class="text-xl sm:text-2xl font-bold text-slate-900">
                     {member.name}
-                  </h2>
-                  <p class="text-xs text-gray-900 leading-relaxed mb-3 px-2">
+                  </h3>
+
+                  <p class="text-base sm:text-lg font-semibold text-black-500 mt-1">
                     {member.role}
                   </p>
-                  <p class="text-xs text-gray-900 mb-6">
+
+                  <p class="text-sm text-slate-500 uppercase tracking-wide mt-2">
                     {member.location}
                   </p>
-                  <div class="w-full border-t-2 border-gray-400" />
-                </article>
+
+                  <div class="h-px w-full bg-slate-200 mt-5"></div>
+                </div>
+
               </div>
-            ))}
-          </div>
-          <div class="swiper-button-next" />
-          <div class="swiper-button-prev" />
-          <div class="swiper-pagination" />
+            </article>
+          ))}
         </div>
+
       </div>
     </div>
   </section>
 </Layout>
-<Stylequipe/>
-<Script />
+<script is:inline>
+  function initAnimations() {
+    const elements = document.querySelectorAll(".slide");
+
+    if (!("IntersectionObserver" in window)) {
+      elements.forEach(el => el.classList.add("show"));
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("show");
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.15 }
+    );
+
+    elements.forEach((el) => observer.observe(el));
+  }
+  document.addEventListener("DOMContentLoaded", initAnimations);
+  document.addEventListener("astro:page-load", initAnimations);
+  document.addEventListener("astro:after-swap", initAnimations);
+</script>

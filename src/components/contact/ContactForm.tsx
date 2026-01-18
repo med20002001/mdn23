@@ -38,7 +38,6 @@ export default function ContactForm() {
       body: JSON.stringify(data),
     });
 
-    // 🔑 lire le JSON AVANT de tester response.ok
     const result = (await response.json()) as ApiResponse;
 
     if (!response.ok) {
