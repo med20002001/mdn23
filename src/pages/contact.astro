@@ -9,7 +9,7 @@ const contactEntry = await getEntry("contact", "contact");
 const { Content } = await contactEntry.render();
 ---
 <Layout title={contactEntry.data.title}>
-  <main >
+  <main class="py-24">
     <div class="max-w-[96rem] mx-auto bg-white rounded-[3.5rem] shadow-2xl ring-black/5">
       <section class="px-10 sm:px-12 lg:px-16 py-12 lg:py-20">
         <div class="bg-gray-50/30 rounded-[3rem] p-8 sm:p-12 lg:p-16 border border-gray-100">
