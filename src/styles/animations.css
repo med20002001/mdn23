@@ -1,11 +1,10 @@
-/* Base */
+
 .slide {
   opacity: 0;
   transform: translateY(40px);
   transition: all 0.8s ease-out;
 }
 
-/* Directions */
 .slide-left {
   transform: translateX(-60px);
 }
@@ -18,7 +17,29 @@
   transform: translateY(60px);
 }
 
-/* Visible */
+
+.slide.show {
+  opacity: 1;
+  transform: translate(0, 0);
+}
+.slide {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: all 0.8s ease;
+}
+
+.slide-left {
+  transform: translateX(-40px);
+}
+
+.slide-right {
+  transform: translateX(40px);
+}
+
+.slide-bottom {
+  transform: translateY(40px);
+}
+
 .slide.show {
   opacity: 1;
   transform: translate(0, 0);

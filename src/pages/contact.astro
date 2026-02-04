@@ -8,82 +8,85 @@ import "../styles/animations.css";
 const contactEntry = await getEntry("contact", "contact");
 const { Content } = await contactEntry.render();
 ---
-
 <Layout title={contactEntry.data.title}>
-  <main>
-    <section class="max-w-[100rem] mx-auto px-10 sm:px-5 lg:px-6 py-6 sm:py-8 lg:py-10">
-      <div class="bg-white rounded-xl shadow-md p-4 sm:p-6 lg:p-8">
+  <main class="bg-gray-100/60 min-h-screen py-10 lg:py-16">
+    <div class="max-w-[96rem] mx-auto bg-white rounded-[3.5rem] shadow-2xl ring-black/5">
+      <section class="px-10 sm:px-12 lg:px-16 py-12 lg:py-20">
+        <div class="bg-gray-50/30 rounded-[3rem] p-8 sm:p-12 lg:p-16 border border-gray-100">
+          <div class="grid grid-cols-1 md:grid-cols-[1fr_240px] lg:grid-cols-[1fr_320px] gap-12 items-start">
+            <div class="slide slide-left space-y-10">
+              <div class="space-y-4">
+                <h1 class="text-4xl sm:text-5xl lg:text-7xl font-bold tracking-tight text-gray-900 leading-[1.1]">
+                  {contactEntry.data.title}<br />
+                  <span class="serif italic font-light text-gray-400">
+                    Discutons de votre prochain chapitre.
+                  </span>
+                </h1>
 
-        <div class="grid grid-cols-1 md:grid-cols-[1fr_220px] lg:grid-cols-[1fr_260px] gap-6 lg:gap-10 items-start">
+                <div class="h-1 w-20 bg-gray-900 rounded-full opacity-10"></div>
+              </div>
 
-          <div class="max-w-6xl mx-auto md:mx-0 md:text-left slide slide-left">
-            <h1 class="mt-2 text-3xl sm:text-4xl lg:text-5xl text-gray-900">
-              {contactEntry.data.title}
-            </h1>
-
-            <div class="h-1 w-20 rounded-full mb-6 bg-gradient-to-r from-red-500/40 to-green-500/40"></div>
-            <div class="flex justify-center mb-4 md:hidden slide slide-bottom">
-              <Image
-                src={contactEntry.data.image}
-                alt={contactEntry.data.imageAlt}
-                class="w-[120px] aspect-[4/5] object-cover rounded-lg shadow-sm"
-                loading="lazy"
-                width={120}
-                height={160}
-              />
+              <div class="max-w-3xl text-lg lg:text-xl leading-relaxed text-gray-600 font-light">
+                <Content />
+              </div>
+            </div>
+            <div class="slide slide-right justify-self-center md:justify-self-end">
+              <div class="shadow-2xl shadow-gray-200/50 rotate-2 hover:rotate-0 transition-transform duration-700 rounded-2xl overflow-hidden">
+                <Image
+                  src={contactEntry.data.image}
+                  alt={contactEntry.data.imageAlt}
+                  class="w-[200px] sm:w-[240px] lg:w-[280px] aspect-[4/5] object-cover"
+                  loading="lazy"
+                  width={280}
+                  height={350}
+                />
+              </div>
             </div>
 
-            <div class="relative text-sm sm:text-base lg:text-lg leading-relaxed lg:leading-loose text-gray-700">
-              <Content />
-            </div>
           </div>
-          <div class="hidden md:flex justify-end slide slide-right">
-            <Image
-              src={contactEntry.data.image}
-              alt={contactEntry.data.imageAlt}
-              class="w-full max-w-[150px] lg:max-w-[180px] aspect-[4/5] object-cover rounded-lg shadow-sm"
-              loading="lazy"
-              width={220}
-              height={280}
-            />
-          </div>
-
         </div>
-        <div class="mt-20 sm:mt-24 lg:mt-28 pt-16 border-t border-gray-200/50 slide slide-bottom">
-          <div class="max-w-3xl mx-auto">
-            <div class="mb-10 text-center">
-              <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 mb-3">
-                Envoyez-nous un message
-              </h2>
-              <p class="text-lg text-gray-600 leading-relaxed">
-                Nous vous répondrons dans les plus brefs délais.
-              </p>
-            </div>
+      </section>
+      <section class="px-10 sm:px-12 lg:px-16 pb-24">
 
-            <div class="bg-gray-50/50 rounded-2xl p-6 sm:p-8 lg:p-10 border border-gray-100">
+        <div class="mt-32 slide slide-bottom max-w-4xl mx-auto">
+
+          <div class="text-center mb-16 space-y-4">
+            <h2 class="text-3xl sm:text-4xl font-bold text-gray-900">
+              Envoyez-nous un message
+            </h2>
+            <p class="text-gray-500 font-light text-lg">
+              Nous vous lisons avec attention et vous répondons sous 24h.
+            </p>
+          </div>
+
+          <div class="relative rounded-[2.5rem] p-8 sm:p-14 lg:p-20 overflow-hidden border border-gray-200 bg-white/80 backdrop-blur-xl shadow-xl shadow-gray-200/40">
+            <div class="absolute inset-0 opacity-[0.03] pointer-events-none bg-[url('https://www.transparenttextures.com/patterns/pinstriped-suit.png')]"></div>
+
+            <div class="relative z-10">
               <ContactForm client:load />
             </div>
           </div>
-        </div>
 
-      </div>
-    </section>
+        </div>
+      </section>
+
+    </div>
   </main>
 </Layout>
-
 <script is:inline>
-  const observer = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add("show");
-        }
-      });
-    },
-    { threshold: 0.15 }
-  );
-
-  document.querySelectorAll(".slide").forEach((el) => {
-    observer.observe(el);
-  });
+  function initSlideAnimations() {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("show");} });
+      },
+      { threshold: 0.15 }
+    );
+    document.querySelectorAll(".slide").forEach((el) => {
+      observer.observe(el);
+    });
+  }
+  initSlideAnimations();
+  document.addEventListener("astro:page-load", initSlideAnimations);
 </script>

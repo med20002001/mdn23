@@ -4,14 +4,11 @@ import { getEntry } from "astro:content";
 import { Image } from "astro:assets";
 import type { CollectionEntry } from "astro:content";
 import "../styles/animations.css";
-
 const teamData = await getEntry("equipe", "equipe");
-
 type TeamEntry = CollectionEntry<"equipe">;
 type Member = TeamEntry["data"]["members"][number];
 const members = teamData.data.members;
 ---
-
 <Layout title="Équipe">
   <section class="py-24">
     <div class="max-w-[100rem] mx-auto px-10">
@@ -20,9 +17,7 @@ const members = teamData.data.members;
           <h1 class="text-3xl sm:text-4xl font-extrabold text-slate-900 mb-4 sm:mb-6">
             {teamData.data.title}
           </h1>
-
           <div class="h-1.5 w-24 rounded-full mb-10 bg-gradient-to-r from-red-500/40 to-green-500/40"></div>
-
           <p class="text-base sm:text-lg text-slate-600 leading-relaxed">
             {teamData.data.description}
           </p>
@@ -36,11 +31,8 @@ const members = teamData.data.members;
                      transition
                      hover:shadow-[0_30px_60px_-25px_rgba(0,0,0,0.25)]
                      slide slide-bottom"
-              style={`transition-delay: ${index * 0.1}s`}
-            >
+              style={`transition-delay: ${index * 0.1}s`} >
               <div class="flex flex-col sm:flex-row items-center gap-6 sm:gap-10">
-
-                <!-- IMAGE -->
                 <div class="shrink-0">
                   <div
                     class="w-36 h-36 sm:w-40 sm:h-40 lg:w-44 lg:h-44
@@ -61,23 +53,17 @@ const members = teamData.data.members;
                   <h3 class="text-xl sm:text-2xl font-bold text-slate-900">
                     {member.name}
                   </h3>
-
                   <p class="text-base sm:text-lg font-semibold text-black-500 mt-1">
                     {member.role}
                   </p>
-
                   <p class="text-sm text-slate-500 uppercase tracking-wide mt-2">
                     {member.location}
                   </p>
-
                   <div class="h-px w-full bg-slate-200 mt-5"></div>
                 </div>
-
               </div>
-            </article>
-          ))}
+            </article> ))}
         </div>
-
       </div>
     </div>
   </section>
@@ -85,12 +71,9 @@ const members = teamData.data.members;
 <script is:inline>
   function initAnimations() {
     const elements = document.querySelectorAll(".slide");
-
     if (!("IntersectionObserver" in window)) {
       elements.forEach(el => el.classList.add("show"));
-      return;
-    }
-
+      return;}
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -99,12 +82,8 @@ const members = teamData.data.members;
             observer.unobserve(entry.target);
           }
         });
-      },
-      { threshold: 0.15 }
-    );
-
-    elements.forEach((el) => observer.observe(el));
-  }
+      }, { threshold: 0.15 }
+    );elements.forEach((el) => observer.observe(el)); }
   document.addEventListener("DOMContentLoaded", initAnimations);
   document.addEventListener("astro:page-load", initAnimations);
   document.addEventListener("astro:after-swap", initAnimations);
