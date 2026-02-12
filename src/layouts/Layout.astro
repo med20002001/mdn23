@@ -4,13 +4,15 @@ import Footer from "../components/page/Footer.astro";
 import { ClientRouter } from "astro:transitions";
 import "../styles/globals.css";
 
+import logo from "../assets/mdn23-logo.png";
+
 interface Props {
   title: string;
 }
 
 const { title } = Astro.props;
 
-const ogImage = "https://www.mdn23.com/mdn23-logo.png";
+const ogImage = new URL(logo.src, Astro.site).href;
 
 export const prerender = true;
 ---
@@ -21,22 +23,28 @@ export const prerender = true;
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/png" href="/favicon.png" />
+
     <title>{title}</title>
+
     <meta property="og:title" content={title} />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://www.mdn23.com/" />
     <meta property="og:image" content={ogImage} />
-    <meta property="og:image:width" content="1200"/>
-    <meta property="og:image:height" content="630"/>
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap"
-      rel="stylesheet" />
+      rel="stylesheet"
+    />
+
     <style>
       :root {
         view-transition-name: fade;
       }
+
       ::view-transition-old(fade),
       ::view-transition-new(fade) {
         animation-duration: 0.35s;
