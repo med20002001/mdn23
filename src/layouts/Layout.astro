@@ -3,13 +3,15 @@ import Header from "../components/page/Header.astro";
 import Footer from "../components/page/Footer.astro";
 import { ClientRouter } from "astro:transitions";
 import "../styles/globals.css";
+import logo from "../assets/mdn23-logo.png";
 
 interface Props {
   title: string;
-  description?: string;
 }
 
 const { title } = Astro.props;
+const ogImage = new URL(logo.src, Astro.site).href;
+
 export const prerender = true;
 ---
 
@@ -21,6 +23,13 @@ export const prerender = true;
     <link rel="icon" type="image/png" href="/favicon.png" />
 
     <title>{title}</title>
+
+    <meta property="og:title" content={title} />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://www.mdn23.com/" />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -51,10 +60,10 @@ export const prerender = true;
         z-index: -1;
       }
     </style>
-
     <style is:global>
       :root {
-        --font-body: "Inter", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+        --font-body: "Inter", system-ui, -apple-system, Segoe UI, Roboto, Arial,
+          sans-serif;
         --font-display: "Space Grotesk", "Inter", system-ui, sans-serif;
       }
 
@@ -64,7 +73,9 @@ export const prerender = true;
         font-family: var(--font-body);
       }
 
-      h1, h2, h3 {
+      h1,
+      h2,
+      h3 {
         font-family: var(--font-display);
       }
     </style>
