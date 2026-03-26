@@ -41,14 +41,14 @@ const dateFR = post.data.publishedAt
         </div>
       )}
 
-      {(post.data.leadTitle || post.data.leadText) && (
+      {(post.data.leadTitle || post.data.description) && (
         <div class="text-gray-700 leading-relaxed text-sm sm:text-base md:text-lg mb-6">
           {post.data.leadTitle && (
             <p class="font-bold text-base sm:text-lg mb-2 sm:mb-3">
               {post.data.leadTitle}
             </p>
           )}
-          {post.data.leadText && <p>{post.data.leadText}</p>}
+          {post.data.description && <p>{post.data.description}</p>}
         </div>
       )}
 

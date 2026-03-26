@@ -9,7 +9,7 @@ const publicationsCollection = defineCollection({
     cover: image().optional(),
     coverAlt: z.string().optional(),
     leadTitle: z.string().optional(),
-    leadText: z.string().optional(),
+    description: z.string().optional(),
     excerpt: z.string().optional(),
   }),
 });

@@ -6,7 +6,7 @@ publishedAt: 2024-03-13
 cover: "../../assets/publications/pub1.jpg"
 coverAlt: "Réunion d'équipe"
 leadTitle: "Where it all started…"
-leadText: |
+description: |
   In 2015, when I started my adventure in the web, I was struck by the contrast between this domain and the one I had just left, embedded dev. The culture is so different, the size of the projects must surely explain it. I came from a world where we spent a lot of time writing specifications and design documents before starting to code. And I arrived in a world where many things are exchanged orally, over coffee or a short meeting. Specifications of what to do are often found in ticketing tools. Anyway, so I was surprised and I'm still, but it is okay.
 excerpt: "Introduction courte de l'article (optionnel)."
 ---

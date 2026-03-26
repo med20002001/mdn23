@@ -5,14 +5,16 @@ import { ClientRouter } from "astro:transitions";
 import "../styles/globals.css";
 
 import logo from "../assets/mdn23-logo.png";
-
 interface Props {
   title: string;
+  description?: string;
+  eventOgImage?: string;
 }
 
-const { title } = Astro.props;
+const { title, description, eventOgImage } = Astro.props;
+const ogImageGlobal = new URL(logo.src, Astro.site).href;
 
-const ogImage = new URL(logo.src, Astro.site).href;
+const ogImageToUse = eventOgImage || ogImageGlobal;
 
 export const prerender = true;
 ---
@@ -29,7 +31,7 @@ export const prerender = true;
     <meta property="og:title" content={title} />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://www.mdn23.com/" />
-    <meta property="og:image" content={ogImage} />
+    <meta property="og:image" content={ogImageToUse} />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
 

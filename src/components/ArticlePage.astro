@@ -7,7 +7,7 @@ interface Props {
   date?: string;
   author?: string;
   leadTitle?: string;
-  leadText?: string;
+  description?: string;
   image?: any;
   imageAlt?: string;
   Content: any;
@@ -19,7 +19,7 @@ const {
   date,
   author,
   leadTitle,
-  leadText,
+  description,
   image,
   imageAlt,
   Content,
@@ -51,14 +51,14 @@ const {
         </div>
       )}
 
-      {(leadTitle || leadText) && (
+      {(leadTitle || description) && (
         <div class="text-gray-700 leading-relaxed text-sm sm:text-base md:text-lg mb-6">
           {leadTitle && (
             <p class="font-bold text-base sm:text-lg mb-2 sm:mb-3">
               {leadTitle}
             </p>
           )}
-          {leadText && <p>{leadText}</p>}
+          {description && <p>{description}</p>}
         </div>
       )}
       {image && (

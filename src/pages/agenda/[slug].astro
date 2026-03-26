@@ -17,6 +17,7 @@ interface Props {
   event: EventEntry;
   allEvents: EventEntry[];
 }
+
 export async function getStaticPaths() {
   const events = await getCollection("events");
 
@@ -34,17 +35,30 @@ const { event, allEvents } = Astro.props as Props;
 if (!event) {
   throw new Error("Event not found — check getStaticPaths()");
 }
+
+// Récupération du contenu MDX ou Astro de l'événement
 const { Content } = await event.render();
+
+// Déterminer si l'événement est passé
 const now = new Date();
-const isPast = event.data.date < now;
+const isPast = new Date(event.data.date) < now;
+
+// Préparer la liste pour la navigation
 const eventsData = allEvents.map((e) => ({
   slug: e.slug,
   title: e.data.title,
   date: e.data.date,
 }));
----
 
-<Layout title={event.data.title}>
+// Générer URL complète pour l'image OG de l'événement
+// Vérifier si image existe et récupérer la bonne URL
+const eventOgImage = event.data.image
+  ? event.data.image.src
+    ? `https://www.mdn23.com${event.data.image.src.replace(/^(\.\.\/)+/, "/")}`
+    : event.data.image
+  : undefined;
+---
+<Layout title={event.data.title} eventOgImage={eventOgImage}>
   <main class="bg-transparent text-foreground">
 
     <div class="border-b bg-muted/40">
@@ -57,6 +71,7 @@ const eventsData = allEvents.map((e) => ({
         </a>
       </div>
     </div>
+
     {isPast && (
       <div class="border-b">
         <div class="mx-auto max-w-6xl px-3 sm:px-4 md:px-6 py-2">
@@ -73,6 +88,7 @@ const eventsData = allEvents.map((e) => ({
           <EventHeader event={event} />
           <EventContent event={event} Content={Content} />
         </div>
+
         <div class="flex flex-col gap-6 lg:grid lg:grid-cols-[1fr_2fr] lg:gap-8">
           <aside class="min-w-0">
             <EventSidebar event={event} />
@@ -82,8 +98,8 @@ const eventsData = allEvents.map((e) => ({
             <EventMap event={event} />
           </section>
         </div>
-
       </article>
+
       <nav class="mt-6 sm:mt-8 lg:mt-12">
         <EventNavigation
           currentSlug={event.slug}

@@ -54,7 +54,6 @@ export const POST: APIRoute = async ({ request, locals }) => {
       EMAIL_FROM,
       EMAIL_ADMIN,
     });
-
     return new Response(
       JSON.stringify({
         success: true,
