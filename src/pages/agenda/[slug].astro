@@ -36,34 +36,32 @@ if (!event) {
   throw new Error("Event not found — check getStaticPaths()");
 }
 
-// Récupération du contenu MDX ou Astro de l'événement
 const { Content } = await event.render();
 
-// Déterminer si l'événement est passé
 const now = new Date();
 const isPast = new Date(event.data.date) < now;
 
-// Préparer la liste pour la navigation
 const eventsData = allEvents.map((e) => ({
   slug: e.slug,
   title: e.data.title,
   date: e.data.date,
 }));
 
-// Générer URL complète pour l'image OG de l'événement
-// Vérifier si image existe et récupérer la bonne URL
-const eventOgImage = event.data.image
-  ? event.data.image.src
-    ? `https://www.mdn23.com${event.data.image.src.replace(/^(\.\.\/)+/, "/")}`
-    : event.data.image
-  : undefined;
+const ogImageUrl = new URL(`/api/og/${event.slug}`, Astro.site).href;
+const pageUrl = new URL(`/agenda/${event.slug}`, Astro.site).href;
+const ogDescription = event.data.description ?? "Découvrez cet événement sur MDN23";
 ---
-<Layout title={event.data.title} eventOgImage={eventOgImage}>
+
+<Layout title={event.data.title}
+  description={ogDescription}
+  ogImage={ogImageUrl}
+  ogUrl={pageUrl}
+>
   <main class="bg-transparent text-foreground">
 
     <div class="border-b bg-muted/40">
       <div class="mx-auto max-w-7xl px-3 sm:px-4 md:px-6 py-3">
-        <a
+        
           href="/agenda"
           class="text-xs sm:text-sm text-muted-foreground hover:text-foreground"
         >

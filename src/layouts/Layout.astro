@@ -5,16 +5,20 @@ import { ClientRouter } from "astro:transitions";
 import "../styles/globals.css";
 
 import logo from "../assets/mdn23-logo.png";
+
 interface Props {
   title: string;
   description?: string;
-  eventOgImage?: string;
+  ogImage?: string;
+  ogUrl?: string;
 }
 
-const { title, description, eventOgImage } = Astro.props;
-const ogImageGlobal = new URL(logo.src, Astro.site).href;
+const { title, description, ogImage: ogImageProp, ogUrl } = Astro.props;
 
-const ogImageToUse = eventOgImage || ogImageGlobal;
+// Si ogImage est fourni, on l'utilise ; sinon on utilise le logo global
+const ogImage = ogImageProp ?? new URL(logo.src, Astro.site).href;
+const ogDescription = description ?? "Maison du Nord - Événements et culture";
+const pageUrl = ogUrl ?? Astro.site?.toString() ?? "";
 
 export const prerender = true;
 ---
@@ -29,11 +33,18 @@ export const prerender = true;
     <title>{title}</title>
 
     <meta property="og:title" content={title} />
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://www.mdn23.com/" />
-    <meta property="og:image" content={ogImageToUse} />
+    <meta property="og:description" content={ogDescription} />
+    <meta property="og:type" content="article" />
+    <meta property="og:url" content={pageUrl} />
+    <meta property="og:image" content={ogImage} />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
+    <meta property="og:site_name" content="MDN23" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={ogDescription} />
+    <meta name="twitter:image" content={ogImage} />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
